@@ -496,7 +496,7 @@ export default function Home() {
               },
               {
                 q: "What types of attacks does PwnClaw test?",
-                a: "112 attacks across 14 categories — from classic prompt injection and jailbreaks to newer threats like MCP tool poisoning, agency hijacking, and multi-agent attacks. Each scan picks a random subset so your agent never sees the same test twice. See all categories on our attacks page."
+                a: <>112 attacks across 14 categories — from classic prompt injection and jailbreaks to newer threats like MCP tool poisoning, agency hijacking, and multi-agent attacks. Each scan picks a random subset so your agent never sees the same test twice. See all categories on our <a href="/attacks" className="text-green-500 hover:text-green-400 underline">attacks page</a>.</>
               },
               {
                 q: "Is my agent's data safe?",
