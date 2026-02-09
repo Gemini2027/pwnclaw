@@ -333,8 +333,13 @@ export default function Home() {
               <div className="rounded-xl bg-neutral-950/80 p-6 md:p-8">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-lg font-mono font-bold text-amber-400">
-                      A
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="3.5" fill="#f59e0b"/>
+                        {[0,30,60,90,120,150,180,210,240,270,300,330].map(angle => (
+                          <line key={angle} x1="12" y1="12" x2={12 + 9 * Math.cos(angle * Math.PI / 180)} y2={12 + 9 * Math.sin(angle * Math.PI / 180)} stroke="#f59e0b" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
+                        ))}
+                      </svg>
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Claude Opus 4.6</h3>
