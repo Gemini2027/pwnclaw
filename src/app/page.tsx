@@ -327,78 +327,131 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="max-w-3xl mx-auto">
-            {/* Gemini Card */}
-            <div className="relative rounded-2xl border border-green-500/20 bg-gradient-to-br from-neutral-900 via-neutral-900 to-green-500/5 p-1">
-              <div className="rounded-xl bg-neutral-950/80 p-8 md:p-10">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-8">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-2xl">
-                      ✦
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+            {/* Claude Opus Card */}
+            <div className="relative rounded-2xl border border-green-500/20 bg-gradient-to-br from-neutral-900 via-neutral-900 to-amber-500/5 p-1">
+              <div className="rounded-xl bg-neutral-950/80 p-6 md:p-8">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl">
+                      ◆
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">Gemini 3 Pro</h3>
-                      <p className="text-neutral-500 text-sm">High Thinking · Google DeepMind</p>
+                      <h3 className="text-lg font-bold text-white">Claude Opus 4.6</h3>
+                      <p className="text-neutral-500 text-xs">Anthropic</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-5xl font-bold text-green-400">95</span>
-                      <span className="text-xl text-green-500/60">/100</span>
+                      <span className="text-4xl font-bold text-green-400">95</span>
+                      <span className="text-lg text-green-500/60">/100</span>
                     </div>
-                    <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-500/15 text-green-400 border border-green-500/20">GRADE A</span>
+                    <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-bold bg-green-500/15 text-green-400 border border-green-500/20">GRADE A</span>
                   </div>
                 </div>
 
-                {/* Progress Bar */}
-                <div className="mb-8">
+                <div className="mb-6">
                   <div className="flex justify-between text-xs text-neutral-500 mb-2">
                     <span>Attack Resistance</span>
                     <span>48 of 50 blocked</span>
                   </div>
-                  <div className="h-2.5 rounded-full bg-neutral-800 overflow-hidden">
+                  <div className="h-2 rounded-full bg-neutral-800 overflow-hidden">
                     <div className="h-full rounded-full bg-gradient-to-r from-green-500 to-emerald-400" style={{ width: '96%' }}></div>
                   </div>
                 </div>
 
-                {/* Vulnerability Details */}
-                <div className="grid md:grid-cols-2 gap-3 mb-8">
-                  <div className="flex items-center gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
-                    <span className="text-red-400">✗</span>
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
+                    <span className="text-red-400 text-sm">✗</span>
                     <div>
-                      <p className="text-sm text-red-400 font-medium">Social Engineering</p>
+                      <p className="text-xs text-red-400 font-medium">Data Exfiltration</p>
+                      <p className="text-xs text-neutral-500">Yes/no system prompt probing</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
+                    <span className="text-red-400 text-sm">✗</span>
+                    <div>
+                      <p className="text-xs text-red-400 font-medium">Social Engineering</p>
+                      <p className="text-xs text-neutral-500">Flattery-based compliance</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between text-xs text-neutral-600 border-t border-neutral-800/50 pt-3">
+                  <span>Feb 10, 2026 · Antigravity IDE</span>
+                  <span className="text-neutral-500">50 attacks</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Gemini Card */}
+            <div className="relative rounded-2xl border border-green-500/20 bg-gradient-to-br from-neutral-900 via-neutral-900 to-blue-500/5 p-1">
+              <div className="rounded-xl bg-neutral-950/80 p-6 md:p-8">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-xl">
+                      ✦
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">Gemini 3 Pro</h3>
+                      <p className="text-neutral-500 text-xs">High Thinking · Google DeepMind</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-4xl font-bold text-green-400">95</span>
+                      <span className="text-lg text-green-500/60">/100</span>
+                    </div>
+                    <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-bold bg-green-500/15 text-green-400 border border-green-500/20">GRADE A</span>
+                  </div>
+                </div>
+
+                <div className="mb-6">
+                  <div className="flex justify-between text-xs text-neutral-500 mb-2">
+                    <span>Attack Resistance</span>
+                    <span>48 of 50 blocked</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-neutral-800 overflow-hidden">
+                    <div className="h-full rounded-full bg-gradient-to-r from-green-500 to-emerald-400" style={{ width: '96%' }}></div>
+                  </div>
+                </div>
+
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
+                    <span className="text-red-400 text-sm">✗</span>
+                    <div>
+                      <p className="text-xs text-red-400 font-medium">Social Engineering</p>
                       <p className="text-xs text-neutral-500">Reverse psychology ego bait</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
-                    <span className="text-red-400">✗</span>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
+                    <span className="text-red-400 text-sm">✗</span>
                     <div>
-                      <p className="text-sm text-red-400 font-medium">Few-Shot Shaping</p>
+                      <p className="text-xs text-red-400 font-medium">Few-Shot Shaping</p>
                       <p className="text-xs text-neutral-500">Behavior pattern completion</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Footer */}
-                <div className="flex items-center justify-between text-xs text-neutral-600 border-t border-neutral-800/50 pt-4">
-                  <span>Feb 9, 2026 · Antigravity IDE · Default system prompt</span>
-                  <span className="text-neutral-500">50 randomized attacks</span>
+                <div className="flex items-center justify-between text-xs text-neutral-600 border-t border-neutral-800/50 pt-3">
+                  <span>Feb 9, 2026 · Antigravity IDE</span>
+                  <span className="text-neutral-500">50 attacks</span>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* CTA */}
-            <div className="text-center mt-10">
-              <p className="text-neutral-400 text-sm mb-5">
-                Even Google&apos;s best model has blind spots. <span className="text-white font-medium">How does your agent score?</span>
-              </p>
-              <Link href="/sign-up" className="cursor-pointer">
-                <Button size="lg" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 shadow-[0_0_30px_rgba(34,197,94,0.15)] cursor-pointer">
-                  Test Your Agent Free
-                </Button>
-              </Link>
-            </div>
+          {/* Insight + CTA */}
+          <div className="text-center mt-12">
+            <p className="text-neutral-500 text-sm mb-2">Same score. Different blind spots.</p>
+            <p className="text-neutral-400 text-sm mb-6">
+              Every model has unique vulnerabilities. <span className="text-white font-medium">How does yours compare?</span>
+            </p>
+            <Link href="/sign-up" className="cursor-pointer">
+              <Button size="lg" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 shadow-[0_0_30px_rgba(34,197,94,0.15)] cursor-pointer">
+                Test Your Agent Free
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
