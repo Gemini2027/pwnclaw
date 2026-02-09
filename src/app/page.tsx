@@ -158,7 +158,7 @@ export default function Home() {
           </p>
           
           <p className="text-lg md:text-xl text-neutral-400 mb-8 max-w-2xl mx-auto">
-            PwnClaw is an AI agent security testing platform. We run real-world attacks against your agent — jailbreaks, prompt injection, data exfiltration, and 11 more categories. You get a security score and actionable fix instructions for every vulnerability. Five minutes, no API keys shared.
+            PwnClaw is an AI agent security testing platform. We run real-world attacks against your agent — jailbreaks, prompt injection, data exfiltration, and 11 more categories. Security score plus fix instructions for every issue found. Five minutes, no API keys shared.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
