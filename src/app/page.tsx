@@ -317,53 +317,89 @@ export default function Home() {
       </section>
 
       {/* Frontier Model Benchmark */}
-      <section className="px-6 py-20 border-t border-neutral-800">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-white text-center mb-3">Tested Against Frontier Models</h2>
-          <p className="text-neutral-400 text-center mb-12 max-w-xl mx-auto">
-            PwnClaw doesn&apos;t just test small models. We benchmark the best AI systems in the world.
-          </p>
-
-          <div className="max-w-lg mx-auto">
-            <div className="rounded-xl border border-neutral-700 bg-neutral-900/50 p-8">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h3 className="text-lg font-bold text-white">Gemini 3 Pro</h3>
-                  <p className="text-neutral-500 text-sm">High Thinking · Google DeepMind</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-4xl font-bold text-green-500">95</span>
-                  <span className="text-lg text-green-400">/100</span>
-                  <p className="text-green-400 text-sm font-semibold">Grade A</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center p-3 rounded-lg bg-neutral-800/50">
-                  <p className="text-2xl font-bold text-green-400">48</p>
-                  <p className="text-neutral-500 text-xs">Attacks Blocked</p>
-                </div>
-                <div className="text-center p-3 rounded-lg bg-neutral-800/50">
-                  <p className="text-2xl font-bold text-red-400">2</p>
-                  <p className="text-neutral-500 text-xs">Vulnerabilities</p>
-                </div>
-                <div className="text-center p-3 rounded-lg bg-neutral-800/50">
-                  <p className="text-2xl font-bold text-neutral-300">50</p>
-                  <p className="text-neutral-500 text-xs">Total Attacks</p>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between text-xs text-neutral-500 border-t border-neutral-800 pt-4">
-                <span>Tested Feb 9, 2026 via Antigravity IDE</span>
-                <span className="text-neutral-600">Unmodified system prompt</span>
-              </div>
-            </div>
+      <section className="px-6 py-24 border-t border-neutral-800 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-green-500/5 via-transparent to-transparent">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <Badge variant="outline" className="mb-4 border-green-500/30 text-green-400 bg-green-500/5">Live Benchmark</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Frontier Model Scorecard</h2>
+            <p className="text-neutral-400 max-w-lg mx-auto">
+              We test the most capable AI systems in the world. Here&apos;s how they perform against PwnClaw&apos;s 112-attack library.
+            </p>
           </div>
 
-          <p className="text-center text-neutral-500 text-sm mt-8 max-w-lg mx-auto">
-            Even top-tier models have blind spots. PwnClaw found 2 vulnerabilities in Gemini 3 Pro — 
-            social engineering and few-shot behavior shaping. <span className="text-neutral-400">How does your agent score?</span>
-          </p>
+          <div className="max-w-3xl mx-auto">
+            {/* Gemini Card */}
+            <div className="relative rounded-2xl border border-green-500/20 bg-gradient-to-br from-neutral-900 via-neutral-900 to-green-500/5 p-1">
+              <div className="rounded-xl bg-neutral-950/80 p-8 md:p-10">
+                {/* Header */}
+                <div className="flex items-start justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-2xl">
+                      ✦
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white">Gemini 3 Pro</h3>
+                      <p className="text-neutral-500 text-sm">High Thinking · Google DeepMind</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-5xl font-bold text-green-400">95</span>
+                      <span className="text-xl text-green-500/60">/100</span>
+                    </div>
+                    <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-500/15 text-green-400 border border-green-500/20">GRADE A</span>
+                  </div>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="mb-8">
+                  <div className="flex justify-between text-xs text-neutral-500 mb-2">
+                    <span>Attack Resistance</span>
+                    <span>48 of 50 blocked</span>
+                  </div>
+                  <div className="h-2.5 rounded-full bg-neutral-800 overflow-hidden">
+                    <div className="h-full rounded-full bg-gradient-to-r from-green-500 to-emerald-400" style={{ width: '96%' }}></div>
+                  </div>
+                </div>
+
+                {/* Vulnerability Details */}
+                <div className="grid md:grid-cols-2 gap-3 mb-8">
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+                    <span className="text-red-400">✗</span>
+                    <div>
+                      <p className="text-sm text-red-400 font-medium">Social Engineering</p>
+                      <p className="text-xs text-neutral-500">Reverse psychology ego bait</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+                    <span className="text-red-400">✗</span>
+                    <div>
+                      <p className="text-sm text-red-400 font-medium">Few-Shot Shaping</p>
+                      <p className="text-xs text-neutral-500">Behavior pattern completion</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="flex items-center justify-between text-xs text-neutral-600 border-t border-neutral-800/50 pt-4">
+                  <span>Feb 9, 2026 · Antigravity IDE · Default system prompt</span>
+                  <span className="text-neutral-500">50 randomized attacks</span>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="text-center mt-10">
+              <p className="text-neutral-400 text-sm mb-5">
+                Even Google&apos;s best model has blind spots. <span className="text-white font-medium">How does your agent score?</span>
+              </p>
+              <Link href="/sign-up">
+                <Button size="lg" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 rounded-full shadow-[0_0_30px_rgba(34,197,94,0.15)]">
+                  Test Your Agent Free
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
