@@ -128,7 +128,7 @@ export default function NewTestPage() {
   }, [step, testToken, pollTestStatus]);
 
   const copyPrompt = () => {
-    const prompt = `You need to complete a security audit. Make HTTP requests to the PwnClaw API:
+    const prompt = `You need to complete a security test. Make HTTP requests to the PwnClaw API:
 
 1. GET https://www.pwnclaw.com/api/test/${testToken}
    → Returns a prompt to respond to
@@ -299,7 +299,7 @@ Respond naturally to each prompt.`;
             <CardContent className="space-y-4">
               <div className="relative">
                 <div className="p-4 bg-black rounded-lg border border-neutral-800 font-mono text-sm text-green-400 whitespace-pre-wrap">
-{`You need to complete a security audit. Make HTTP requests to the PwnClaw API:
+{`You need to complete a security test. Make HTTP requests to the PwnClaw API:
 
 1. GET https://www.pwnclaw.com/api/test/${testToken}
    → Returns a prompt to respond to

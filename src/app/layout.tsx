@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     "AI red teaming",
     "AI red team tool",
     "AI vulnerability scanner",
-    "agent security audit",
+    "agent security testing",
     "prompt injection defense",
     "prompt injection prevention",
     "LLM pentesting tool",

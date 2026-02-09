@@ -104,7 +104,7 @@ export default function TermsPage() {
           <ul className="list-disc pl-6 space-y-2">
             <li>We do not guarantee detection of all security vulnerabilities</li>
             <li>A passing score does not mean your agent is secure</li>
-            <li>Results are informational only, not comprehensive security audits</li>
+            <li>Results are informational only, not comprehensive security assessments</li>
             <li>You remain responsible for your agent&apos;s security</li>
           </ul>
 

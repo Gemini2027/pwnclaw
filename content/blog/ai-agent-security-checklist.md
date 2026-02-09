@@ -196,4 +196,4 @@ Each scan gives you:
 
 For CI/CD integration (item 15), PwnClaw provides an API and GitHub Action that fails your build if the security score drops below your threshold. See how PwnClaw [compares to Garak and Promptfoo](/blog/pwnclaw-vs-garak-vs-promptfoo).
 
-[Start your free security audit →](https://pwnclaw.com)
+[Start your free security scan →](https://www.pwnclaw.com)
