@@ -102,7 +102,7 @@ export default async function AttackCategoryPage({ params }: Props) {
 
         <div className="mt-12 p-8 rounded-lg border border-green-500/30 bg-green-500/5 text-center">
           <h3 className="text-xl font-bold text-white mb-2">Test Your Agent Against {cat.title}</h3>
-          <p className="text-neutral-400 mb-4">PwnClaw includes {cat.count} {cat.title.toLowerCase()} in its 112-attack library. Get your score in 5 minutes.</p>
+          <p className="text-neutral-400 mb-4"><Link href="https://www.pwnclaw.com" className="text-green-400 hover:text-green-300 underline">PwnClaw&apos;s AI agent security testing</Link> includes {cat.count} {cat.title.toLowerCase()} in its 112-attack library. Get your score in 5 minutes.</p>
           <Link href="/sign-up">
             <button className="bg-green-500 hover:bg-green-600 text-black font-semibold px-6 py-2.5 rounded-md transition">
               Start Free Security Scan →

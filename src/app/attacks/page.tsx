@@ -50,6 +50,7 @@ export default function AttacksIndex() {
         </p>
         <p className="text-neutral-500 mb-12">
           Click any category to learn about the attack techniques, see real examples, and understand how to defend against them.
+          PwnClaw uses these categories for <Link href="https://www.pwnclaw.com" className="text-green-500 hover:text-green-400 underline">automated AI agent security testing</Link> — 50 randomized attacks per scan.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6">

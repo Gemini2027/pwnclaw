@@ -8,6 +8,7 @@ import { PublicFooter } from "@/components/PublicFooter";
 export const metadata: Metadata = {
   title: "Terms of Service | PwnClaw",
   description: "Terms of Service for PwnClaw AI agent security testing platform. Usage policies, data handling, and liability.",
+  alternates: { canonical: 'https://www.pwnclaw.com/terms' },
   openGraph: {
     title: "Terms of Service | PwnClaw",
     description: "Terms of Service for PwnClaw AI agent security testing platform.",
@@ -149,6 +150,9 @@ export default function TermsPage() {
           <p>
             For questions about these Terms, contact us at{" "}
             <a href="mailto:legal@pwnclaw.com" className="text-green-500 hover:underline">legal@pwnclaw.com</a>
+          </p>
+          <p className="mt-8 text-sm text-neutral-500">
+            Learn more about <Link href="https://www.pwnclaw.com" className="text-green-500 hover:underline">AI agent security testing with PwnClaw</Link>.
           </p>
         </div>
 

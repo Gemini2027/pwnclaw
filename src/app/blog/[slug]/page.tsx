@@ -151,8 +151,8 @@ export default async function BlogPostPage({ params }: Props) {
         />
 
         <div className="mt-16 p-8 rounded-lg border border-green-500/30 bg-green-500/5 text-center">
-          <h3 className="text-xl font-bold text-white mb-2">Test Your AI Agent Now</h3>
-          <p className="text-neutral-400 mb-4">112 attacks. 14 categories. Detailed fix instructions. Free.</p>
+          <h3 className="text-xl font-bold text-white mb-2">Run an AI Agent Security Test Now</h3>
+          <p className="text-neutral-400 mb-4"><Link href="https://www.pwnclaw.com" className="text-green-400 hover:text-green-300 underline">PwnClaw&apos;s AI agent pentesting</Link> covers 112 attacks across 14 categories. Detailed fix instructions. Free tier available.</p>
           <Link href="/sign-up">
             <button className="bg-green-500 hover:bg-green-600 text-black font-semibold px-6 py-2.5 rounded-md transition">
               Start Free Security Scan →

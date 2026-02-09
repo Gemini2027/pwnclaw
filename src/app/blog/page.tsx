@@ -21,6 +21,7 @@ export default function BlogIndex() {
         <h1 className="text-4xl font-bold text-white mb-4">AI Agent Security Blog</h1>
         <p className="text-neutral-400 mb-12 text-lg">
           Practical guides on securing AI agents against prompt injection, jailbreaks, and emerging attack vectors.
+          From the team behind <Link href="https://www.pwnclaw.com" className="text-green-500 hover:text-green-400 underline">PwnClaw — AI agent security testing</Link>.
         </p>
 
         {posts.length === 0 ? (

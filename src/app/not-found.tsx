@@ -16,7 +16,7 @@ export default function NotFound() {
         </p>
         <Link href="/">
           <Button className="bg-green-500 hover:bg-green-600 text-black font-semibold cursor-pointer">
-            ← Back to Home
+            ← Back to AI Agent Security Testing
           </Button>
         </Link>
       </div>

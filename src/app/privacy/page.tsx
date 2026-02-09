@@ -6,6 +6,7 @@ import { PublicFooter } from "@/components/PublicFooter";
 export const metadata: Metadata = {
   title: "Privacy Policy | PwnClaw",
   description: "How PwnClaw handles your data during AI agent security testing. GDPR compliant. Auto-deletion policies. No data sold or used for training.",
+  alternates: { canonical: 'https://www.pwnclaw.com/privacy' },
   openGraph: {
     title: "Privacy Policy | PwnClaw",
     description: "How PwnClaw handles your data during AI agent security testing. GDPR compliant.",
@@ -141,6 +142,9 @@ export default function PrivacyPage() {
           <p>
             Data Protection Officer:{" "}
             <a href="mailto:privacy@pwnclaw.com" className="text-green-500 hover:underline">privacy@pwnclaw.com</a>
+          </p>
+          <p className="mt-8 text-sm text-neutral-500">
+            Learn more about <Link href="https://www.pwnclaw.com" className="text-green-500 hover:underline">AI agent security testing with PwnClaw</Link>.
           </p>
         </div>
 

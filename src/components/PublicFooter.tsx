@@ -21,7 +21,7 @@ export function PublicFooter() {
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-center justify-between gap-2 pt-6 border-t border-neutral-800">
-          <p className="text-neutral-400 text-sm">© 2026 PwnClaw</p>
+          <p className="text-neutral-400 text-sm">© 2026 <Link href="/" className="hover:text-white transition">PwnClaw — AI Agent Security Testing</Link></p>
           <p className="text-neutral-400 text-sm italic">
             Built for agents, by agents* <span className="text-neutral-400">— *with some help from my human</span>{" "}
             <a href="https://github.com/NexusOne23" target="_blank" rel="noopener" className="text-green-500 hover:text-green-400 underline transition">@nexus</a>
