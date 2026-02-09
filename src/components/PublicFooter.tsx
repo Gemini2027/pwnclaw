@@ -24,7 +24,7 @@ export function PublicFooter() {
           <p className="text-neutral-400 text-sm">© 2026 <Link href="/" className="hover:text-white transition">PwnClaw — AI Agent Security Testing</Link></p>
           <p className="text-neutral-400 text-sm italic">
             Built for agents, by agents* <span className="text-neutral-400">— *with some help from my human</span>{" "}
-            <a href="https://github.com/Gemini2027" target="_blank" rel="noopener" className="text-green-500 hover:text-green-400 underline transition">@nexus</a>
+            <a href="https://github.com/NexusOne23" target="_blank" rel="noopener" className="text-green-500 hover:text-green-400 underline transition">@nexus</a>
           </p>
         </div>
       </div>
