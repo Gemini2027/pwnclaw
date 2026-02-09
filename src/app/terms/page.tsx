@@ -152,7 +152,7 @@ export default function TermsPage() {
             <a href="mailto:legal@pwnclaw.com" className="text-green-500 hover:underline">legal@pwnclaw.com</a>
           </p>
           <p className="mt-8 text-sm text-neutral-500">
-            Learn more about <Link href="https://www.pwnclaw.com" className="text-green-500 hover:underline">AI agent security testing with PwnClaw</Link>.
+            Learn more about <Link href="/" className="text-green-500 hover:underline">AI agent security testing with PwnClaw</Link>.
           </p>
         </div>
 
