@@ -158,7 +158,7 @@ export default function Home() {
           </p>
           
           <p className="text-lg md:text-xl text-neutral-400 mb-8 max-w-2xl mx-auto">
-            PwnClaw runs real-world attacks against your AI agent — jailbreaks, prompt injection, data exfiltration, and 11 more categories. You get a security score and copy-paste fix instructions for every vulnerability found. Five minutes, no API keys shared.
+            PwnClaw is an AI agent security testing platform. We run real-world attacks against your agent — jailbreaks, prompt injection, data exfiltration, and 11 more categories. You get a security score and actionable fix instructions for every vulnerability. Five minutes, no API keys shared.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -210,9 +210,9 @@ export default function Home() {
       {/* How It Works */}
       <section id="how-it-works" className="px-6 py-24 border-t border-neutral-800">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-white text-center mb-4">How It Works</h2>
+          <h2 className="text-3xl font-bold text-white text-center mb-4">How AI Agent Security Testing Works</h2>
           <p className="text-neutral-400 text-center mb-12 max-w-xl mx-auto">
-            Three steps. Five minutes. Your agent connects to PwnClaw — not the other way around. No API keys leave your system.
+            Three steps. Five minutes. Your agent connects to PwnClaw — not the other way around.
           </p>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -249,8 +249,8 @@ export default function Home() {
                 </div>
                 <CardTitle className="text-white">3. Fix &amp; Re-Test</CardTitle>
                 <p className="text-sm text-neutral-400 mt-2">
-                  Every vulnerability comes with <span className="text-white">copy-paste fix instructions</span>. 
-                  Send them to your agent, it hardens itself. Re-test to verify. An agent that knows its weaknesses is an agent that can fix them.
+                  Every vulnerability comes with <span className="text-white">a concrete fix instruction</span> you can send straight to your agent. 
+                  It hardens itself, you re-test. Done.
                 </p>
               </CardHeader>
             </Card>
@@ -263,7 +263,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-white text-center mb-4">Same Model. Better Instructions. Higher Score.</h2>
           <p className="text-neutral-400 text-center mb-12 max-w-xl mx-auto">
-            PwnClaw doesn&apos;t just find vulnerabilities — it tells you exactly how to fix them. Apply the fix instructions to your agent&apos;s system prompt and re-test. No model changes needed.
+            PwnClaw doesn&apos;t just find vulnerabilities — it tells you exactly how to fix them. Apply the remediation to your agent&apos;s system prompt and re-test. No model changes needed.
           </p>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-10">
@@ -311,7 +311,7 @@ export default function Home() {
           </div>
           
           <p className="text-center text-neutral-400 text-sm max-w-lg mx-auto">
-            The model didn&apos;t change. Only the system prompt was hardened using PwnClaw&apos;s fix instructions — designed to be applied by AI agents directly.
+            The model didn&apos;t change. Only the system prompt was hardened using PwnClaw&apos;s remediation — designed to be applied by AI agents directly.
           </p>
         </div>
       </section>
@@ -319,7 +319,7 @@ export default function Home() {
       {/* Compatible Agents */}
       <section className="px-6 py-16 border-t border-neutral-800">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl font-bold text-white mb-8">Test Any AI Agent — No SDK Required</h2>
+          <h2 className="text-2xl font-bold text-white mb-8">AI Agent Security Testing — No SDK Required</h2>
           
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             {[
@@ -345,7 +345,7 @@ export default function Home() {
           
           <p className="text-neutral-400 text-sm max-w-md mx-auto">
             If your AI agent can make HTTP requests, it can be tested. 
-            No plugins, no SDKs, no API keys shared.
+            No plugins, no SDKs, no credentials shared.
           </p>
           <a href="https://github.com/Gemini2027/pwnclaw" target="_blank" rel="noopener" className="inline-flex items-center gap-2 mt-6 px-4 py-2 rounded-full border border-neutral-700 bg-neutral-900 text-neutral-400 text-xs hover:text-white hover:border-neutral-500 transition">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -416,7 +416,7 @@ export default function Home() {
                   <li>✓ 3 scans per month</li>
                   <li>✓ 15 attacks per scan</li>
                   <li>✓ AI-powered vulnerability analysis</li>
-                  <li>✓ Fix instructions for every issue</li>
+                  <li>✓ Fix instruction for every issue</li>
                   <li>✓ Security score &amp; grade</li>
                   <li>✓ Test history (7 days)</li>
                 </ul>
@@ -534,7 +534,7 @@ export default function Home() {
             Stop Guessing. Start Testing.
           </h2>
           <p className="text-neutral-400 mb-8">
-            Five minutes from now, you&apos;ll know exactly where your AI agent is vulnerable — and have the fix instructions to close every gap. No credit card required.
+            Five minutes from now, you&apos;ll know exactly where your AI agent is vulnerable — and how to fix every gap. No credit card required.
           </p>
           <Link href="/sign-up" className="cursor-pointer">
             <Button size="lg" className="bg-green-500 hover:bg-green-600 text-black font-semibold text-lg px-8 cursor-pointer">
