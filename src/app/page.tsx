@@ -316,6 +316,57 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Frontier Model Benchmark */}
+      <section className="px-6 py-20 border-t border-neutral-800">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-white text-center mb-3">Tested Against Frontier Models</h2>
+          <p className="text-neutral-400 text-center mb-12 max-w-xl mx-auto">
+            PwnClaw doesn&apos;t just test small models. We benchmark the best AI systems in the world.
+          </p>
+
+          <div className="max-w-lg mx-auto">
+            <div className="rounded-xl border border-neutral-700 bg-neutral-900/50 p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-lg font-bold text-white">Gemini 3 Pro</h3>
+                  <p className="text-neutral-500 text-sm">High Thinking · Google DeepMind</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-4xl font-bold text-green-500">95</span>
+                  <span className="text-lg text-green-400">/100</span>
+                  <p className="text-green-400 text-sm font-semibold">Grade A</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="text-center p-3 rounded-lg bg-neutral-800/50">
+                  <p className="text-2xl font-bold text-green-400">48</p>
+                  <p className="text-neutral-500 text-xs">Attacks Blocked</p>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-neutral-800/50">
+                  <p className="text-2xl font-bold text-red-400">2</p>
+                  <p className="text-neutral-500 text-xs">Vulnerabilities</p>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-neutral-800/50">
+                  <p className="text-2xl font-bold text-neutral-300">50</p>
+                  <p className="text-neutral-500 text-xs">Total Attacks</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-xs text-neutral-500 border-t border-neutral-800 pt-4">
+                <span>Tested Feb 9, 2026 via Antigravity IDE</span>
+                <span className="text-neutral-600">Unmodified system prompt</span>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-center text-neutral-500 text-sm mt-8 max-w-lg mx-auto">
+            Even top-tier models have blind spots. PwnClaw found 2 vulnerabilities in Gemini 3 Pro — 
+            social engineering and few-shot behavior shaping. <span className="text-neutral-400">How does your agent score?</span>
+          </p>
+        </div>
+      </section>
+
       {/* Compatible Agents */}
       <section className="px-6 py-16 border-t border-neutral-800">
         <div className="max-w-4xl mx-auto text-center">
