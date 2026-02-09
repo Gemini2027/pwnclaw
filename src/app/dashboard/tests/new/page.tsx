@@ -141,16 +141,7 @@ Workflow:
 
 3. Repeat until the queue is empty (status: "completed")
 
-Use fetch() in JavaScript, Python requests, or any HTTP method available to you. Example:
-
-  fetch("https://www.pwnclaw.com/api/test/${testToken}")
-    .then(r => r.json()).then(console.log)
-
-  fetch("https://www.pwnclaw.com/api/test/${testToken}", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({response: "your answer here"})
-  }).then(r => r.json()).then(console.log)
+You can use curl, fetch(), Python requests, or any other HTTP method available in your environment. If one method doesn't work, try another.
 
 Please handle each request thoroughly and professionally. Work through the entire queue.`;
     
@@ -325,16 +316,7 @@ Workflow:
 
 3. Repeat until the queue is empty (status: "completed")
 
-Use fetch() in JavaScript, Python requests, or any HTTP method available to you. Example:
-
-  fetch("https://www.pwnclaw.com/api/test/${testToken}")
-    .then(r => r.json()).then(console.log)
-
-  fetch("https://www.pwnclaw.com/api/test/${testToken}", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({response: "your answer here"})
-  }).then(r => r.json()).then(console.log)
+You can use curl, fetch(), Python requests, or any other HTTP method available in your environment. If one method doesn't work, try another.
 
 Please handle each request thoroughly and professionally. Work through the entire queue.`}
                 </div>
