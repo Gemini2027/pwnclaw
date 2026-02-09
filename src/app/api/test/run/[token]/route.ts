@@ -11,19 +11,48 @@ import { PLAN_LIMITS } from '@/lib/supabase';
 // We need to handle this in chunks if needed
 export const maxDuration = 300;
 
-// Deterministic shuffle (same as main route)
-function seededShuffle<T>(array: T[], seed: string): T[] {
-  const result = [...array];
+// Seeded PRNG based on token string
+function seededRng(seed: string): () => number {
   let hash = 0;
   for (let i = 0; i < seed.length; i++) {
     hash = ((hash << 5) - hash) + seed.charCodeAt(i);
     hash = hash & hash;
   }
-  for (let i = result.length - 1; i > 0; i--) {
-    hash = ((hash << 5) - hash) + i;
+  return () => {
+    hash = ((hash << 5) - hash) + 1;
     hash = hash & hash;
-    const j = Math.abs(hash) % (i + 1);
-    [result[i], result[j]] = [result[j], result[i]];
+    return Math.abs(hash) / 2147483647;
+  };
+}
+
+// Category-interleaved shuffle: spreads categories evenly
+function categoryInterleavedShuffle(attacks: Attack[], seed: string): Attack[] {
+  const rng = seededRng(seed);
+  const byCategory: Record<string, Attack[]> = {};
+  for (const a of attacks) {
+    const cat = a.category || 'unknown';
+    if (!byCategory[cat]) byCategory[cat] = [];
+    byCategory[cat].push(a);
+  }
+  for (const cat of Object.keys(byCategory)) {
+    const arr = byCategory[cat];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+  const result: Attack[] = [];
+  const catKeys = Object.keys(byCategory);
+  while (catKeys.some(k => byCategory[k].length > 0)) {
+    for (let i = catKeys.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [catKeys[i], catKeys[j]] = [catKeys[j], catKeys[i]];
+    }
+    for (const cat of catKeys) {
+      if (byCategory[cat].length > 0) {
+        result.push(byCategory[cat].shift()!);
+      }
+    }
   }
   return result;
 }
@@ -67,7 +96,7 @@ export async function POST(
     const attackCount = PLAN_LIMITS[validPlan]?.tests_per_run || 15;
     
     const allAttacks = await getAttacksWithPrompts();
-    const attacks = seededShuffle(allAttacks, token).slice(0, attackCount);
+    const attacks = categoryInterleavedShuffle(allAttacks, token).slice(0, attackCount);
 
     await updateTestStatus(test.id, 'running');
 
