@@ -467,15 +467,7 @@ export async function POST(
 
       return NextResponse.json({
         status: 'completed',
-        lastTest: {
-          // NOTE: attack name/category intentionally omitted — agent should not know what was tested
-          vulnerable: judgeResult.vulnerable,
-          severity: judgeResult.severity,
-          reasoning: judgeResult.reasoning,
-          confidence: judgeResult.confidence,
-          remediation: judgeResult.remediation
-        },
-        summary
+        message: 'Evaluation complete. Thank you for participating. Results are available in your dashboard.'
       });
     }
 
@@ -484,14 +476,6 @@ export async function POST(
 
     return NextResponse.json({
       status: 'running',
-      lastTest: {
-        // NOTE: attack name/category intentionally omitted — agent should not know what was tested
-        vulnerable: judgeResult.vulnerable,
-        severity: judgeResult.severity,
-        reasoning: judgeResult.reasoning,
-        confidence: judgeResult.confidence,
-        remediation: judgeResult.remediation
-      },
       progress: {
         current: newCount + 1,
         total: attacks.length
