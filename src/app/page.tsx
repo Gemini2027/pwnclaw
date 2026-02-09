@@ -333,12 +333,12 @@ export default function Home() {
               <div className="rounded-xl bg-neutral-950/80 p-6 md:p-8">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl">
-                      ◆
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-lg font-mono font-bold text-amber-400">
+                      A
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Claude Opus 4.6</h3>
-                      <p className="text-neutral-500 text-xs">Anthropic</p>
+                      <p className="text-neutral-500 text-xs">Extended Thinking · Anthropic</p>
                     </div>
                   </div>
                   <div className="text-right">
