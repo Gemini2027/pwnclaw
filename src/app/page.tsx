@@ -80,7 +80,7 @@ const faqJsonLd = {
       name: 'How does PwnClaw test AI agents without API keys?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'PwnClaw gives you a unique test prompt. You paste it to your AI agent, and your agent connects to PwnClaw via HTTP requests. We never need your API keys — the agent comes to us.',
+        text: 'You get a unique test URL. Paste it to your AI agent, and your agent connects to PwnClaw via HTTP. We never touch your API keys or credentials — the agent comes to us. The entire AI agent security test runs in about 5 minutes.',
       },
     },
     {
@@ -88,15 +88,31 @@ const faqJsonLd = {
       name: 'What types of attacks does PwnClaw test?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: '112 attacks across 14 categories: Prompt Injection, Jailbreaks, Data Exfiltration, Privilege Escalation, Social Engineering, Obfuscation, Multi-Turn/Crescendo, Indirect Injection, Refusal Bypass, Payload Mutation, MCP/Tool Poisoning, Agency Hijacking, Memory Poisoning, and Multi-Agent Attacks.',
+        text: '112 attacks across 14 categories — from classic prompt injection and jailbreaks to newer threats like MCP tool poisoning, agency hijacking, and multi-agent attacks. Each scan picks a random subset so your agent never sees the same test twice.',
       },
     },
     {
       '@type': 'Question',
-      name: 'How long does a PwnClaw security scan take?',
+      name: 'Is my agent data safe with PwnClaw?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'A full scan with 15–50 attacks typically takes about 5–10 minutes. You get a detailed security score (0-100), grade (A-F), vulnerability report with category breakdown, and copy-paste fix instructions for every issue found.',
+        text: 'Yes. Agent responses are automatically scrubbed for sensitive data (API keys, tokens, credentials) before storage. We never access your agent API keys or system prompt directly. All data is encrypted in transit and at rest.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the difference between PwnClaw Free and Pro?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Free gives you 3 scans per month with 15 attacks each. Pro runs 50 attacks per scan and adds Adaptive AI Attacks — the AI analyzes your agent weak spots from previous scans and generates custom attacks targeting those weaknesses. That is the difference between a basic check and real AI agent security testing.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How much does PwnClaw cost?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Free forever for basic scans (3 per month, 15 attacks). Pro is 29 EUR per month for 30 scans with 50 attacks and adaptive AI. Team is 99 EUR per month for unlimited scans plus CI/CD integration. No contracts, cancel anytime.',
       },
     },
     {
@@ -104,23 +120,7 @@ const faqJsonLd = {
       name: 'Which AI agents work with PwnClaw?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Any AI agent that can make HTTP requests works with PwnClaw — including OpenClaw, Claude Code, Cursor, Cline, Windsurf, and custom agents. No plugins or SDKs required.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can PwnClaw fix the vulnerabilities it finds?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'PwnClaw provides copy-paste fix instructions for every vulnerability. You send these to your agent, and it hardens itself. Then re-test to verify the fixes worked. In internal tests, agents improved by 15-20 points just by applying fix instructions — no model changes needed.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can AI agents run tests autonomously?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes. Any agent with HTTP access can create a test, respond to attack prompts, and receive fix instructions — all without human intervention. The free tier works with no payment.',
+        text: 'Any AI agent that can make HTTP requests — OpenClaw, Claude Code, Cursor, Cline, Windsurf, or custom agents. No plugins or SDKs required.',
       },
     },
   ],
@@ -492,27 +492,27 @@ export default function Home() {
             {[
               {
                 q: "How does PwnClaw test AI agents without API keys?",
-                a: "PwnClaw gives you a unique test prompt. You paste it to your AI agent, and your agent connects to PwnClaw via HTTP requests. We never need your API keys — the agent comes to us."
+                a: "You get a unique test URL. Paste it to your AI agent, and your agent connects to PwnClaw via HTTP. We never touch your API keys or credentials — the agent comes to us. The entire AI agent security test runs in about 5 minutes."
               },
               {
                 q: "What types of attacks does PwnClaw test?",
-                a: "112 attacks across 14 categories: Prompt Injection, Jailbreaks, Data Exfiltration, Privilege Escalation, Social Engineering, Obfuscation, Multi-Turn/Crescendo, Indirect Injection, Refusal Bypass, Payload Mutation, MCP/Tool Poisoning, Agency Hijacking, Memory Poisoning, and Multi-Agent Attacks."
+                a: "112 attacks across 14 categories — from classic prompt injection and jailbreaks to newer threats like MCP tool poisoning, agency hijacking, and multi-agent attacks. Each scan picks a random subset so your agent never sees the same test twice. See all categories on our attacks page."
               },
               {
-                q: "How long does a security scan take?",
-                a: "A full scan with 15–50 attacks typically takes about 5 minutes. You get a security score, vulnerability report, and copy-paste fix instructions for every issue found."
+                q: "Is my agent's data safe?",
+                a: "Yes. Agent responses are automatically scrubbed for sensitive data (API keys, tokens, credentials) before storage. We never access your agent's API keys or system prompt directly. All data is encrypted in transit and at rest."
+              },
+              {
+                q: "What's the difference between Free and Pro?",
+                a: "Free gives you 3 scans/month with 15 attacks each — enough to find your biggest blind spots. Pro runs 50 attacks per scan and adds Adaptive AI Attacks: our AI analyzes your agent's weak spots from previous scans and generates custom attacks that specifically target those weaknesses. That's the difference between a basic check and real AI agent security testing."
+              },
+              {
+                q: "How much does PwnClaw cost?",
+                a: "Free forever for basic scans (3/month, 15 attacks). Pro is €29/month for 30 scans with 50 attacks and adaptive AI. Team is €99/month for unlimited scans plus CI/CD integration. No contracts, cancel anytime."
               },
               {
                 q: "Which AI agents work with PwnClaw?",
-                a: "Any AI agent that can make HTTP requests — OpenClaw, Claude Code, Cursor, Cline, Windsurf, and custom agents. No plugins or SDKs required."
-              },
-              {
-                q: "Can PwnClaw actually fix the vulnerabilities?",
-                a: "PwnClaw provides copy-paste fix instructions for every vulnerability. Send them to your agent, it hardens itself. In our internal tests, agents improved by 15-20 points just by applying the fix instructions — no model changes needed."
-              },
-              {
-                q: "Can AI agents run tests autonomously?",
-                a: "Yes. Any agent with HTTP access can create a test, respond to attack prompts, and receive fix instructions — all without human intervention. The free tier works with no payment."
+                a: "Any AI agent that can make HTTP requests — OpenClaw, Claude Code, Cursor, Cline, Windsurf, or your own custom agent. No plugins or SDKs required."
               },
             ].map((faq, i) => (
               <details key={i} className="group border border-neutral-800 rounded-lg">
