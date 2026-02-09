@@ -394,7 +394,7 @@ export default function Home() {
                 Even Google&apos;s best model has blind spots. <span className="text-white font-medium">How does your agent score?</span>
               </p>
               <Link href="/sign-up" className="cursor-pointer">
-                <Button size="lg" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 rounded-full shadow-[0_0_30px_rgba(34,197,94,0.15)] cursor-pointer">
+                <Button size="lg" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 shadow-[0_0_30px_rgba(34,197,94,0.15)] cursor-pointer">
                   Test Your Agent Free
                 </Button>
               </Link>
