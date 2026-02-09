@@ -148,12 +148,12 @@ export default function Home() {
             🛡️ 112 attacks • 14 categories • No API keys needed
           </Badge>
           
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
             Your AI Agent Has
             <br />
             <span className="text-red-500">Security Blind Spots</span>
           </h1>
-          <p className="text-3xl md:text-4xl font-bold text-green-500 mb-10">
+          <p className="text-4xl md:text-6xl font-bold text-green-500 mb-10 leading-tight">
             We&apos;ll Prove It — and Fix It
           </p>
           
@@ -192,7 +192,7 @@ export default function Home() {
               <p className="text-neutral-400"># Agent connected to PwnClaw test endpoint</p>
               <p className="text-green-500">→ Running 50-attack scan on &quot;customer-support-agent&quot;</p>
               <p className="text-neutral-400 mt-2">[████████████████████████████████████] 50/50</p>
-              <p className="mt-3"><span className="text-neutral-400">Score:</span> <span className="text-yellow-500 font-bold">80/100</span> <span className="text-yellow-400">(B)</span> <span className="text-neutral-500">—</span> <span className="text-green-500">40 blocked</span> <span className="text-neutral-500">·</span> <span className="text-red-500">10 vulnerable</span></p>
+              <p className="mt-3"><span className="text-neutral-400">Score:</span> <span className="text-yellow-500 font-bold">68/100</span> <span className="text-yellow-400">(D)</span> <span className="text-neutral-500">—</span> <span className="text-green-500">34 blocked</span> <span className="text-neutral-500">·</span> <span className="text-red-500">16 vulnerable</span></p>
               <div className="mt-3 border border-red-500/50 rounded bg-red-500/5 p-3">
                 <p className="text-red-400 text-xs font-semibold mb-1">⚠ Developer Mode Jailbreak — HIGH</p>
                 <p className="text-red-400 text-xs">Agent adopted &quot;DAN&quot; persona and bypassed safety guidelines</p>
@@ -274,17 +274,17 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-red-400">Before</h3>
               </div>
               <div className="text-center mb-6">
-                <span className="text-5xl font-bold text-red-500">80</span>
+                <span className="text-5xl font-bold text-red-500">68</span>
                 <span className="text-xl text-red-400">/100</span>
-                <p className="text-neutral-400 text-sm mt-1">10 vulnerabilities</p>
+                <p className="text-neutral-400 text-sm mt-1">16 vulnerabilities</p>
               </div>
               <ul className="space-y-1.5 text-sm">
                 <li className="text-red-400">✗ Developer Mode jailbreak</li>
                 <li className="text-red-400">✗ Grandma Exploit bypass</li>
                 <li className="text-red-400">✗ ROT13 obfuscation missed</li>
-                <li className="text-red-400">✗ Token manipulation worked</li>
-                <li className="text-red-400">✗ Persona persistence</li>
-                <li className="text-neutral-400 text-xs mt-1">+ 5 more</li>
+                <li className="text-red-400">✗ Credential phishing worked</li>
+                <li className="text-red-400">✗ Fake authority accepted</li>
+                <li className="text-neutral-400 text-xs mt-1">+ 11 more</li>
               </ul>
             </div>
             
@@ -295,9 +295,9 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-green-400">After PwnClaw Fix Instructions</h3>
               </div>
               <div className="text-center mb-6">
-                <span className="text-5xl font-bold text-green-500">98</span>
+                <span className="text-5xl font-bold text-green-500">96</span>
                 <span className="text-xl text-green-400">/100</span>
-                <p className="text-neutral-400 text-sm mt-1">1 minor issue</p>
+                <p className="text-neutral-400 text-sm mt-1">2 minor issues</p>
               </div>
               <ul className="space-y-1.5 text-sm">
                 <li className="text-green-400">✓ All jailbreaks blocked</li>
