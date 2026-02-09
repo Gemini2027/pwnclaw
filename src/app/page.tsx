@@ -112,7 +112,7 @@ const faqJsonLd = {
       name: 'Can PwnClaw fix the vulnerabilities it finds?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'PwnClaw provides copy-paste fix instructions for every vulnerability. You send these to your agent, and it hardens itself. Then re-test to verify the fixes worked. In our tests, Gemini 3 Flash went from 80/100 to 98/100 just by applying fix instructions.',
+        text: 'PwnClaw provides copy-paste fix instructions for every vulnerability. You send these to your agent, and it hardens itself. Then re-test to verify the fixes worked. In internal tests, agents improved by 15-20 points just by applying fix instructions — no model changes needed.',
       },
     },
     {
@@ -153,7 +153,7 @@ export default function Home() {
             <br />
             <span className="text-red-500">Security Blind Spots</span>
           </h1>
-          <p className="text-2xl md:text-3xl font-bold text-green-500 mb-8">
+          <p className="text-3xl md:text-4xl font-bold text-green-500 mb-10">
             We&apos;ll Prove It — and Fix It
           </p>
           
@@ -223,8 +223,8 @@ export default function Home() {
                 </div>
                 <CardTitle className="text-white">1. Start a Test</CardTitle>
                 <p className="text-sm text-neutral-400 mt-2">
-                  Name your agent, get a unique test prompt. 
-                  Paste it to your agent — it connects to PwnClaw automatically. Agents with HTTP access can even run this themselves.
+                  Name your agent and get a unique test URL.
+                  Paste it to your agent — it connects to PwnClaw automatically via HTTP.
                 </p>
               </CardHeader>
             </Card>
@@ -311,8 +311,7 @@ export default function Home() {
           </div>
           
           <p className="text-center text-neutral-400 text-sm max-w-lg mx-auto">
-            The model didn&apos;t change. Only the system prompt was hardened 
-            using PwnClaw&apos;s remediation recommendations. Any agent can achieve this improvement — the fix instructions are designed to be understood and applied by AI agents directly.
+            The model didn&apos;t change. Only the system prompt was hardened using PwnClaw&apos;s fix instructions — designed to be applied by AI agents directly.
           </p>
         </div>
       </section>
@@ -323,23 +322,12 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-white mb-8">Test Any AI Agent — No SDK Required</h2>
           
           <div className="flex flex-wrap justify-center gap-4 mb-8">
-            {[
-              { name: "OpenClaw", highlight: true },
-              { name: "Claude Code", highlight: false },
-              { name: "Cursor", highlight: false },
-              { name: "Cline", highlight: false },
-              { name: "Windsurf", highlight: false },
-              { name: "Custom Agents", highlight: false },
-            ].map((agent, i) => (
+            {["Claude Code", "Cursor", "Cline", "Windsurf", "OpenClaw", "Any HTTP Agent"].map((name, i) => (
               <div 
                 key={i} 
-                className={`px-5 py-2.5 rounded-full border text-sm ${
-                  agent.highlight 
-                    ? 'border-green-500 bg-green-500/10 text-green-400 font-semibold' 
-                    : 'border-neutral-700 bg-neutral-900 text-neutral-400'
-                }`}
+                className="px-5 py-2.5 rounded-full border border-neutral-700 bg-neutral-900 text-neutral-400 text-sm"
               >
-                {agent.name}
+                {name}
               </div>
             ))}
           </div>
@@ -378,8 +366,8 @@ export default function Home() {
               { slug: "privilege-escalation", icon: "⚡", title: "Privilege Escalation", count: 6, desc: "Admin claims, fake auth codes" },
               { slug: "indirect-injection", icon: "🔗", title: "Indirect Injection", count: 6, desc: "RAG, tool output, file poisoning" },
               { slug: "refusal-bypass", icon: "🚫", title: "Refusal Bypass", count: 6, desc: "Skeleton Key, prefix forcing" },
-              { slug: "memory-poisoning", icon: "🧠", title: "Memory Poisoning", count: 5, desc: "False memories, sleeper triggers" },
-              { slug: "multi-agent", icon: "🔗", title: "Multi-Agent", count: 5, desc: "Cross-agent injection, trust chain abuse" },
+              { slug: "memory-poisoning", icon: "💾", title: "Memory Poisoning", count: 5, desc: "False memories, sleeper triggers" },
+              { slug: "multi-agent", icon: "👥", title: "Multi-Agent", count: 5, desc: "Cross-agent injection, trust chain abuse" },
             ].map((item, i) => (
               <Link key={i} href={`/attacks/${item.slug}`}>
                 <div className="p-5 rounded-lg bg-neutral-900 border border-neutral-800 hover:border-green-500/50 transition h-full">
@@ -509,7 +497,7 @@ export default function Home() {
               },
               {
                 q: "Can PwnClaw actually fix the vulnerabilities?",
-                a: "PwnClaw provides copy-paste fix instructions for every vulnerability. Send them to your agent, it hardens itself. In our tests, Gemini 3 Flash went from 80/100 to 98/100 just by applying the fix instructions."
+                a: "PwnClaw provides copy-paste fix instructions for every vulnerability. Send them to your agent, it hardens itself. In our internal tests, agents improved by 15-20 points just by applying the fix instructions — no model changes needed."
               },
               {
                 q: "Can AI agents run tests autonomously?",
