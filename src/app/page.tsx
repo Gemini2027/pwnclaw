@@ -153,17 +153,17 @@ export default function Home() {
             <br />
             <span className="text-red-500">Security Blind Spots</span>
           </h1>
-          <p className="text-4xl md:text-6xl font-bold text-green-500 mb-10 leading-tight">
+          <p className="text-4xl md:text-5xl font-bold text-green-500 mb-10 leading-tight">
             We&apos;ll Prove It — and Fix It
           </p>
           
           <p className="text-lg md:text-xl text-neutral-400 mb-8 max-w-2xl mx-auto">
-            PwnClaw is an AI agent security testing platform. We run real-world attacks against your agent — jailbreaks, prompt injection, data exfiltration, and 11 more categories. Security score plus fix instructions for every issue found. Five minutes, no API keys shared.
+            112 real-world attacks — prompt injection, jailbreaks, data exfiltration, MCP poisoning, and more. Your agent gets a security score and copy-paste fix instructions. Five minutes, no API keys shared.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/sign-up" className="cursor-pointer">
-              <Button size="lg" className="bg-green-500 hover:bg-green-600 text-black font-semibold text-lg px-8 cursor-pointer">
+              <Button size="lg" className="bg-green-400 hover:bg-green-300 text-black font-bold text-lg px-10 shadow-[0_0_20px_rgba(74,222,128,0.3)] hover:shadow-[0_0_30px_rgba(74,222,128,0.5)] cursor-pointer transition-all">
                 Scan Your Agent Free →
               </Button>
             </Link>
