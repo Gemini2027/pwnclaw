@@ -149,11 +149,13 @@ export default function Home() {
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Your AI Agent Has
-            <span className="text-red-500"> Security Blind Spots</span>
-            <br />
-            <span className="text-green-500">We&apos;ll Prove It — and Fix It</span>
+            Your AI Agent Has{' '}
+            <br className="hidden md:block" />
+            <span className="text-red-500">Security Blind Spots</span>
           </h1>
+          <p className="text-2xl md:text-3xl font-bold text-green-500 mb-8">
+            We&apos;ll Prove It — and Fix It
+          </p>
           
           <p className="text-lg md:text-xl text-neutral-400 mb-8 max-w-2xl mx-auto">
             PwnClaw runs real-world attacks against your AI agent — jailbreaks, prompt injection, data exfiltration, and 11 more categories. You get a security score and copy-paste fix instructions for every vulnerability found. Five minutes, no API keys shared.
