@@ -322,12 +322,23 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-white mb-8">Test Any AI Agent — No SDK Required</h2>
           
           <div className="flex flex-wrap justify-center gap-4 mb-8">
-            {["Claude Code", "Cursor", "Cline", "Windsurf", "OpenClaw", "Any HTTP Agent"].map((name, i) => (
+            {[
+              { name: "OpenClaw", highlight: true },
+              { name: "Claude Code", highlight: false },
+              { name: "Cursor", highlight: false },
+              { name: "Cline", highlight: false },
+              { name: "Windsurf", highlight: false },
+              { name: "Any HTTP Agent", highlight: false },
+            ].map((agent, i) => (
               <div 
                 key={i} 
-                className="px-5 py-2.5 rounded-full border border-neutral-700 bg-neutral-900 text-neutral-400 text-sm"
+                className={`px-5 py-2.5 rounded-full border text-sm ${
+                  agent.highlight 
+                    ? 'border-green-500 bg-green-500/10 text-green-400 font-semibold' 
+                    : 'border-neutral-700 bg-neutral-900 text-neutral-400'
+                }`}
               >
-                {name}
+                {agent.name}
               </div>
             ))}
           </div>
