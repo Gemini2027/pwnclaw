@@ -1,0 +1,61 @@
+import { NextResponse } from 'next/server';
+import { auth } from '@clerk/nextjs/server';
+import { getUserByClerkId, getUserStats, getTestsForUser } from '@/lib/db';
+import { PLAN_LIMITS } from '@/lib/supabase';
+
+export async function GET() {
+  try {
+    const { userId: clerkId } = await auth();
+    
+    if (!clerkId) {
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+    }
+
+    const user = await getUserByClerkId(clerkId);
+    
+    if (!user) {
+      // New user - return defaults
+      return NextResponse.json({
+        user: {
+          plan: 'free',
+          creditsRemaining: 3
+        },
+        stats: {
+          totalTests: 0,
+          totalVulnerabilities: 0,
+          avgScore: 0
+        },
+        recentTests: []
+      });
+    }
+
+    // Get stats and recent tests in parallel
+    const [stats, recentTests] = await Promise.all([
+      getUserStats(user.id),
+      getTestsForUser(user.id, 5)
+    ]);
+
+    const limits = PLAN_LIMITS[user.plan];
+    
+    return NextResponse.json({
+      user: {
+        plan: user.plan,
+        creditsRemaining: user.credits_remaining,
+        maxCredits: limits?.credits ?? 3,
+        resetsAt: user.credits_reset_at
+      },
+      stats,
+      recentTests: recentTests.map(test => ({
+        id: test.id,
+        token: test.test_token,
+        agentName: test.agent_name,
+        status: test.status,
+        score: test.score,
+        createdAt: test.created_at
+      }))
+    });
+  } catch (error) {
+    console.error('Error fetching user stats:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
