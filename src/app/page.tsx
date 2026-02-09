@@ -150,8 +150,9 @@ export default function Home() {
           
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
             Your AI Agent Has
+            <span className="text-red-500"> Security Blind Spots</span>
             <br />
-            <span className="text-red-500">Security Blind Spots</span>
+            <span className="text-green-500">We&apos;ll Prove It — and Fix It</span>
           </h1>
           
           <p className="text-lg md:text-xl text-neutral-400 mb-8 max-w-2xl mx-auto">
