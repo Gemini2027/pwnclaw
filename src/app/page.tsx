@@ -216,44 +216,70 @@ export default function Home() {
           </p>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="bg-neutral-900 border-neutral-800">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
-                  <span className="text-2xl">📝</span>
+            {/* Step 1 */}
+            <div className="relative group">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
+                    <span className="text-green-400 font-bold text-sm">01</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gradient-to-r from-green-500/20 to-transparent"></div>
                 </div>
-                <CardTitle className="text-white">1. Start a Test</CardTitle>
-                <p className="text-sm text-neutral-400 mt-2">
-                  Name your agent and get a unique test URL.
-                  Paste it to your agent — it connects to PwnClaw automatically via HTTP.
+                <h3 className="text-lg font-bold text-white mb-3">Start a Test</h3>
+                <p className="text-sm text-neutral-400 leading-relaxed">
+                  Name your agent and get a unique test URL. Paste it to your agent — it connects to PwnClaw automatically via HTTP.
                 </p>
-              </CardHeader>
-            </Card>
-            
-            <Card className="bg-neutral-900 border-neutral-800">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
-                  <span className="text-2xl">⚔️</span>
+                <div className="mt-5 rounded-lg bg-neutral-950/80 border border-neutral-800 p-3 font-mono text-xs text-neutral-500">
+                  <span className="text-green-400">GET</span> pwnclaw.com/api/test/<span className="text-neutral-300">abc123</span>
                 </div>
-                <CardTitle className="text-white">2. Automated Red Teaming</CardTitle>
-                <p className="text-sm text-neutral-400 mt-2">
-                  PwnClaw fires real attacks — prompt injection, jailbreaks, 
-                  data exfiltration, Crescendo, MCP poisoning, and more. An AI judge scores every response.
-                </p>
-              </CardHeader>
-            </Card>
-            
-            <Card className="bg-neutral-900 border-neutral-800">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
-                  <span className="text-2xl">🔧</span>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative group">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                    <span className="text-red-400 font-bold text-sm">02</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gradient-to-r from-red-500/20 to-transparent"></div>
                 </div>
-                <CardTitle className="text-white">3. Fix &amp; Re-Test</CardTitle>
-                <p className="text-sm text-neutral-400 mt-2">
-                  Every vulnerability comes with <span className="text-white">a concrete fix instruction</span> you can send straight to your agent. 
-                  It hardens itself, you re-test. Done.
+                <h3 className="text-lg font-bold text-white mb-3">Automated Red Teaming</h3>
+                <p className="text-sm text-neutral-400 leading-relaxed">
+                  PwnClaw fires real attacks — prompt injection, jailbreaks, data exfiltration, Crescendo, MCP poisoning, and more. An AI judge scores every response.
                 </p>
-              </CardHeader>
-            </Card>
+                <div className="mt-5 flex gap-2 flex-wrap">
+                  {['Jailbreak', 'Injection', 'Exfiltration', 'Social Eng.', 'MCP'].map(tag => (
+                    <span key={tag} className="px-2 py-0.5 rounded text-xs bg-red-500/10 text-red-400/70 border border-red-500/10">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative group">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                    <span className="text-blue-400 font-bold text-sm">03</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gradient-to-r from-blue-500/20 to-transparent"></div>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-3">Fix &amp; Re-Test</h3>
+                <p className="text-sm text-neutral-400 leading-relaxed">
+                  Every vulnerability comes with <span className="text-white">a concrete fix instruction</span> you can paste straight into your agent&apos;s system prompt. Re-test. Done.
+                </p>
+                <div className="mt-5 flex items-center gap-3 text-xs">
+                  <span className="text-red-400">87<span className="text-neutral-600">/100</span></span>
+                  <span className="text-neutral-600">→</span>
+                  <span className="text-green-400 font-bold">95<span className="text-neutral-600">/100</span></span>
+                  <span className="text-neutral-600 ml-1">with 5 fix rules</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
