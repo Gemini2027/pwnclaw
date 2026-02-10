@@ -21,6 +21,7 @@ interface GlobalBenchmarkData {
     withoutFixes: { count: number; avgScore: number };
     withFixes: { count: number; avgScore: number };
   };
+  attackCounts?: { attackCount: number; scans: number }[];
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -74,15 +75,17 @@ export default function BenchmarksPage() {
   const [filterModel, setFilterModel] = useState("");
   const [filterFramework, setFilterFramework] = useState("");
   const [filterFixes, setFilterFixes] = useState("");
+  const [filterAttacks, setFilterAttacks] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const fetchData = useCallback(async (model?: string, framework?: string, fixes?: string) => {
+  const fetchData = useCallback(async (model?: string, framework?: string, fixes?: string, attacks?: string) => {
     setLoading(true);
     try {
       const params = new URLSearchParams({ global: "true" });
       if (model) params.set("model", model);
       if (framework) params.set("framework", framework);
       if (fixes) params.set("withFixes", fixes);
+      if (attacks) params.set("attacks", attacks);
       const res = await fetch(`/api/benchmark?${params.toString()}`);
       if (!res.ok) { setData(null); return; }
       const d = await res.json();
@@ -103,8 +106,8 @@ export default function BenchmarksPage() {
   useEffect(() => { fetchData(); }, [fetchData]);
 
   useEffect(() => {
-    fetchData(filterModel || undefined, filterFramework || undefined, filterFixes || undefined);
-  }, [filterModel, filterFramework, filterFixes, fetchData]);
+    fetchData(filterModel || undefined, filterFramework || undefined, filterFixes || undefined, filterAttacks || undefined);
+  }, [filterModel, filterFramework, filterFixes, filterAttacks, fetchData]);
 
   return (
     <div className="min-h-screen bg-black">
@@ -164,9 +167,18 @@ export default function BenchmarksPage() {
                   <option value="true">With Fixes</option>
                   <option value="false">Baseline Only</option>
                 </select>
-                {(filterModel || filterFramework || filterFixes) && (
+                <select
+                  value={filterAttacks}
+                  onChange={(e) => setFilterAttacks(e.target.value)}
+                  className="rounded-md bg-neutral-900 border border-neutral-700 text-white px-3 py-2 text-sm"
+                >
+                  <option value="">All Scan Types</option>
+                  <option value="15">Free (15 attacks)</option>
+                  <option value="50">Pro (50 attacks)</option>
+                </select>
+                {(filterModel || filterFramework || filterFixes || filterAttacks) && (
                   <button
-                    onClick={() => { setFilterModel(""); setFilterFramework(""); setFilterFixes(""); }}
+                    onClick={() => { setFilterModel(""); setFilterFramework(""); setFilterFixes(""); setFilterAttacks(""); }}
                     className="text-xs text-neutral-400 hover:text-white underline"
                   >
                     Clear filters

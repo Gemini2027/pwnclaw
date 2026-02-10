@@ -36,6 +36,21 @@ export async function GET() {
       getTestsForUser(user.id, 5)
     ]);
 
+    // Get result counts for recent tests to show attack count (15 vs 50)
+    const testIds = recentTests.map(t => t.id);
+    let resultCounts: Record<string, number> = {};
+    if (testIds.length > 0) {
+      const { data: counts } = await (await import('@/lib/db')).db
+        .from('test_results')
+        .select('test_id')
+        .in('test_id', testIds);
+      if (counts) {
+        for (const row of counts) {
+          resultCounts[row.test_id] = (resultCounts[row.test_id] || 0) + 1;
+        }
+      }
+    }
+
     const limits = PLAN_LIMITS[user.plan];
     
     return NextResponse.json({
@@ -54,6 +69,7 @@ export async function GET() {
         score: test.score,
         createdAt: test.created_at,
         withFixes: (test as any).with_fixes || false,
+        attackCount: resultCounts[test.id] || null,
       }))
     });
   } catch (error) {

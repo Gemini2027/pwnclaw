@@ -245,7 +245,12 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
               <div className={`text-4xl font-bold ${gradeColor(test.score)}`}>
                 {test.score}/100
               </div>
-              <div className={`text-xl ${gradeColor(test.score)}`}>Grade {grade}</div>
+              <div className="flex items-center gap-2 justify-end">
+                <span className={`text-xl ${gradeColor(test.score)}`}>Grade {grade}</span>
+                <Badge className="bg-neutral-800 text-neutral-400 border-neutral-700 text-xs">
+                  {summary.total} attacks
+                </Badge>
+              </div>
             </>
           ) : (
             <>

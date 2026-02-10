@@ -12,7 +12,8 @@ export async function GET(request: NextRequest) {
     const model = request.nextUrl.searchParams.get('model') || undefined;
     const framework = request.nextUrl.searchParams.get('framework') || undefined;
     const withFixes = request.nextUrl.searchParams.get('withFixes') || undefined;
-    return handleGlobal(model, framework, withFixes);
+    const attacks = request.nextUrl.searchParams.get('attacks') || undefined;
+    return handleGlobal(model, framework, withFixes, attacks);
   }
 
   const scoreParam = request.nextUrl.searchParams.get('score');
@@ -49,13 +50,17 @@ export async function GET(request: NextRequest) {
   }
 }
 
-async function handleGlobal(model?: string, framework?: string, withFixes?: string) {
+async function handleGlobal(model?: string, framework?: string, withFixes?: string, attacks?: string) {
   try {
-    let query = db.from('benchmarks').select('score, category_scores, model_name, framework, with_fixes');
+    let query = db.from('benchmarks').select('score, category_scores, model_name, framework, with_fixes, attack_count');
     if (model) query = query.eq('model_name', model);
     if (framework) query = query.eq('framework', framework);
     if (withFixes === 'true') query = query.eq('with_fixes', true);
     else if (withFixes === 'false') query = query.or('with_fixes.is.null,with_fixes.eq.false');
+    if (attacks) {
+      const attackCount = parseInt(attacks, 10);
+      if (!isNaN(attackCount)) query = query.eq('attack_count', attackCount);
+    }
     const { data: benchmarks, error } = await query;
 
     if (error || !benchmarks || benchmarks.length === 0) {
@@ -121,6 +126,16 @@ async function handleGlobal(model?: string, framework?: string, withFixes?: stri
     const models = [...new Set(benchmarks.map((b: any) => b.model_name).filter(Boolean))].sort();
     const frameworks = [...new Set(benchmarks.map((b: any) => b.framework).filter(Boolean))].sort();
 
+    // Attack count distribution (e.g., { "15": 42, "50": 18 })
+    const attackCountMap: Record<number, number> = {};
+    for (const b of benchmarks) {
+      const ac = (b as any).attack_count as number | null;
+      if (ac) attackCountMap[ac] = (attackCountMap[ac] || 0) + 1;
+    }
+    const attackCounts = Object.entries(attackCountMap)
+      .map(([count, scans]) => ({ attackCount: parseInt(count), scans }))
+      .sort((a, b) => a.attackCount - b.attackCount);
+
     // Fixes comparison: only include when not already filtered by withFixes
     let fixesComparison: { withoutFixes: { count: number; avgScore: number }; withFixes: { count: number; avgScore: number } } | undefined;
     if (!withFixes) {
@@ -152,6 +167,7 @@ async function handleGlobal(model?: string, framework?: string, withFixes?: stri
       models,
       frameworks,
       ...(fixesComparison ? { fixesComparison } : {}),
+      attackCounts,
     });
   } catch (error) {
     console.error('Global benchmark API error:', error);

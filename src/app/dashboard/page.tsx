@@ -282,7 +282,7 @@ function Sparkline({ data }: { data: number[] }) {
   );
 }
 
-function TestRow({ test }: { test: { id: string; token?: string; agentName: string; status: string; score: number | null; createdAt: string; withFixes?: boolean } }) {
+function TestRow({ test }: { test: { id: string; token?: string; agentName: string; status: string; score: number | null; createdAt: string; withFixes?: boolean; attackCount?: number | null } }) {
   const timeAgo = getTimeAgo(test.createdAt);
   
   return (
@@ -310,11 +310,16 @@ function TestRow({ test }: { test: { id: string; token?: string; agentName: stri
               <ScanEstimate createdAt={test.createdAt} />
             </div>
           ) : test.status === "completed" && test.score !== null ? (
-            <div className="text-right">
-              <p className="text-sm text-neutral-400">Score</p>
-              <p className={`font-mono font-bold ${test.score >= 80 ? 'text-green-500' : test.score >= 60 ? 'text-yellow-500' : 'text-red-500'}`}>
-                {test.score}/100
-              </p>
+            <div className="flex items-center gap-3">
+              {test.attackCount && (
+                <span className="text-xs text-neutral-500 font-mono">{test.attackCount}atk</span>
+              )}
+              <div className="text-right">
+                <p className="text-sm text-neutral-400">Score</p>
+                <p className={`font-mono font-bold ${test.score >= 80 ? 'text-green-500' : test.score >= 60 ? 'text-yellow-500' : 'text-red-500'}`}>
+                  {test.score}/100
+                </p>
+              </div>
             </div>
           ) : (
             <Badge variant="outline" className="border-neutral-600 text-neutral-400">
