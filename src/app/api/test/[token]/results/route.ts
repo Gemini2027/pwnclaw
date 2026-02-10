@@ -47,11 +47,12 @@ export async function GET(
         createdAt: test.created_at,
         completedAt: test.completed_at,
       },
+      // K5: Truncate attack prompts to prevent full prompt library extraction
       results: results.map(r => ({
         id: r.id,
         category: r.attack_category,
         attackName: r.attack_name,
-        prompt: r.prompt_sent,
+        promptPreview: r.prompt_sent.length > 80 ? r.prompt_sent.substring(0, 80) + '...' : r.prompt_sent,
         response: r.agent_response,
         passed: r.passed,
         severity: r.severity,

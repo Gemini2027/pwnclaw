@@ -225,8 +225,10 @@ export async function POST(request: NextRequest) {
           }
         }
         
-        // Fallback: email — use .limit(1) to avoid updating multiple users with same email
+        // K4: Fallback: email — use .limit(1) to avoid updating multiple users with same email
+        // Email lookup is unreliable if multiple users share the same email. Prefer Clerk ID.
         if (!downgraded && email) {
+          console.warn(`[WEBHOOK] subscription_cancelled: Falling back to email lookup for ${email} — Clerk ID not available. This is unreliable if multiple users share this email.`);
           const { data: userByEmail } = await db
             .from('users')
             .select('id')
@@ -235,7 +237,7 @@ export async function POST(request: NextRequest) {
             .single();
           if (userByEmail) {
             await db.from('users').update({ plan: 'free', credits_remaining: PLAN_LIMITS.free.credits }).eq('id', userByEmail.id);
-            console.log(`Downgraded user ${email} to Free plan (via email)`);
+            console.log(`Downgraded user ${email} to Free plan (via email fallback)`);
           }
         }
         break;
@@ -261,11 +263,13 @@ export async function POST(request: NextRequest) {
           }
         }
         
+        // K4: Email fallback with warning
         if (!handled && email) {
+          console.warn(`[WEBHOOK] payment_failed: Falling back to email lookup for ${email}`);
           const { data: userByEmail } = await db.from('users').select('id').eq('email', email).limit(1).single();
           if (userByEmail) {
             await db.from('users').update({ plan: 'free', credits_remaining: PLAN_LIMITS.free.credits }).eq('id', userByEmail.id);
-            console.log(`Payment failed — downgraded user ${email} to Free plan (via email)`);
+            console.log(`Payment failed — downgraded user ${email} to Free plan (via email fallback)`);
             handled = true;
           }
         }
@@ -300,12 +304,13 @@ export async function POST(request: NextRequest) {
           }
         }
         
-        // Fallback: email — use .limit(1) to avoid updating multiple users with same email
+        // K4: Email fallback with warning
         if (!updated && email) {
+          console.warn(`[WEBHOOK] subscription_updated: Falling back to email lookup for ${email}`);
           const { data: userByEmail } = await db.from('users').select('id').eq('email', email).limit(1).single();
           if (userByEmail) {
             await db.from('users').update({ plan, credits_remaining: credits }).eq('id', userByEmail.id);
-            console.log(`Updated user ${email} to ${plan} plan (via email)`);
+            console.log(`Updated user ${email} to ${plan} plan (via email fallback)`);
           }
         }
         break;

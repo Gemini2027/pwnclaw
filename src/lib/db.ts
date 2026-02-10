@@ -130,16 +130,16 @@ export async function updateUserCredits(userId: string, credits: number): Promis
 }
 
 // Reserve a credit atomically (decrement by 1, only if > 0)
+// K3: The `decrement_credit` RPC MUST be deployed in Supabase for atomic operations.
+// See: supabase/migrations/decrement_credit.sql
 export async function reserveCredit(userId: string): Promise<boolean> {
   // Single atomic UPDATE with gt(0) guard — no read-then-write race condition
   const { data, error } = await db
     .rpc('decrement_credit', { user_uuid: userId });
   
   // Fallback if RPC not available: optimistic lock approach
-  // ⚠️ RACE CONDITION: The read-then-write below has a TOCTOU race under concurrent requests.
-  // For low-traffic this is acceptable. For production scale, deploy the `decrement_credit` 
-  // RPC function in Supabase (SQL: UPDATE users SET credits_remaining = credits_remaining - 1 
-  // WHERE id = $1 AND credits_remaining > 0 RETURNING id).
+  // ⚠️ RACE CONDITION (K3): The read-then-write below has a TOCTOU race under concurrent requests.
+  // Deploy the `decrement_credit` RPC to eliminate this. See supabase/migrations/decrement_credit.sql
   if (error && error.message?.includes('function') ) {
     const { data: user } = await db
       .from('users')

@@ -7,6 +7,42 @@ import { judgeResponse } from '@/lib/judge';
 import { scrubSensitiveData } from '@/lib/scrubber';
 import { recordBenchmark } from '@/lib/benchmark';
 
+// K1: SSRF protection helpers
+function isPrivateHostname(hostname: string): boolean {
+  return (
+    hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname === '0.0.0.0' ||
+    hostname === '::1' ||
+    hostname === '[::]' ||
+    hostname === '[::1]' ||
+    hostname === '[::ffff:127.0.0.1]' ||
+    hostname.endsWith('.local') ||
+    hostname.endsWith('.internal') ||
+    hostname.endsWith('.localhost') ||
+    isPrivateIP(hostname)
+  );
+}
+
+function isPrivateIP(ip: string): boolean {
+  // Handle IPv4-mapped IPv6 (::ffff:x.x.x.x)
+  const v4match = ip.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/i);
+  const checkIp = v4match ? v4match[1] : ip;
+  
+  const parts = checkIp.split('.').map(Number);
+  if (parts.length !== 4 || parts.some(p => isNaN(p))) return false;
+  
+  return (
+    parts[0] === 0 ||                                          // 0.0.0.0/8
+    parts[0] === 10 ||                                         // 10.0.0.0/8
+    parts[0] === 127 ||                                        // 127.0.0.0/8
+    (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) || // 172.16.0.0/12
+    (parts[0] === 192 && parts[1] === 168) ||                  // 192.168.0.0/16
+    (parts[0] === 169 && parts[1] === 254) ||                  // 169.254.0.0/16 (link-local)
+    (parts[0] === 100 && parts[1] >= 64 && parts[1] <= 127)   // 100.64.0.0/10 (CGNAT)
+  );
+}
+
 /**
  * POST /api/test/run — Server-side test runner
  * 
@@ -43,19 +79,29 @@ export async function POST(request: NextRequest) {
     let parsedUrl: URL;
     try {
       parsedUrl = new URL(agentUrl);
-      if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+      // W3: Only allow https:// in production (http:// is a security risk)
+      if (parsedUrl.protocol !== 'https:') {
         throw new Error('Invalid protocol');
       }
     } catch {
-      return NextResponse.json({ error: 'Invalid agent URL. Must be http:// or https://' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid agent URL. Must be https://' }, { status: 400 });
     }
 
-    // Block localhost/private IPs (SSRF protection)
-    const hostname = parsedUrl.hostname;
-    if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '0.0.0.0' ||
-        hostname.startsWith('10.') || hostname.startsWith('192.168.') || hostname.startsWith('172.') ||
-        hostname === '::1' || hostname.endsWith('.local')) {
+    // K1: SSRF protection — block private/reserved IP ranges and dangerous hostnames
+    const hostname = parsedUrl.hostname.toLowerCase();
+    if (isPrivateHostname(hostname)) {
       return NextResponse.json({ error: 'Cannot target localhost or private network addresses' }, { status: 400 });
+    }
+
+    // K1: DNS resolution check — resolve hostname BEFORE making the request to prevent DNS rebinding
+    try {
+      const { resolve4 } = await import('dns/promises');
+      const ips = await resolve4(hostname);
+      if (ips.some(ip => isPrivateIP(ip))) {
+        return NextResponse.json({ error: 'Cannot target private network addresses (DNS resolved to private IP)' }, { status: 400 });
+      }
+    } catch {
+      // DNS resolution failed — allow the request to proceed (fetch will fail naturally)
     }
 
     const sanitizedName = agentName.trim().replace(/[<>]/g, '');
@@ -111,11 +157,15 @@ export async function POST(request: NextRequest) {
     }).eq('id', test.id);
 
     // Fire off the server-side runner (non-blocking)
-    // We use waitUntil-style: fire the fetch and don't await
+    // K2: Include WORKER_SECRET so the worker endpoint can verify internal calls
     const baseUrl = request.nextUrl.origin;
     fetch(`${baseUrl}/api/test/run/${test.test_token}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        ...(process.env.WORKER_SECRET ? { 'x-worker-secret': process.env.WORKER_SECRET } : {}),
+      },
+      redirect: 'manual', // K1: Don't follow redirects (prevents SSRF via redirect)
     }).catch(err => console.error('Failed to start test runner:', err));
 
     return NextResponse.json({

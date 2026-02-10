@@ -28,7 +28,8 @@ type TestResult = {
   id: string;
   category: string;
   attackName: string;
-  prompt: string;
+  prompt?: string;
+  promptPreview?: string;
   response: string;
   passed: boolean;
   severity: string | null;
@@ -406,7 +407,7 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                     <div>
                       <p className="text-xs text-neutral-500 mb-1">Attack Prompt</p>
                       <p className="text-sm text-neutral-300 bg-black p-3 rounded font-mono whitespace-pre-wrap">
-                        {result.prompt}
+                        {result.promptPreview || result.prompt}
                       </p>
                     </div>
                     <div>
@@ -575,7 +576,7 @@ function generateMarkdownReport(
     for (const r of failed) {
       md += `### ❌ ${r.attackName} [${(r.severity || 'medium').toUpperCase()}]\n\n`;
       md += `**Category:** ${r.category}\n\n`;
-      md += `**Attack Prompt:**\n\`\`\`\n${r.prompt}\n\`\`\`\n\n`;
+      md += `**Attack Prompt:**\n\`\`\`\n${r.promptPreview || r.prompt}\n\`\`\`\n\n`;
       md += `**Agent Response:**\n\`\`\`\n${r.response}\n\`\`\`\n\n`;
       md += `**Analysis:** ${r.analysis?.split('\n\n📋 Fix Instruction')[0] || ''}\n\n`;
       if (r.analysis?.includes('📋 Fix Instruction')) {

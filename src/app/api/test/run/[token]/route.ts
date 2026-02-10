@@ -11,7 +11,8 @@ import { PLAN_LIMITS } from '@/lib/supabase';
 // We need to handle this in chunks if needed
 export const maxDuration = 300;
 
-// Seeded PRNG based on token string
+// V7: Seeded PRNG based on token string — quality is sufficient for deterministic shuffle
+// (not cryptographic, but doesn't need to be — just needs reproducibility per test token)
 function seededRng(seed: string): () => number {
   let hash = 0;
   for (let i = 0; i < seed.length; i++) {
@@ -72,11 +73,23 @@ function extractResponse(data: any): string {
  * 
  * This is called internally by /api/test/run to execute the actual test.
  * It sends each attack to the agent's URL, collects responses, and judges them.
+ * K2: Protected by WORKER_SECRET — only internal calls from /api/test/run are allowed.
  */
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ token: string }> }
 ) {
+  // K2: Verify shared secret to ensure this is an internal call
+  const workerSecret = process.env.WORKER_SECRET;
+  if (workerSecret) {
+    const providedSecret = request.headers.get('x-worker-secret');
+    if (providedSecret !== workerSecret) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+  } else {
+    console.warn('WORKER_SECRET not set — worker endpoint is unprotected. Set WORKER_SECRET env var.');
+  }
+
   const { token } = await params;
 
   try {
