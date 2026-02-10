@@ -49,6 +49,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     })),
+    // V10: Auth pages for SEO
+    {
+      url: 'https://www.pwnclaw.com/sign-in',
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
+    {
+      url: 'https://www.pwnclaw.com/sign-up',
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
     ...blogUrls,
   ];
 }

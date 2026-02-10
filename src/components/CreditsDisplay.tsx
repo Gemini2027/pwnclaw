@@ -39,8 +39,10 @@ export function CreditsDisplay({
       }
     };
 
-    // Initial fetch
-    fetchCredits();
+    // V4: Skip initial fetch if we already have props (avoids double request on dashboard load)
+    if (initialCredits === undefined || initialCredits === null) {
+      fetchCredits();
+    }
 
     // Poll every 120 seconds (reduce unnecessary API calls, skipped when tab hidden)
     const interval = setInterval(fetchCredits, 120000);

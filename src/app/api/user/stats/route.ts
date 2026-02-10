@@ -1,3 +1,4 @@
+// TODO V6: Add rate limiting to /api/user/* endpoints (e.g., 60 req/min per user)
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { getUserByClerkId, getUserStats, getTestsForUser } from '@/lib/db';
