@@ -87,6 +87,10 @@ export async function POST(request: NextRequest) {
     ).toLowerCase();
     const variantId = payload.data?.attributes?.variant_id?.toString();
     
+    // Determine plan from product name
+    const isTeamProduct = productName.includes('team');
+    const detectedPlan = isTeamProduct ? 'team' : 'pro';
+    
     // Log full payload for debugging (remove in production later)
     console.log('Lemon Squeezy webhook received:', JSON.stringify({
       event: eventName,
@@ -136,12 +140,12 @@ export async function POST(request: NextRequest) {
             await db
               .from('users')
               .update({ 
-                plan: 'pro',
-                credits_remaining: PLAN_LIMITS.pro.credits
+                plan: detectedPlan,
+                credits_remaining: PLAN_LIMITS[detectedPlan].credits
               })
               .eq('id', userByClerk.id);
             
-            console.log(`Upgraded user ${userByClerk.email} to Pro plan (via Clerk ID)`);
+            console.log(`Upgraded user ${userByClerk.email} to ${detectedPlan} plan (via Clerk ID)`);
             upgraded = true;
           }
         }
@@ -158,17 +162,17 @@ export async function POST(request: NextRequest) {
             await db
               .from('users')
               .update({ 
-                plan: 'pro',
-                credits_remaining: PLAN_LIMITS.pro.credits
+                plan: detectedPlan,
+                credits_remaining: PLAN_LIMITS[detectedPlan].credits
               })
               .eq('id', userByEmail.id);
             
-            console.log(`Upgraded user ${email} to Pro plan (via email)`);
+            console.log(`Upgraded user ${email} to ${detectedPlan} plan (via email)`);
             upgraded = true;
           }
         }
         
-        // If user not found, create them with Pro plan
+        // If user not found, create them with detected plan
         if (!upgraded && (clerkUserId || email)) {
           const newEmail = email || `${clerkUserId}@clerk.user`;
           const newClerkId = clerkUserId || `unknown_${Date.now()}`;
@@ -177,14 +181,14 @@ export async function POST(request: NextRequest) {
             .insert({ 
               clerk_id: newClerkId, 
               email: newEmail,
-              plan: 'pro',
-              credits_remaining: PLAN_LIMITS.pro.credits,
+              plan: detectedPlan,
+              credits_remaining: PLAN_LIMITS[detectedPlan].credits,
               credits_reset_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
             })
             .select()
             .single();
           if (newUser) {
-            console.log(`Created new user ${newEmail} with Pro plan (via webhook)`);
+            console.log(`Created new user ${newEmail} with ${detectedPlan} plan (via webhook)`);
             upgraded = true;
           } else {
             console.error(`Failed to create user for upgrade:`, createError);
@@ -279,7 +283,7 @@ export async function POST(request: NextRequest) {
         const clerkUserId = customData.user_id;
         
         const plan = variantName?.includes('team') ? 'team' : 'pro';
-        const credits = plan === 'team' ? (PLAN_LIMITS.team.credits === -1 ? 999 : PLAN_LIMITS.team.credits) : PLAN_LIMITS.pro.credits;
+        const credits = plan === 'team' ? (PLAN_LIMITS.team.credits === -1 ? 999 : PLAN_LIMITS.team.credits) : PLAN_LIMITS[detectedPlan].credits;
         
         let updated = false;
         

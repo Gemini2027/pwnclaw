@@ -174,7 +174,7 @@ export default function DashboardPage() {
           <QuickAction
             title="Upgrade to Pro"
             description="50 attacks from 112-attack library, full reports"
-            href="https://noid-privacy.lemonsqueezy.com/buy/83fb581f-b786-4032-a1e2-fef4430e2d59"
+            href="https://noid-privacy.lemonsqueezy.com/checkout/buy/83fb581f-b786-4032-a1e2-fef4430e2d59?logo=0"
             icon={Target}
           />
         ) : (

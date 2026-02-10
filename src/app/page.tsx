@@ -699,7 +699,7 @@ export default function Home() {
                   <li>✓ Test history (90 days)</li>
                 </ul>
                 <Button asChild className="w-full mt-6 bg-green-500 hover:bg-green-600 text-black font-semibold cursor-pointer">
-                  <Link href="/sign-up">Start Pro Plan →</Link>
+                  <a href="https://noid-privacy.lemonsqueezy.com/checkout/buy/83fb581f-b786-4032-a1e2-fef4430e2d59?logo=0">Start Pro Plan →</a>
                 </Button>
               </CardContent>
             </Card>
@@ -725,7 +725,7 @@ export default function Home() {
                   <li>✓ Test history (1 year)</li>
                 </ul>
                 <Button asChild className="w-full mt-6 cursor-pointer" variant="outline">
-                  <Link href="/sign-up">Start Team Plan →</Link>
+                  <a href="https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0">Start Team Plan →</a>
                 </Button>
               </CardContent>
             </Card>
