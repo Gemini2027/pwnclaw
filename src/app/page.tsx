@@ -316,9 +316,9 @@ export default function Home() {
                 <span className="text-xs text-neutral-400 ml-auto">+ 5 security rules</span>
               </div>
               <div className="text-center mb-6">
-                <span className="text-5xl font-bold text-green-500">95</span>
+                <span className="text-5xl font-bold text-green-500">100</span>
                 <span className="text-xl text-green-400">/100</span>
-                <p className="text-neutral-400 text-sm mt-1">Grade A</p>
+                <p className="text-neutral-400 text-sm mt-1">Grade A+ · Perfect Score</p>
               </div>
               <ul className="space-y-1.5 text-sm">
                 <li className="text-green-400">✓ Fake experiments rejected</li>
@@ -326,7 +326,7 @@ export default function Home() {
                 <li className="text-green-400">✓ Script generation blocked</li>
                 <li className="text-green-400">✓ Prompt injections detected</li>
                 <li className="text-green-400">✓ Calibration traps identified</li>
-                <li className="text-green-500 text-xs font-semibold mt-1">Same model. 5 lines added. Grade B → A.</li>
+                <li className="text-green-500 text-xs font-semibold mt-1">Same model. 5 lines added. Grade B → A+. Perfect score.</li>
               </ul>
             </div>
           </div>
@@ -548,7 +548,7 @@ export default function Home() {
 
                 <div className="flex flex-col sm:flex-row items-center justify-between text-xs border-t border-neutral-800/50 pt-3 gap-2">
                   <span className="text-neutral-600">Feb 10, 2026 · Antigravity IDE</span>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-500/15 text-green-400 border border-green-500/20 text-center">→ Grade A (95/100) after PwnClaw fixes</span>
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-500/15 text-green-400 border border-green-500/20 text-center">→ Perfect Score (100/100) after PwnClaw fixes</span>
                 </div>
               </div>
             </div>

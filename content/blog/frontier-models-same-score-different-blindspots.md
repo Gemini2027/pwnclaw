@@ -109,7 +109,7 @@ Both models failed because they were trying to be helpful. Gemini wanted to prov
 
 1. **Test regularly.** Security isn't a one-time audit. New attacks emerge, models get updated, system prompts change. [Run a PwnClaw scan](https://www.pwnclaw.com/sign-up) after every significant change.
 
-2. **Apply fix instructions.** PwnClaw doesn't just find vulnerabilities — it generates copy-paste fix instructions for every failed attack. The same model that scores 68/100 can score 96/100 with the right system prompt hardening.
+2. **Apply fix instructions.** PwnClaw doesn't just find vulnerabilities — it generates copy-paste fix instructions for every failed attack. We tested this with Gemini 3 Flash: it scored 87/100 (B) out of the box, then **100/100 (A+) — a perfect score** — after applying just 5 PwnClaw-generated fix instructions. The cheapest model beat both frontier models with the right system prompt hardening.
 
 3. **Test the specific model you deploy.** Don't assume that because Claude is safe, your Claude-based agent is safe. The system prompt, tools, and context window all affect security posture.
 
