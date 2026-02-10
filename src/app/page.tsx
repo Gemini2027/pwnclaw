@@ -231,7 +231,7 @@ export default function Home() {
                   Name your agent and get a unique test URL. Paste it to your agent — it connects to PwnClaw automatically via HTTP.
                 </p>
                 <div className="mt-5 rounded-lg bg-neutral-950/80 border border-neutral-800 p-3 font-mono text-xs text-neutral-500">
-                  <span className="text-green-400">GET</span> pwnclaw.com/api/test/<span className="text-neutral-300">abc123</span>
+                  <span className="text-green-400">→</span> Paste one URL. Agent connects via HTTP.
                 </div>
               </div>
             </div>
@@ -250,10 +250,8 @@ export default function Home() {
                 <p className="text-sm text-neutral-400 leading-relaxed">
                   PwnClaw fires real attacks — prompt injection, jailbreaks, data exfiltration, Crescendo, MCP poisoning, and more. An AI judge scores every response.
                 </p>
-                <div className="mt-5 flex gap-2 flex-wrap">
-                  {['Jailbreak', 'Injection', 'Exfiltration', 'Social Eng.', 'MCP'].map(tag => (
-                    <span key={tag} className="px-2 py-0.5 rounded text-xs bg-red-500/10 text-red-400/70 border border-red-500/10">{tag}</span>
-                  ))}
+                <div className="mt-5 rounded-lg bg-neutral-950/80 border border-neutral-800 p-3 font-mono text-xs text-neutral-500">
+                  <span className="text-red-400">→</span> 112 attacks across 14 categories. AI-judged.
                 </div>
               </div>
             </div>
@@ -272,11 +270,8 @@ export default function Home() {
                 <p className="text-sm text-neutral-400 leading-relaxed">
                   Every vulnerability comes with <span className="text-white">a concrete fix instruction</span> you can paste straight into your agent&apos;s system prompt. Re-test. Done.
                 </p>
-                <div className="mt-5 flex items-center gap-3 text-xs">
-                  <span className="text-red-400">87<span className="text-neutral-600">/100</span></span>
-                  <span className="text-neutral-600">→</span>
-                  <span className="text-green-400 font-bold">95<span className="text-neutral-600">/100</span></span>
-                  <span className="text-neutral-600 ml-1">with 5 fix rules</span>
+                <div className="mt-5 rounded-lg bg-neutral-950/80 border border-neutral-800 p-3 font-mono text-xs text-neutral-500">
+                  <span className="text-blue-400">→</span> Auto-generated fix rules. Re-test in one click.
                 </div>
               </div>
             </div>
