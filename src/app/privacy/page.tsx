@@ -116,7 +116,7 @@ export default function PrivacyPage() {
           </ul>
           <p className="mt-4">
             To exercise these rights, email{" "}
-            <a href="mailto:privacy@pwnclaw.com" className="text-green-500 hover:underline">privacy@pwnclaw.com</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); window.location.href = "mai" + "lto:priv" + "acy@pwn" + "claw.com"; }} className="text-green-500 hover:underline cursor-pointer">privacy[at]pwnclaw.com</a>
           </p>
 
           <h2 className="text-xl font-semibold text-white mt-8">7. Security Recommendations</h2>
@@ -141,7 +141,7 @@ export default function PrivacyPage() {
           <h2 className="text-xl font-semibold text-white mt-8">9. Contact</h2>
           <p>
             Data Protection Officer:{" "}
-            <a href="mailto:privacy@pwnclaw.com" className="text-green-500 hover:underline">privacy@pwnclaw.com</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); window.location.href = "mai" + "lto:priv" + "acy@pwn" + "claw.com"; }} className="text-green-500 hover:underline cursor-pointer">privacy[at]pwnclaw.com</a>
           </p>
           <p className="mt-8 text-sm text-neutral-500">
             Learn more about <Link href="/" className="text-green-500 hover:underline">AI agent security testing with PwnClaw</Link>.
