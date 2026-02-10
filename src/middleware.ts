@@ -11,6 +11,7 @@ const isPublicRoute = createRouteMatcher([
   '/api/test(.*)',  // Public for agent connections
   '/api/v1(.*)',    // W11: Public for API-key-authenticated CI/CD endpoints
   '/api/benchmark', // Public anonymous benchmark
+  '/api/badge(.*)',  // Public badge SVG endpoint for README embedding
   '/blog(.*)',
   '/attacks(.*)',
   '/sitemap.xml',

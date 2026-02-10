@@ -72,6 +72,7 @@ export default function TestDetailPage() {
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [copiedFix, setCopiedFix] = useState(false);
+  const [copiedBadge, setCopiedBadge] = useState(false);
 
   useEffect(() => {
     fetch(`/api/test/${token}/results`)
@@ -356,6 +357,48 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                   </>
                 )}
               </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Badge Embed */}
+      {test.status === 'completed' && test.score !== null && (
+        <Card className="bg-neutral-900 border-neutral-800 mb-6">
+          <CardContent className="py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Shield className="w-6 h-6 text-green-500" />
+                <div>
+                  <p className="font-medium text-white">README Badge</p>
+                  <p className="text-sm text-neutral-400">Show your security score in your README</p>
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                className="border-neutral-700"
+                onClick={() => {
+                  const md = `![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`;
+                  navigator.clipboard.writeText(md);
+                  setCopiedBadge(true);
+                  setTimeout(() => setCopiedBadge(false), 3000);
+                }}
+              >
+                {copiedBadge ? (
+                  <>
+                    <Check className="w-4 h-4 mr-2" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 mr-2" />
+                    Copy Badge Markdown
+                  </>
+                )}
+              </Button>
+            </div>
+            <div className="mt-3 bg-black rounded p-2 font-mono text-xs text-neutral-400 overflow-x-auto">
+              {`![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`}
             </div>
           </CardContent>
         </Card>
