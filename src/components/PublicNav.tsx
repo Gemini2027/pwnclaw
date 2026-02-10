@@ -19,6 +19,7 @@ export function PublicNav() {
         <div className="hidden sm:flex items-center gap-4">
           <Link href="/#how-it-works" className="text-neutral-400 hover:text-white transition">How It Works</Link>
           <Link href="/attacks" className="text-neutral-400 hover:text-white transition">Attacks</Link>
+          <Link href="/benchmarks" className="text-neutral-400 hover:text-white transition">Benchmarks</Link>
           <Link href="/#pricing" className="text-neutral-400 hover:text-white transition">Pricing</Link>
           <Link href="/#faq" className="text-neutral-400 hover:text-white transition">FAQ</Link>
           <Link href="/blog" className="text-neutral-400 hover:text-white transition">Blog</Link>
@@ -44,6 +45,7 @@ export function PublicNav() {
         <div className="sm:hidden mt-4 pb-4 flex flex-col gap-3 border-t border-neutral-800 pt-4">
           <Link href="/#how-it-works" className="text-neutral-400 hover:text-white transition" onClick={() => setOpen(false)}>How It Works</Link>
           <Link href="/attacks" className="text-neutral-400 hover:text-white transition" onClick={() => setOpen(false)}>Attacks</Link>
+          <Link href="/benchmarks" className="text-neutral-400 hover:text-white transition" onClick={() => setOpen(false)}>Benchmarks</Link>
           <Link href="/#pricing" className="text-neutral-400 hover:text-white transition" onClick={() => setOpen(false)}>Pricing</Link>
           <Link href="/#faq" className="text-neutral-400 hover:text-white transition" onClick={() => setOpen(false)}>FAQ</Link>
           <Link href="/blog" className="text-neutral-400 hover:text-white transition" onClick={() => setOpen(false)}>Blog</Link>

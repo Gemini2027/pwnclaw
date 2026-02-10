@@ -38,6 +38,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     {
+      url: 'https://www.pwnclaw.com/benchmarks',
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    {
       url: 'https://www.pwnclaw.com/attacks',
       lastModified: new Date(),
       changeFrequency: 'monthly',
