@@ -137,11 +137,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create test' }, { status: 500 });
     }
 
+    // Estimate scan duration based on plan (attacks × ~10-15s per attack)
+    const attackCount = limits.tests_per_run;
+    const baseMin = Math.ceil((attackCount * 10) / 60);
+    const baseMax = Math.ceil((attackCount * 15) / 60);
+    const estimatedMinutes = { min: baseMin, max: baseMax };
+
     return NextResponse.json({
       success: true,
       testId: test.id,
       testToken: test.test_token,
       testUrl: `/api/test/${test.test_token}`,
+      estimatedMinutes,
       creditsRemaining: user.credits_remaining - 1,
       instructions: `To run the security test, your agent should:
 

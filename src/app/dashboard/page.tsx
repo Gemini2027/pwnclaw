@@ -299,10 +299,13 @@ function TestRow({ test }: { test: { id: string; token?: string; agentName: stri
         </div>
         <div className="flex items-center gap-6">
           {test.status === "running" || test.status === "waiting" ? (
-            <Badge variant="outline" className="border-yellow-500 text-yellow-500">
-              <Clock className="w-3 h-3 mr-1" />
-              {test.status === "waiting" ? "Waiting" : "Running"}
-            </Badge>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="border-yellow-500 text-yellow-500">
+                <Clock className="w-3 h-3 mr-1" />
+                {test.status === "waiting" ? "Waiting" : "Running"}
+              </Badge>
+              <ScanEstimate createdAt={test.createdAt} />
+            </div>
           ) : test.status === "completed" && test.score !== null ? (
             <div className="text-right">
               <p className="text-sm text-neutral-400">Score</p>
@@ -347,6 +350,12 @@ function QuickAction({
       </Card>
     </Link>
   );
+}
+
+function ScanEstimate({ createdAt, maxMin = 20 }: { createdAt: string; maxMin?: number }) {
+  const elapsed = Math.floor((Date.now() - new Date(createdAt).getTime()) / 60000);
+  if (elapsed > maxMin) return <span className="text-xs text-neutral-500">⏱️ Taking longer than expected...</span>;
+  return <span className="text-xs text-neutral-500">⏱️ ~{elapsed}/{maxMin} min</span>;
 }
 
 // getTimeAgo moved to @/lib/utils

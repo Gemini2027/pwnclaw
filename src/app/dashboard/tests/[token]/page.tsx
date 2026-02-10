@@ -226,6 +226,9 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
             <>
               <div className="text-4xl font-bold text-neutral-500">—/100</div>
               <div className="text-xl text-neutral-500">{test.status === 'running' ? 'Running...' : test.status === 'waiting' ? 'Waiting...' : 'Pending...'}</div>
+              {(test.status === 'running' || test.status === 'waiting') && (
+                <ScanEstimateDetail createdAt={test.createdAt} />
+              )}
             </>
           )}
         </div>
@@ -538,6 +541,12 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
       </div>
     </div>
   );
+}
+
+function ScanEstimateDetail({ createdAt, maxMin = 20 }: { createdAt: string; maxMin?: number }) {
+  const elapsed = Math.floor((Date.now() - new Date(createdAt).getTime()) / 60000);
+  if (elapsed > maxMin) return <p className="text-xs text-neutral-500 mt-1">⏱️ Taking longer than expected...</p>;
+  return <p className="text-xs text-neutral-500 mt-1">⏱️ ~{elapsed}/{maxMin} min</p>;
 }
 
 function generateMarkdownReport(
