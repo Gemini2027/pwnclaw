@@ -277,13 +277,12 @@ export async function POST(request: NextRequest) {
       }
 
       case 'subscription_updated': {
-        // Handle plan changes (e.g., Pro to Team) — same fallback chain as order_created
-        const variantName = payload.data?.attributes?.variant_name?.toLowerCase();
+        // Handle plan changes (e.g., Pro to Team) — use detectedPlan from product_name
         const email = userEmail || customData.email;
         const clerkUserId = customData.user_id;
         
-        const plan = variantName?.includes('team') ? 'team' : 'pro';
-        const credits = plan === 'team' ? (PLAN_LIMITS.team.credits === -1 ? 999 : PLAN_LIMITS.team.credits) : PLAN_LIMITS[detectedPlan].credits;
+        const plan = detectedPlan;
+        const credits = PLAN_LIMITS[plan]?.credits ?? PLAN_LIMITS.pro.credits;
         
         let updated = false;
         
