@@ -449,8 +449,8 @@ export default function Home() {
 
           </div>
 
-          {/* Flash Card - centered below */}
-          <div className="max-w-md mx-auto mt-4">
+          {/* Flash Card - full width below */}
+          <div className="max-w-5xl mx-auto mt-6">
             <div className="relative rounded-2xl border border-yellow-500/20 bg-gradient-to-br from-neutral-900 via-neutral-900 to-yellow-500/5 p-1">
               <div className="rounded-xl bg-neutral-950/80 p-6 md:p-8">
                 <div className="flex items-start justify-between mb-6">
