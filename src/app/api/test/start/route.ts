@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { getOrCreateUser, createTest, getUserByClerkId, reserveCredit, db } from '@/lib/db';
 import { PLAN_LIMITS } from '@/lib/supabase';
 
@@ -67,7 +67,9 @@ export async function POST(request: NextRequest) {
     let user = await getUserByClerkId(clerkId);
     
     if (!user) {
-      user = await getOrCreateUser(clerkId, `${clerkId}@clerk.user`);
+      const clerkUser = await currentUser();
+      const email = clerkUser?.emailAddresses?.[0]?.emailAddress || `${clerkId}@clerk.user`;
+      user = await getOrCreateUser(clerkId, email);
     }
 
     if (!user) {

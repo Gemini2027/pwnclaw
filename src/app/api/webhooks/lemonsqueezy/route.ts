@@ -168,8 +168,31 @@ export async function POST(request: NextRequest) {
           }
         }
         
+        // If user not found, create them with Pro plan
+        if (!upgraded && (clerkUserId || email)) {
+          const newEmail = email || `${clerkUserId}@clerk.user`;
+          const newClerkId = clerkUserId || `unknown_${Date.now()}`;
+          const { data: newUser, error: createError } = await db
+            .from('users')
+            .insert({ 
+              clerk_id: newClerkId, 
+              email: newEmail,
+              plan: 'pro',
+              credits_remaining: PLAN_LIMITS.pro.credits,
+              credits_reset_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+            })
+            .select()
+            .single();
+          if (newUser) {
+            console.log(`Created new user ${newEmail} with Pro plan (via webhook)`);
+            upgraded = true;
+          } else {
+            console.error(`Failed to create user for upgrade:`, createError);
+          }
+        }
+        
         if (!upgraded) {
-          console.log(`User not found for upgrade. Email: ${email}, ClerkID: ${clerkUserId}`);
+          console.log(`User not found and could not create. Email: ${email}, ClerkID: ${clerkUserId}`);
         }
         break;
       }

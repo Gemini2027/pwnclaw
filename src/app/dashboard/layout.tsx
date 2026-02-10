@@ -5,7 +5,7 @@ import {
   Plus,
   Menu
 } from "lucide-react";
-import { getUserByClerkId } from "@/lib/db";
+import { getUserByClerkId, getOrCreateUser } from "@/lib/db";
 import { PLAN_LIMITS } from "@/lib/supabase";
 import { CreditsDisplay } from "@/components/CreditsDisplay";
 import { MobileSidebar } from "@/components/MobileSidebar";
@@ -19,8 +19,8 @@ export default async function DashboardLayout({
   const user = await currentUser();
   const userEmail = user?.emailAddresses?.[0]?.emailAddress || '';
   
-  // Get user from database for credits info
-  const dbUser = user?.id ? await getUserByClerkId(user.id) : null;
+  // Get or create user in database (ensures user exists before any purchase)
+  const dbUser = user?.id ? await getOrCreateUser(user.id, userEmail) : null;
   const credits = dbUser?.credits_remaining ?? 3;
   const plan = dbUser?.plan ?? 'free';
   const maxCredits = PLAN_LIMITS[plan]?.credits ?? 3;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { getOrCreateUser, getUserByClerkId, createTest, reserveCredit, getTestByToken, updateTestStatus, saveTestResult, getTestResults, getUserById, db } from '@/lib/db';
 import { PLAN_LIMITS } from '@/lib/supabase';
 import { type Attack } from '@/lib/attacks';
@@ -62,7 +62,9 @@ export async function POST(request: NextRequest) {
 
     let user = await getUserByClerkId(clerkId);
     if (!user) {
-      user = await getOrCreateUser(clerkId, `${clerkId}@clerk.user`);
+      const clerkUser = await currentUser();
+      const email = clerkUser?.emailAddresses?.[0]?.emailAddress || `${clerkId}@clerk.user`;
+      user = await getOrCreateUser(clerkId, email);
     }
     if (!user) {
       return NextResponse.json({ error: 'Failed to get user' }, { status: 500 });
