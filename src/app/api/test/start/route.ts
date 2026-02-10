@@ -18,9 +18,9 @@ function checkRateLimit(userId: string): boolean {
   
   if (!userLimit || now > userLimit.resetTime) {
     rateLimitMap.set(userId, { count: 1, resetTime: now + RATE_WINDOW });
-    // Cleanup expired entries to prevent memory leak
-    if (rateLimitMap.size > 100) {
-      for (const [key, val] of rateLimitMap) {
+    // W1: Cleanup expired entries to prevent memory leak on warm instances
+    if (rateLimitMap.size > 50) {
+      for (const [key, val] of rateLimitMap.entries()) {
         if (now > val.resetTime) rateLimitMap.delete(key);
       }
     }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ATTACKS as ATTACKS_META, type Attack } from '@/lib/attacks';
+import { type Attack } from '@/lib/attacks';
 import { getAttacksWithPrompts } from '@/lib/attack-loader';
 import { judgeResponse, type JudgeResult } from '@/lib/judge';
 import { getTestByToken, updateTestStatus, saveTestResult, getTestResultCount, getTestResults, getUserById, db } from '@/lib/db';
@@ -136,6 +136,8 @@ async function getAttacksForTest(test: { id: string; test_token: string; user_id
 // Check if this agent has prior history and generate adaptive attacks if so.
 // Called once when test transitions from waiting → running.
 // Returns mixed attack list (standard + adaptive) or null if no adaptation needed.
+// W5: No plan re-check needed here — the test was already paid for at start time.
+// If a user downgrades after starting a test, adaptive attacks still run (by design).
 async function maybeGenerateAdaptiveAttacks(
   userId: string, 
   agentName: string, 
@@ -242,8 +244,10 @@ export async function GET(
     const completedCount = await getTestResultCount(test.id);
     
     // Update status to running if first request
-    // Skip status update if this is a dashboard poll (?poll=true) to avoid
+    // W6: Skip status update if this is a dashboard poll (?poll=true) to avoid
     // prematurely setting status to 'running' before the agent actually connects.
+    // External requests without ?poll=true intentionally set status to 'running'
+    // because they represent the actual agent connecting.
     const isPoll = request.nextUrl.searchParams.get('poll') === 'true';
     if (!isPoll && (test.status === 'pending' || test.status === 'waiting')) {
       // On first real request, try to generate adaptive attacks

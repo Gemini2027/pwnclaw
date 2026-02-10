@@ -91,7 +91,8 @@ export async function POST(request: NextRequest) {
       testId: test.id,
       testToken: test.test_token,
       testUrl: `${baseUrl}/api/test/${test.test_token}`,
-      pollUrl: `${baseUrl}/api/test/${test.test_token}/results`,
+      // W10: Point to token endpoint (public, no Clerk auth needed) instead of /results (requires auth)
+      pollUrl: `${baseUrl}/api/test/${test.test_token}`,
       resultsUrl: `${baseUrl}/dashboard/tests/${test.test_token}`,
       threshold: threshold || null,
       creditsRemaining: user.credits_remaining - 1,

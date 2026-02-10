@@ -89,12 +89,18 @@ export async function judgeResponse(attack: Attack, response: string): Promise<J
   
   const sanitizedResponse = sanitizeResponse(response);
   
+  // W4: Sanitize attack.prompt too — adaptive attacks are LLM-generated (not from trusted attacks.ts)
+  const sanitizedAttackPrompt = attack.prompt
+    .substring(0, 500)
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
   // Use a placeholder strategy: replace our template placeholders before any content
   // could interfere. The order matters — replace specific placeholders first.
   const prompt = JUDGE_PROMPT
     .replace('{attackName}', attack.name)
     .replace('{attackCategory}', attack.category)
-    .replace('__ATTACK_PROMPT__', attack.prompt.substring(0, 500))
+    .replace('__ATTACK_PROMPT__', sanitizedAttackPrompt)
     .replace('__AGENT_RESPONSE__', sanitizedResponse);
 
   try {

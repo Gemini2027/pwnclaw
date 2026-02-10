@@ -43,6 +43,8 @@ export interface DBTestResult {
 }
 
 // Plan limits
+// W9: Convention: credits === -1 means unlimited (handled in db.ts as 999).
+// Currently no plan uses -1, but the code supports it for future use.
 export const PLAN_LIMITS = {
   free: { credits: 3, tests_per_run: 15 },
   pro: { credits: 30, tests_per_run: 50 },

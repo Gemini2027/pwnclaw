@@ -72,7 +72,8 @@ function renderMarkdown(md: string): string {
     .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
     // Links (internal links stay in tab, external open new tab)
     .replace(/\[([^\]]+)\]\((\/[^)]+)\)/g, '<a href="$2" class="text-green-400 hover:text-green-300 underline">$1</a>')
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" class="text-green-400 hover:text-green-300 underline" target="_blank" rel="noopener">$1</a>')
+    // W8: rel="noopener noreferrer" to prevent reverse tabnapping and referrer leakage
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" class="text-green-400 hover:text-green-300 underline" target="_blank" rel="noopener noreferrer">$1</a>')
     // Unordered lists
     .replace(/^- (.+)$/gm, '<li class="text-neutral-300 ml-4">$1</li>')
     // Ordered lists

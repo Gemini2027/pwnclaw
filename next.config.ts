@@ -33,7 +33,8 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.pwnclaw.com https://*.clerk.accounts.dev",
+      // V11: Removed 'unsafe-eval' — not needed in Next.js production builds (only dev)
+      "script-src 'self' 'unsafe-inline' https://clerk.pwnclaw.com https://*.clerk.accounts.dev",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
@@ -59,6 +60,21 @@ const nextConfig: NextConfig = {
       {
         source: '/:path*',
         headers: securityHeaders,
+      },
+    ];
+  },
+  // W12: Permanent redirects (308) for SEO — replaces redirect() in page components
+  async redirects() {
+    return [
+      {
+        source: '/pricing',
+        destination: '/#pricing',
+        permanent: true,
+      },
+      {
+        source: '/about',
+        destination: '/#faq',
+        permanent: true,
       },
     ];
   },

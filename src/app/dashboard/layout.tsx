@@ -31,9 +31,11 @@ export default async function DashboardLayout({
   // NOTE: NEXT_PUBLIC_ vars are inlined at build time. If not set during build, the fallback URL is used.
   // Store: noid-privacy.lemonsqueezy.com (shared store for PwnClaw + NoID Privacy)
   const baseCheckoutUrl = process.env.NEXT_PUBLIC_LEMONSQUEEZY_CHECKOUT_URL || "https://noid-privacy.lemonsqueezy.com/checkout/buy/83fb581f-b786-4032-a1e2-fef4430e2d59?logo=0";
+  // W2: Use & if baseCheckoutUrl already contains ? to avoid double ?
+  const separator = baseCheckoutUrl.includes('?') ? '&' : '?';
   const checkoutUrl = userEmail 
-    ? `${baseCheckoutUrl}?checkout[email]=${encodeURIComponent(userEmail)}&checkout[custom][user_id]=${user?.id || ''}&checkout[custom][source]=pwnclaw`
-    : `${baseCheckoutUrl}?checkout[custom][source]=pwnclaw`;
+    ? `${baseCheckoutUrl}${separator}checkout[email]=${encodeURIComponent(userEmail)}&checkout[custom][user_id]=${user?.id || ''}&checkout[custom][source]=pwnclaw`
+    : `${baseCheckoutUrl}${separator}checkout[custom][source]=pwnclaw`;
   return (
     <div className="min-h-screen flex bg-black">
       {/* Mobile Header */}

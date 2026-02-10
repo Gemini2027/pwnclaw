@@ -109,7 +109,9 @@ export async function GET(request: NextRequest) {
       console.log(`[CLEANUP] ${plan}: Deleted ${testCount} tests and ${resultCount} results older than ${days} days`);
     }
 
-    // Also reset credits for users whose reset date has passed
+    // W7: Credit reset — also handled by checkAndResetCredits() in db.ts on user access.
+    // No double-reset risk: both paths set credits_reset_at to future, so whichever runs first
+    // prevents the other from triggering (lt('credits_reset_at', now) won't match).
     const nextReset = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
     
     // Reset each plan separately (different credit amounts) — uses PLAN_LIMITS as source of truth
