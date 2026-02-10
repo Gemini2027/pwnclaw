@@ -116,13 +116,13 @@ export async function POST(
 ) {
   // K2: Verify shared secret to ensure this is an internal call
   const workerSecret = process.env.WORKER_SECRET;
-  if (workerSecret) {
-    const providedSecret = request.headers.get('x-worker-secret');
-    if (providedSecret !== workerSecret) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-  } else {
-    console.warn('WORKER_SECRET not set — worker endpoint is unprotected. Set WORKER_SECRET env var.');
+  if (!workerSecret) {
+    console.error('WORKER_SECRET not set — refusing to run worker endpoint in production.');
+    return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
+  }
+  const providedSecret = request.headers.get('x-worker-secret');
+  if (providedSecret !== workerSecret) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { token } = await params;
