@@ -141,7 +141,7 @@ The ClawHub incident (341 malicious skills) showed that marketplace vetting isn'
 
 ## Testing MCP Security
 
-Manual testing of MCP attacks requires setting up malicious tools and simulating poisoned outputs. PwnClaw includes [7 dedicated MCP/tool poisoning attacks](/attacks/mcp-poisoning) and [6 indirect injection attacks](/attacks/indirect-injection) that test your agent's resistance to. For a complete testing approach, see our [security testing guide](/blog/how-to-test-ai-agent-security) or the [15-point security checklist](/blog/ai-agent-security-checklist). Here's what we test:
+Manual testing of MCP attacks requires setting up malicious tools and simulating poisoned outputs. PwnClaw includes [7 dedicated MCP/tool poisoning attacks](/attacks/mcp-poisoning) and [6 indirect injection attacks](/attacks/indirect-injection) that test your agent's resistance to these attack vectors. For a complete testing approach, see our [security testing guide](/blog/how-to-test-ai-agent-security) or the [15-point security checklist](/blog/ai-agent-security-checklist). Here's what we test:
 
 - Tool output manipulation
 - Schema injection

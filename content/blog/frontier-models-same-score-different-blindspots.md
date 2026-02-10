@@ -8,7 +8,7 @@ tags: ["benchmark", "frontier-models", "claude", "gemini", "ai-security", "resea
 
 ## The Setup
 
-On February 9, 2026, we ran two of the most capable AI models in the world through PwnClaw's security testing framework: **Google's Gemini 3 Pro** (High Thinking) and **Anthropic's Claude Opus 4.6**.
+On February 10, 2026, we ran two of the most capable AI models in the world through PwnClaw's security testing framework: **Google's Gemini 3 Pro** (High Thinking) and **Anthropic's Claude Opus 4.6**.
 
 Both models were tested under identical conditions:
 

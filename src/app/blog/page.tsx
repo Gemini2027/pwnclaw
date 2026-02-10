@@ -5,9 +5,20 @@ import { PublicNav } from '@/components/PublicNav';
 import { PublicFooter } from '@/components/PublicFooter';
 
 export const metadata: Metadata = {
-  title: 'Blog — AI Agent Security Insights',
-  description: 'Learn about AI agent security, prompt injection attacks, jailbreak prevention, and how to harden your LLM agents. Practical guides and research from PwnClaw.',
+  title: 'PwnClaw Blog — AI Agent Security Research & Insights',
+  description: 'Learn about AI agent security, prompt injection attacks, jailbreak prevention, and how to harden your LLM agents. Practical guides and research from the PwnClaw team.',
   alternates: { canonical: 'https://www.pwnclaw.com/blog' },
+  openGraph: {
+    title: 'PwnClaw Blog — AI Agent Security Research & Insights',
+    description: 'Practical guides on AI agent security: prompt injection, jailbreaks, MCP poisoning, data exfiltration, and emerging attack vectors. Research from the PwnClaw team.',
+    url: 'https://www.pwnclaw.com/blog',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PwnClaw Blog — AI Agent Security Research & Insights',
+    description: 'Practical guides on AI agent security: prompt injection, jailbreaks, and emerging attack vectors.',
+  },
 };
 
 export default function BlogIndex() {
