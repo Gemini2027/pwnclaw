@@ -584,7 +584,7 @@ export default function Home() {
               { name: "Cursor", highlight: false },
               { name: "Cline", highlight: false },
               { name: "Windsurf", highlight: false },
-              { name: "Any HTTP Agent", highlight: false },
+              { name: "Any HTTP Agent", highlight: true },
             ].map((agent, i) => (
               <div 
                 key={i} 
