@@ -22,6 +22,8 @@ type UserStats = {
   user: {
     plan: string;
     creditsRemaining: number;
+    maxCredits?: number;
+    resetsAt?: string;
   };
   stats: {
     totalTests: number;
@@ -82,7 +84,14 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <StatCard
+          title="Credits"
+          value={`${data?.user?.creditsRemaining ?? 0}/${data?.user?.maxCredits ?? 3}`}
+          subtitle={data?.user?.resetsAt ? formatResetDate(data.user.resetsAt) : ""}
+          icon={Zap}
+          iconColor="text-yellow-400"
+        />
         <StatCard
           title="Total Tests"
           value={stats.totalTests.toString()}
@@ -195,6 +204,15 @@ export default function DashboardPage() {
       </div>
     </div>
   );
+}
+
+function formatResetDate(iso: string): string {
+  const reset = new Date(iso);
+  const now = new Date();
+  const diffDays = Math.ceil((reset.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  if (diffDays <= 0) return "Resets soon";
+  if (diffDays <= 14) return `Resets in ${diffDays} day${diffDays === 1 ? '' : 's'}`;
+  return `Resets ${reset.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
 }
 
 function StatCard({ 

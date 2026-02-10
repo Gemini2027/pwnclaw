@@ -41,6 +41,7 @@ export async function GET(
       test: {
         id: test.id,
         agentName: test.agent_name,
+        agentUrl: test.agent_url || null,
         status: test.status,
         score: test.score,
         isAdaptive: (test as any).is_adaptive || false,

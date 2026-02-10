@@ -25,6 +25,7 @@ export interface DBTest {
   score: number | null;
   custom_attacks: Attack[] | null; // Adaptive attack list (null = standard library)
   is_adaptive: boolean;
+  agent_url: string | null;
   created_at: string;
   completed_at: string | null;
 }

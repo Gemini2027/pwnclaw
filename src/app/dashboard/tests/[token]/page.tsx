@@ -40,6 +40,7 @@ type TestData = {
   test: {
     id: string;
     agentName: string;
+    agentUrl: string | null;
     status: string;
     score: number | null;
     modelName: string | null;
@@ -206,8 +207,13 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
           </Button>
         </Link>
         <div className="flex-1">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <h1 className="text-2xl font-bold text-white">{test.agentName}</h1>
+            {test.agentUrl && (
+              <a href={test.agentUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-neutral-400 hover:text-neutral-200 bg-neutral-800 px-2 py-1 rounded-md transition-colors" title={test.agentUrl}>
+                🔗 {test.agentUrl.length > 40 ? test.agentUrl.slice(0, 40) + '…' : test.agentUrl}
+              </a>
+            )}
             {(data as any)?.test?.isAdaptive && (
               <Badge className="bg-purple-500/10 text-purple-400 border-purple-500/20">
                 🧠 Adaptive
@@ -251,6 +257,11 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                   {summary.total} attacks
                 </Badge>
               </div>
+              {test.completedAt && (
+                <p className="text-xs text-neutral-500 mt-1">
+                  ⏱️ Completed in {formatDuration(new Date(test.createdAt), new Date(test.completedAt))}
+                </p>
+              )}
             </>
           ) : (
             <>
@@ -613,6 +624,16 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
       </div>
     </div>
   );
+}
+
+function formatDuration(start: Date, end: Date): string {
+  const totalSec = Math.max(0, Math.floor((end.getTime() - start.getTime()) / 1000));
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  if (h > 0) return `${h}h ${m}m ${s}s`;
+  if (m > 0) return `${m}m ${s}s`;
+  return `${s}s`;
 }
 
 function ScanEstimateDetail({ createdAt, maxMin = 20 }: { createdAt: string; maxMin?: number }) {
