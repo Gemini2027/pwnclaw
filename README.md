@@ -74,7 +74,7 @@ Or use our [GitHub Action](github-action/):
 
 | | Free | Pro | Team |
 |---|---|---|---|
-| **Scans/month** | 3 | 30 | Unlimited |
+| **Scans/month** | 3 | 30 | 150 |
 | **Attacks/scan** | 15 | 50 | 50 |
 | **Adaptive Attacks** | — | ✅ | ✅ |
 | **CI/CD API** | — | ✅ | ✅ |
