@@ -657,7 +657,7 @@ export default function Home() {
             Start free. Upgrade when you need more.
           </p>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto items-stretch">
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch">
             {/* Free */}
             <Card className="bg-neutral-900 border-neutral-800 flex flex-col">
               <CardHeader>
