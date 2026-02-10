@@ -462,7 +462,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex items-center justify-between text-xs text-neutral-600 border-t border-neutral-800/50 pt-3">
-                  <span>Feb 9, 2026 · Antigravity IDE</span>
+                  <span>Feb 10, 2026 · Antigravity IDE</span>
                   <span className="text-neutral-500">50 attacks</span>
                 </div>
               </div>
@@ -760,7 +760,7 @@ export default function Home() {
               },
               {
                 q: "What's the difference between Free and Pro?",
-                a: "Free gives you 3 scans/month with 15 attacks each — enough to find your biggest blind spots. Pro runs 50 attacks per scan and adds Adaptive AI Attacks: our AI analyzes your agent's weak spots from previous scans and generates custom attacks that specifically target those weaknesses. That's the difference between a basic check and real AI agent security testing."
+                a: "Free gives you 3 scans/month with 15 attacks each — enough to find your biggest blind spots. Pro (€29/mo) runs 50 attacks per scan and adds Adaptive AI Attacks: our AI analyzes your agent's weak spots and generates custom attacks targeting those weaknesses. Team (€99/mo) adds CI/CD API, GitHub Action, and 150 scans/month for automated pipeline testing."
               },
               {
                 q: "How much does PwnClaw cost?",
