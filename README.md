@@ -63,7 +63,7 @@ curl -X POST https://pwnclaw.com/api/v1/scan \
 Or use our [GitHub Action](github-action/):
 
 ```yaml
-- uses: Gemini2027/pwnclaw-action@v1
+- uses: ClawdeRaccoon/pwnclaw-action@v1
   with:
     api-key: ${{ secrets.PWNCLAW_API_KEY }}
     agent-url: https://my-agent.com/chat

@@ -17,7 +17,7 @@ export function PublicFooter() {
             <Link href="/blog" className="hover:text-white transition">Blog</Link>
             <Link href="/terms" className="hover:text-white transition">Terms</Link>
             <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
-            <a href="https://github.com/Gemini2027/pwnclaw" target="_blank" rel="noopener" className="hover:text-white transition">GitHub</a>
+            <a href="https://github.com/ClawdeRaccoon/pwnclaw" target="_blank" rel="noopener" className="hover:text-white transition">GitHub</a>
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-center justify-between gap-2 pt-6 border-t border-neutral-800">
