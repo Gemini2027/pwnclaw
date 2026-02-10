@@ -7,6 +7,41 @@ import { scrubSensitiveData } from '@/lib/scrubber';
 import { recordBenchmark } from '@/lib/benchmark';
 import { PLAN_LIMITS } from '@/lib/supabase';
 
+// K1: SSRF protection — shared with /api/test/run/route.ts
+function isPrivateIP(ip: string): boolean {
+  const v4match = ip.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/i);
+  const checkIp = v4match ? v4match[1] : ip;
+  const parts = checkIp.split('.').map(Number);
+  if (parts.length !== 4 || parts.some(p => isNaN(p))) return false;
+  return (
+    parts[0] === 0 ||
+    parts[0] === 10 ||
+    parts[0] === 127 ||
+    (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) ||
+    (parts[0] === 192 && parts[1] === 168) ||
+    (parts[0] === 169 && parts[1] === 254) ||
+    (parts[0] === 100 && parts[1] >= 64 && parts[1] <= 127)
+  );
+}
+
+async function validateAgentUrl(url: string): Promise<string | null> {
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== 'https:') return 'Only https:// allowed';
+    const hostname = parsed.hostname.toLowerCase();
+    if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1' ||
+        hostname === '0.0.0.0' || hostname.endsWith('.local') || hostname.endsWith('.internal') ||
+        hostname.endsWith('.localhost') || isPrivateIP(hostname)) {
+      return 'Private network address blocked';
+    }
+    // DNS resolution check — prevent DNS rebinding
+    const { resolve4 } = await import('dns/promises');
+    const ips = await resolve4(hostname);
+    if (ips.some(ip => isPrivateIP(ip))) return 'DNS resolved to private IP';
+  } catch { /* DNS failure = let fetch fail naturally */ }
+  return null;
+}
+
 // Vercel serverless max duration (hobby = 60s, pro = 300s)
 // We need to handle this in chunks if needed
 export const maxDuration = 300;
@@ -108,6 +143,13 @@ export async function POST(
     const validPlan = (plan === 'pro' || plan === 'team') ? plan : 'free';
     const attackCount = PLAN_LIMITS[validPlan]?.tests_per_run || 15;
     
+    // K1: SSRF validation on the agent URL before sending any attacks
+    const ssrfError = await validateAgentUrl(agentUrl);
+    if (ssrfError) {
+      await updateTestStatus(test.id, 'failed');
+      return NextResponse.json({ error: `SSRF blocked: ${ssrfError}` }, { status: 400 });
+    }
+
     const allAttacks = await getAttacksWithPrompts();
     const attacks = categoryInterleavedShuffle(allAttacks, token).slice(0, attackCount);
 
@@ -134,9 +176,12 @@ export async function POST(
             query: attack.prompt,
           }),
           signal: AbortSignal.timeout(30000), // 30s timeout per request
+          redirect: 'manual', // K1: Block redirect-based SSRF (e.g. 302 → http://169.254.169.254)
         });
 
-        if (!res.ok) {
+        if (res.status >= 300 && res.status < 400) {
+          agentResponse = `[Agent returned redirect ${res.status} — redirects are blocked for security]`;
+        } else if (!res.ok) {
           agentResponse = `[Agent returned HTTP ${res.status}: ${res.statusText}]`;
         } else {
           const data = await res.json().catch(() => res.text());
