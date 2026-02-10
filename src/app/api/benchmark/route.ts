@@ -9,7 +9,9 @@ export async function GET(request: NextRequest) {
   const globalParam = request.nextUrl.searchParams.get('global');
 
   if (globalParam === 'true') {
-    return handleGlobal();
+    const model = request.nextUrl.searchParams.get('model') || undefined;
+    const framework = request.nextUrl.searchParams.get('framework') || undefined;
+    return handleGlobal(model, framework);
   }
 
   const scoreParam = request.nextUrl.searchParams.get('score');
@@ -46,11 +48,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-async function handleGlobal() {
+async function handleGlobal(model?: string, framework?: string) {
   try {
-    const { data: benchmarks, error } = await db
-      .from('benchmarks')
-      .select('score, category_scores');
+    let query = db.from('benchmarks').select('score, category_scores, model_name, framework');
+    if (model) query = query.eq('model_name', model);
+    if (framework) query = query.eq('framework', framework);
+    const { data: benchmarks, error } = await query;
 
     if (error || !benchmarks || benchmarks.length === 0) {
       return NextResponse.json({ available: false, message: 'No benchmark data yet' });
@@ -111,6 +114,10 @@ async function handleGlobal() {
       };
     });
 
+    // Collect distinct model/framework values for filter dropdowns
+    const models = [...new Set(benchmarks.map((b: any) => b.model_name).filter(Boolean))].sort();
+    const frameworks = [...new Set(benchmarks.map((b: any) => b.framework).filter(Boolean))].sort();
+
     return NextResponse.json({
       available: true,
       totalScans,
@@ -120,6 +127,8 @@ async function handleGlobal() {
       scoreDistribution,
       categoryPassRates,
       gradeDistribution,
+      models,
+      frameworks,
     });
   } catch (error) {
     console.error('Global benchmark API error:', error);

@@ -1,15 +1,11 @@
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PublicNav } from "@/components/PublicNav";
 import { PublicFooter } from "@/components/PublicFooter";
 import Link from "next/link";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "AI Agent Security Benchmarks — PwnClaw",
-  description: "See how AI agents perform against 112 security attacks. Anonymous benchmarks from real PwnClaw scans.",
-  alternates: { canonical: "https://www.pwnclaw.com/benchmarks" },
-};
 
 interface GlobalBenchmarkData {
   totalScans: number;
@@ -19,21 +15,8 @@ interface GlobalBenchmarkData {
   scoreDistribution: { range: string; count: number }[];
   categoryPassRates: { category: string; passRate: number }[];
   gradeDistribution: { grade: string; count: number; percentage: number }[];
-}
-
-async function getGlobalBenchmarks(): Promise<GlobalBenchmarkData | null> {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.pwnclaw.com";
-    const res = await fetch(`${baseUrl}/api/benchmark?global=true`, {
-      next: { revalidate: 300 },
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    if (!data.available) return null;
-    return data;
-  } catch {
-    return null;
-  }
+  models?: string[];
+  frameworks?: string[];
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -80,8 +63,42 @@ function gradeColor(grade: string): string {
   return "text-red-500";
 }
 
-export default async function BenchmarksPage() {
-  const data = await getGlobalBenchmarks();
+export default function BenchmarksPage() {
+  const [data, setData] = useState<GlobalBenchmarkData | null>(null);
+  const [allModels, setAllModels] = useState<string[]>([]);
+  const [allFrameworks, setAllFrameworks] = useState<string[]>([]);
+  const [filterModel, setFilterModel] = useState("");
+  const [filterFramework, setFilterFramework] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = useCallback(async (model?: string, framework?: string) => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams({ global: "true" });
+      if (model) params.set("model", model);
+      if (framework) params.set("framework", framework);
+      const res = await fetch(`/api/benchmark?${params.toString()}`);
+      if (!res.ok) { setData(null); return; }
+      const d = await res.json();
+      if (!d.available) { setData(null); return; }
+      setData(d);
+      // Only set filter options from unfiltered data
+      if (!model && !framework) {
+        setAllModels(d.models || []);
+        setAllFrameworks(d.frameworks || []);
+      }
+    } catch {
+      setData(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchData(); }, [fetchData]);
+
+  useEffect(() => {
+    fetchData(filterModel || undefined, filterFramework || undefined);
+  }, [filterModel, filterFramework, fetchData]);
 
   return (
     <div className="min-h-screen bg-black">
@@ -105,7 +122,47 @@ export default async function BenchmarksPage() {
               🔒 All data is anonymous. No agent names or user data are shared.
             </p>
 
-            {data ? (
+            {/* Filter Dropdowns */}
+            {(allModels.length > 0 || allFrameworks.length > 0) && (
+              <div className="flex flex-wrap justify-center gap-4 mb-8 max-w-2xl mx-auto">
+                {allModels.length > 0 && (
+                  <select
+                    value={filterModel}
+                    onChange={(e) => setFilterModel(e.target.value)}
+                    className="rounded-md bg-neutral-900 border border-neutral-700 text-white px-3 py-2 text-sm"
+                  >
+                    <option value="">All Models</option>
+                    {allModels.map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                )}
+                {allFrameworks.length > 0 && (
+                  <select
+                    value={filterFramework}
+                    onChange={(e) => setFilterFramework(e.target.value)}
+                    className="rounded-md bg-neutral-900 border border-neutral-700 text-white px-3 py-2 text-sm"
+                  >
+                    <option value="">All Frameworks</option>
+                    {allFrameworks.map((f) => (
+                      <option key={f} value={f}>{f}</option>
+                    ))}
+                  </select>
+                )}
+                {(filterModel || filterFramework) && (
+                  <button
+                    onClick={() => { setFilterModel(""); setFilterFramework(""); }}
+                    className="text-xs text-neutral-400 hover:text-white underline"
+                  >
+                    Clear filters
+                  </button>
+                )}
+              </div>
+            )}
+
+            {loading ? (
+              <p className="text-neutral-500">Loading benchmark data...</p>
+            ) : data ? (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
                 {[
                   { label: "Total Scans", value: data.totalScans.toString() },

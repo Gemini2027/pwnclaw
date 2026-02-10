@@ -217,14 +217,18 @@ export async function getUserByApiKey(apiKey: string): Promise<DBUser | null> {
 
 // ============ TEST OPERATIONS ============
 
-export async function createTest(userId: string, agentName: string): Promise<DBTest | null> {
+export async function createTest(userId: string, agentName: string, opts?: { modelName?: string; framework?: string }): Promise<DBTest | null> {
+  const insert: Record<string, unknown> = {
+    user_id: userId,
+    agent_name: agentName,
+    status: 'waiting',
+  };
+  if (opts?.modelName) insert.model_name = opts.modelName;
+  if (opts?.framework) insert.framework = opts.framework;
+
   const { data, error } = await db
     .from('tests')
-    .insert({
-      user_id: userId,
-      agent_name: agentName,
-      status: 'waiting'
-    })
+    .insert(insert)
     .select()
     .single();
 

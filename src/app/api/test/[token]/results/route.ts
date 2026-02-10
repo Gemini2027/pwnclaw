@@ -44,6 +44,8 @@ export async function GET(
         status: test.status,
         score: test.score,
         isAdaptive: (test as any).is_adaptive || false,
+        modelName: (test as any).model_name || null,
+        framework: (test as any).framework || null,
         createdAt: test.created_at,
         completedAt: test.completed_at,
       },

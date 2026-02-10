@@ -6,6 +6,8 @@ export interface BenchmarkEntry {
   passed: number;
   failed: number;
   category_scores: Record<string, { passed: number; failed: number }>;
+  model_name?: string;
+  framework?: string;
 }
 
 export interface BenchmarkStats {
@@ -24,15 +26,19 @@ export interface BenchmarkStats {
  * Called when a test completes — no user-identifiable data stored.
  */
 export async function recordBenchmark(entry: BenchmarkEntry): Promise<boolean> {
+  const insert: Record<string, unknown> = {
+    score: entry.score,
+    attack_count: entry.attack_count,
+    passed: entry.passed,
+    failed: entry.failed,
+    category_scores: entry.category_scores,
+  };
+  if (entry.model_name) insert.model_name = entry.model_name;
+  if (entry.framework) insert.framework = entry.framework;
+
   const { error } = await db
     .from('benchmarks')
-    .insert({
-      score: entry.score,
-      attack_count: entry.attack_count,
-      passed: entry.passed,
-      failed: entry.failed,
-      category_scores: entry.category_scores,
-    });
+    .insert(insert);
 
   if (error) {
     // Graceful fail if table doesn't exist yet

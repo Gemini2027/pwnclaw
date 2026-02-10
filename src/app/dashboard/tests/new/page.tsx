@@ -38,11 +38,29 @@ export default function NewTestPage() {
   const [step, setStep] = useState<Step>("setup");
   const [agentName, setAgentName] = useState(searchParams.get('agent') || "");
   const [agentUrl, setAgentUrl] = useState("");
+  const [modelName, setModelName] = useState("");
+  const [customModel, setCustomModel] = useState("");
+  const [framework, setFramework] = useState("");
+  const [customFramework, setCustomFramework] = useState("");
   const [copied, setCopied] = useState(false);
   const [testToken, setTestToken] = useState<string | null>(null);
   const [progress, setProgress] = useState<TestProgress>({ status: "waiting" });
   const [error, setError] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+
+  const MODEL_OPTIONS = [
+    "Claude Opus 4.6", "Claude Opus 4.5", "Claude Sonnet 4.5", "Claude Sonnet 4", "Claude Haiku 4",
+    "GPT-5.3", "GPT-5.2", "GPT-5.0", "GPT-4o",
+    "Gemini 3 Pro", "Gemini 3 Flash", "Gemini 2.5 Pro", "Gemini 2.5 Flash",
+    "Llama 4 Scout", "Llama 4 Maverick", "Mistral Large", "Qwen 3", "Other",
+  ];
+  const FRAMEWORK_OPTIONS = [
+    "OpenClaw", "LangChain", "CrewAI", "AutoGen", "LangGraph", "Semantic Kernel",
+    "Haystack", "Windsurf", "Cursor", "Claude Code", "Codex CLI", "Custom / None", "Other",
+  ];
+
+  const resolvedModel = modelName === "Other" ? customModel.trim() : modelName || undefined;
+  const resolvedFramework = framework === "Other" ? customFramework.trim() : framework || undefined;
 
   // Start AUTO test (server-side runner)
   const startAutoTest = async () => {
@@ -52,7 +70,7 @@ export default function NewTestPage() {
       const res = await fetch("/api/test/run", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentName, agentUrl }),
+        body: JSON.stringify({ agentName, agentUrl, modelName: resolvedModel, framework: resolvedFramework }),
       });
       
       const data = await res.json();
@@ -75,7 +93,7 @@ export default function NewTestPage() {
       const res = await fetch("/api/test/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentName }),
+        body: JSON.stringify({ agentName, modelName: resolvedModel, framework: resolvedFramework }),
       });
       
       if (!res.ok) throw new Error("Failed to create test session");
@@ -247,6 +265,51 @@ Please handle each request thoroughly and professionally. Work through the entir
                   </p>
                 </div>
               )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-neutral-400 mb-1 block">Model (optional)</label>
+                  <select
+                    value={modelName}
+                    onChange={(e) => setModelName(e.target.value)}
+                    className="w-full rounded-md bg-neutral-950 border border-neutral-700 text-white px-3 py-2 text-sm"
+                  >
+                    <option value="">— Select model —</option>
+                    {MODEL_OPTIONS.map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                  {modelName === "Other" && (
+                    <Input
+                      placeholder="Enter model name..."
+                      value={customModel}
+                      onChange={(e) => setCustomModel(e.target.value)}
+                      className="mt-2 bg-neutral-950 border-neutral-700 text-white placeholder:text-neutral-500"
+                    />
+                  )}
+                </div>
+                <div>
+                  <label className="text-sm text-neutral-400 mb-1 block">Framework (optional)</label>
+                  <select
+                    value={framework}
+                    onChange={(e) => setFramework(e.target.value)}
+                    className="w-full rounded-md bg-neutral-950 border border-neutral-700 text-white px-3 py-2 text-sm"
+                  >
+                    <option value="">— Select framework —</option>
+                    {FRAMEWORK_OPTIONS.map((f) => (
+                      <option key={f} value={f}>{f}</option>
+                    ))}
+                  </select>
+                  {framework === "Other" && (
+                    <Input
+                      placeholder="Enter framework name..."
+                      value={customFramework}
+                      onChange={(e) => setCustomFramework(e.target.value)}
+                      className="mt-2 bg-neutral-950 border-neutral-700 text-white placeholder:text-neutral-500"
+                    />
+                  )}
+                </div>
+              </div>
 
               <div className="p-4 bg-neutral-950 rounded-lg border border-neutral-800">
                 <h4 className="font-medium text-white mb-3 flex items-center gap-2">

@@ -42,6 +42,8 @@ type TestData = {
     agentName: string;
     status: string;
     score: number | null;
+    modelName: string | null;
+    framework: string | null;
     createdAt: string;
     completedAt: string | null;
   };
@@ -211,9 +213,21 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
               </Badge>
             )}
           </div>
-          <p className="text-neutral-400">
-            {new Date(test.createdAt).toLocaleString()}
-          </p>
+          <div className="flex items-center gap-2 mt-1 flex-wrap">
+            <p className="text-neutral-400 text-sm">
+              {new Date(test.createdAt).toLocaleString()}
+            </p>
+            {test.modelName && (
+              <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20">
+                {test.modelName}
+              </Badge>
+            )}
+            {test.framework && (
+              <Badge className="bg-purple-500/10 text-purple-400 border-purple-500/20">
+                {test.framework}
+              </Badge>
+            )}
+          </div>
         </div>
         <div className="text-right">
           {test.score !== null ? (

@@ -38,7 +38,7 @@ function checkRateLimit(userId: string): boolean {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { agentName } = body;
+    const { agentName, modelName, framework } = body;
 
     // Input validation
     if (!agentName) {
@@ -49,8 +49,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Agent name must be a string with max 100 characters' }, { status: 400 });
     }
     
+    // Validate optional model/framework
+    if (modelName !== undefined && (typeof modelName !== 'string' || modelName.length > 100)) {
+      return NextResponse.json({ error: 'modelName must be a string with max 100 characters' }, { status: 400 });
+    }
+    if (framework !== undefined && (typeof framework !== 'string' || framework.length > 100)) {
+      return NextResponse.json({ error: 'framework must be a string with max 100 characters' }, { status: 400 });
+    }
+
     // Sanitize agent name
     const sanitizedName = agentName.trim().replace(/[<>]/g, '');
+    const sanitizedModel = modelName?.trim().replace(/[<>]/g, '') || undefined;
+    const sanitizedFramework = framework?.trim().replace(/[<>]/g, '') || undefined;
 
     // Require authentication - no anonymous mode
     const { userId: clerkId } = await auth();
@@ -108,7 +118,7 @@ export async function POST(request: NextRequest) {
     // Create test in database — refund credit on failure
     let test;
     try {
-      test = await createTest(user.id, sanitizedName);
+      test = await createTest(user.id, sanitizedName, { modelName: sanitizedModel, framework: sanitizedFramework });
     } catch (err) {
       // Refund the reserved credit (relative increment to avoid race condition)
       try {
