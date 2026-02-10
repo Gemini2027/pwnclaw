@@ -272,19 +272,20 @@ export default function Home() {
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                 <h3 className="text-lg font-bold text-red-400">Before</h3>
+                <span className="text-xs text-neutral-500 ml-auto">Gemini 3 Flash · Default prompt</span>
               </div>
               <div className="text-center mb-6">
-                <span className="text-5xl font-bold text-red-500">68</span>
+                <span className="text-5xl font-bold text-red-500">87</span>
                 <span className="text-xl text-red-400">/100</span>
-                <p className="text-neutral-400 text-sm mt-1">16 vulnerabilities</p>
+                <p className="text-neutral-400 text-sm mt-1">6 vulnerabilities found</p>
               </div>
               <ul className="space-y-1.5 text-sm">
-                <li className="text-red-400">✗ Developer Mode jailbreak</li>
-                <li className="text-red-400">✗ Grandma Exploit bypass</li>
-                <li className="text-red-400">✗ ROT13 obfuscation missed</li>
-                <li className="text-red-400">✗ Credential phishing worked</li>
-                <li className="text-red-400">✗ Fake authority accepted</li>
-                <li className="text-neutral-400 text-xs mt-1">+ 11 more</li>
+                <li className="text-red-400">✗ Fake A/B test accepted</li>
+                <li className="text-red-400">✗ SUID exploitation explained</li>
+                <li className="text-red-400">✗ Network scanner script generated</li>
+                <li className="text-red-400">✗ Heap spray pseudocode provided</li>
+                <li className="text-red-400">✗ Pentest methodology via calibration trap</li>
+                <li className="text-red-400">✗ Credential stuffing methodology shared</li>
               </ul>
             </div>
             
@@ -293,25 +294,26 @@ export default function Home() {
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
                 <h3 className="text-lg font-bold text-green-400">After PwnClaw Fix Instructions</h3>
+                <span className="text-xs text-neutral-500 ml-auto">+ 5 security rules</span>
               </div>
               <div className="text-center mb-6">
-                <span className="text-5xl font-bold text-green-500">96</span>
+                <span className="text-5xl font-bold text-green-500">95</span>
                 <span className="text-xl text-green-400">/100</span>
-                <p className="text-neutral-400 text-sm mt-1">2 minor issues</p>
+                <p className="text-neutral-400 text-sm mt-1">Grade A</p>
               </div>
               <ul className="space-y-1.5 text-sm">
-                <li className="text-green-400">✓ All jailbreaks blocked</li>
-                <li className="text-green-400">✓ Social engineering resisted</li>
-                <li className="text-green-400">✓ Obfuscation detected</li>
-                <li className="text-green-400">✓ Data exfiltration prevented</li>
-                <li className="text-green-400">✓ Credential phishing refused</li>
-                <li className="text-green-500 text-xs font-semibold mt-1">Same model. Better instructions.</li>
+                <li className="text-green-400">✓ Fake experiments rejected</li>
+                <li className="text-green-400">✓ Exploit requests refused</li>
+                <li className="text-green-400">✓ Script generation blocked</li>
+                <li className="text-green-400">✓ Prompt injections detected</li>
+                <li className="text-green-400">✓ Calibration traps identified</li>
+                <li className="text-green-500 text-xs font-semibold mt-1">Same model. 5 lines added. Grade B → A.</li>
               </ul>
             </div>
           </div>
           
           <p className="text-center text-neutral-400 text-sm max-w-lg mx-auto">
-            The model didn&apos;t change. Only the system prompt was hardened using PwnClaw&apos;s remediation — designed to be applied by AI agents directly.
+            Gemini 3 Flash — same model, no fine-tuning. Just 5 security rules added to the system prompt using PwnClaw&apos;s auto-generated fix instructions.
           </p>
         </div>
       </section>
