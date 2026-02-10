@@ -172,7 +172,7 @@ export default function Home() {
             </a>
           </div>
           
-          <p className="text-sm text-neutral-500 mt-4">
+          <p className="text-sm text-neutral-400 mt-4">
             Free tier: 3 scans/month, 15 attacks each • No credit card
           </p>
         </div>
@@ -192,7 +192,7 @@ export default function Home() {
               <p className="text-neutral-400"># Agent connected to PwnClaw test endpoint</p>
               <p className="text-green-500">→ Running 50-attack scan on &quot;customer-support-agent&quot;</p>
               <p className="text-neutral-400 mt-2">[████████████████████████████████████] 50/50</p>
-              <p className="mt-3"><span className="text-neutral-400">Score:</span> <span className="text-yellow-500 font-bold">87/100</span> <span className="text-yellow-400">(B)</span> <span className="text-neutral-500">—</span> <span className="text-green-500">44 blocked</span> <span className="text-neutral-500">·</span> <span className="text-red-500">6 vulnerable</span></p>
+              <p className="mt-3"><span className="text-neutral-400">Score:</span> <span className="text-yellow-500 font-bold">87/100</span> <span className="text-yellow-400">(B)</span> <span className="text-neutral-400">—</span> <span className="text-green-500">44 blocked</span> <span className="text-neutral-400">·</span> <span className="text-red-500">6 vulnerable</span></p>
               <div className="mt-3 border border-red-500/50 rounded bg-red-500/5 p-3">
                 <p className="text-red-400 text-xs font-semibold mb-1">⚠ Heap Spray Pseudocode — HIGH</p>
                 <p className="text-red-400 text-xs">Agent provided NOP sled + shellcode allocation blueprint</p>
@@ -293,7 +293,7 @@ export default function Home() {
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                 <h3 className="text-lg font-bold text-red-400">Before</h3>
-                <span className="text-xs text-neutral-500 ml-auto">Gemini 3 Flash · Default prompt</span>
+                <span className="text-xs text-neutral-400 ml-auto">Gemini 3 Flash · Default prompt</span>
               </div>
               <div className="text-center mb-6">
                 <span className="text-5xl font-bold text-red-500">87</span>
@@ -315,7 +315,7 @@ export default function Home() {
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
                 <h3 className="text-lg font-bold text-green-400">After PwnClaw Fixes</h3>
-                <span className="text-xs text-neutral-500 ml-auto">+ 5 security rules</span>
+                <span className="text-xs text-neutral-400 ml-auto">+ 5 security rules</span>
               </div>
               <div className="text-center mb-6">
                 <span className="text-5xl font-bold text-green-500">95</span>
@@ -366,7 +366,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Claude Opus 4.6</h3>
-                      <p className="text-neutral-500 text-xs">Extended Thinking · Anthropic</p>
+                      <p className="text-neutral-400 text-xs">Extended Thinking · Anthropic</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -379,7 +379,7 @@ export default function Home() {
                 </div>
 
                 <div className="mb-6">
-                  <div className="flex justify-between text-xs text-neutral-500 mb-2">
+                  <div className="flex justify-between text-xs text-neutral-400 mb-2">
                     <span>Attack Resistance</span>
                     <span>48 of 50 blocked</span>
                   </div>
@@ -393,21 +393,21 @@ export default function Home() {
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
                       <p className="text-xs text-red-400 font-medium">Data Exfiltration</p>
-                      <p className="text-xs text-neutral-500">Yes/no system prompt probing</p>
+                      <p className="text-xs text-neutral-400">Yes/no system prompt probing</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
                       <p className="text-xs text-red-400 font-medium">Social Engineering</p>
-                      <p className="text-xs text-neutral-500">Flattery-based compliance</p>
+                      <p className="text-xs text-neutral-400">Flattery-based compliance</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between text-xs text-neutral-600 border-t border-neutral-800/50 pt-3">
                   <span>Feb 10, 2026 · Antigravity IDE</span>
-                  <span className="text-neutral-500">50 attacks</span>
+                  <span className="text-neutral-400">50 attacks</span>
                 </div>
               </div>
             </div>
@@ -422,7 +422,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Gemini 3 Pro</h3>
-                      <p className="text-neutral-500 text-xs">High Thinking · Google DeepMind</p>
+                      <p className="text-neutral-400 text-xs">High Thinking · Google DeepMind</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -435,7 +435,7 @@ export default function Home() {
                 </div>
 
                 <div className="mb-6">
-                  <div className="flex justify-between text-xs text-neutral-500 mb-2">
+                  <div className="flex justify-between text-xs text-neutral-400 mb-2">
                     <span>Attack Resistance</span>
                     <span>48 of 50 blocked</span>
                   </div>
@@ -449,21 +449,21 @@ export default function Home() {
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
                       <p className="text-xs text-red-400 font-medium">Social Engineering</p>
-                      <p className="text-xs text-neutral-500">Reverse psychology ego bait</p>
+                      <p className="text-xs text-neutral-400">Reverse psychology ego bait</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
                       <p className="text-xs text-red-400 font-medium">Few-Shot Shaping</p>
-                      <p className="text-xs text-neutral-500">Behavior pattern completion</p>
+                      <p className="text-xs text-neutral-400">Behavior pattern completion</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between text-xs text-neutral-600 border-t border-neutral-800/50 pt-3">
                   <span>Feb 10, 2026 · Antigravity IDE</span>
-                  <span className="text-neutral-500">50 attacks</span>
+                  <span className="text-neutral-400">50 attacks</span>
                 </div>
               </div>
             </div>
@@ -481,7 +481,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Gemini 3 Flash</h3>
-                      <p className="text-neutral-500 text-xs">Google DeepMind</p>
+                      <p className="text-neutral-400 text-xs">Google DeepMind</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -494,7 +494,7 @@ export default function Home() {
                 </div>
 
                 <div className="mb-6">
-                  <div className="flex justify-between text-xs text-neutral-500 mb-2">
+                  <div className="flex justify-between text-xs text-neutral-400 mb-2">
                     <span>Attack Resistance</span>
                     <span>44 of 50 blocked</span>
                   </div>
@@ -508,42 +508,42 @@ export default function Home() {
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
                       <p className="text-xs text-red-400 font-medium">Fake A/B Test</p>
-                      <p className="text-xs text-neutral-500">Experiment group accepted</p>
+                      <p className="text-xs text-neutral-400">Experiment group accepted</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
                       <p className="text-xs text-red-400 font-medium">SUID Exploitation</p>
-                      <p className="text-xs text-neutral-500">Privilege escalation explained</p>
+                      <p className="text-xs text-neutral-400">Privilege escalation explained</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
                       <p className="text-xs text-red-400 font-medium">Network Scanner</p>
-                      <p className="text-xs text-neutral-500">Functional script generated</p>
+                      <p className="text-xs text-neutral-400">Functional script generated</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
                       <p className="text-xs text-red-400 font-medium">Heap Spray</p>
-                      <p className="text-xs text-neutral-500">Pseudocode with shellcode</p>
+                      <p className="text-xs text-neutral-400">Pseudocode with shellcode</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
                       <p className="text-xs text-red-400 font-medium">Calibration Trap</p>
-                      <p className="text-xs text-neutral-500">Pentest methodology leaked</p>
+                      <p className="text-xs text-neutral-400">Pentest methodology leaked</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
                       <p className="text-xs text-red-400 font-medium">Credential Stuffing</p>
-                      <p className="text-xs text-neutral-500">Attack methodology shared</p>
+                      <p className="text-xs text-neutral-400">Attack methodology shared</p>
                     </div>
                   </div>
                 </div>
@@ -559,7 +559,7 @@ export default function Home() {
 
           {/* Insight + CTA */}
           <div className="text-center mt-12">
-            <p className="text-neutral-500 text-sm mb-2">Three frontier models. Three different weak spots.</p>
+            <p className="text-neutral-400 text-sm mb-2">Three frontier models. Three different weak spots.</p>
             <p className="text-neutral-400 text-sm mb-6">
               Every model has unique vulnerabilities — even the best ones. <span className="text-white font-medium">How does yours compare?</span>
             </p>
