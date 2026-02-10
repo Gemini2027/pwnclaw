@@ -48,7 +48,7 @@ const jsonLd = {
         '@type': 'UnitPriceSpecification',
         billingDuration: 'P1M',
       },
-      description: 'Unlimited scans, up to 50 attacks from 112-attack library, CI/CD integration',
+      description: '150 scans per month, up to 50 attacks from 112-attack library, CI/CD integration',
     },
   ],
   featureList: [
@@ -112,7 +112,7 @@ const faqJsonLd = {
       name: 'How much does PwnClaw cost?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Free forever for basic scans (3 per month, 15 attacks). Pro is 29 EUR per month for 30 scans with 50 attacks and adaptive AI. Team is 99 EUR per month for unlimited scans plus CI/CD integration. No contracts, cancel anytime.',
+        text: 'Free forever for basic scans (3 per month, 15 attacks). Pro is 29 EUR per month for 30 scans with 50 attacks and adaptive AI. Team is 99 EUR per month for 150 scans plus CI/CD integration. No contracts, cancel anytime.',
       },
     },
     {
@@ -669,7 +669,7 @@ export default function Home() {
               </CardHeader>
               <CardContent className="flex flex-col flex-grow">
                 <ul className="space-y-3 text-neutral-400 flex-grow">
-                  <li>✓ Unlimited scans</li>
+                  <li>✓ 150 scans per month</li>
                   <li>✓ 50 attacks per scan</li>
                   <li className="text-white font-semibold">✓ CI/CD API + GitHub Action</li>
                   <li>✓ Adaptive AI attacks</li>
@@ -712,7 +712,7 @@ export default function Home() {
               },
               {
                 q: "How much does PwnClaw cost?",
-                a: "Free forever for basic scans (3/month, 15 attacks). Pro is €29/month for 30 scans with 50 attacks and adaptive AI. Team is €99/month for unlimited scans plus CI/CD integration. No contracts, cancel anytime."
+                a: "Free forever for basic scans (3/month, 15 attacks). Pro is €29/month for 30 scans with 50 attacks and adaptive AI. Team is €99/month for 150 scans plus CI/CD integration. No contracts, cancel anytime."
               },
               {
                 q: "Which AI agents work with PwnClaw?",
