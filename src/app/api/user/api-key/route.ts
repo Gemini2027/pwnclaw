@@ -16,13 +16,17 @@ export async function GET() {
   });
 }
 
-// POST — generate new API key (replaces old one)
+// POST — generate new API key (Team plan only)
 export async function POST() {
   const { userId: clerkId } = await auth();
   if (!clerkId) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const user = await getUserByClerkId(clerkId);
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
+
+  if (user.plan !== 'team') {
+    return NextResponse.json({ error: 'API keys are available on the Team plan. Upgrade to access CI/CD integration.' }, { status: 403 });
+  }
 
   const key = await generateApiKey(user.id);
   if (!key) return NextResponse.json({ error: 'Failed to generate key' }, { status: 500 });

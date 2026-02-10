@@ -13,13 +13,17 @@ export default function SettingsPage() {
   const [generating, setGenerating] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showNewKey, setShowNewKey] = useState<string | null>(null);
+  const [plan, setPlan] = useState<string>('free');
 
   useEffect(() => {
-    fetch("/api/user/api-key")
-      .then(res => res.json())
-      .then(data => {
-        setApiKey(data.apiKey);
-        setHasKey(data.hasKey);
+    Promise.all([
+      fetch("/api/user/api-key").then(res => res.json()),
+      fetch("/api/user/stats").then(res => res.json()),
+    ])
+      .then(([keyData, statsData]) => {
+        setApiKey(keyData.apiKey);
+        setHasKey(keyData.hasKey);
+        setPlan(statsData?.user?.plan || 'free');
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -78,6 +82,10 @@ export default function SettingsPage() {
         <CardContent className="space-y-4">
           {loading ? (
             <Loader2 className="w-5 h-5 animate-spin text-neutral-500" />
+          ) : plan !== 'team' ? (
+            <div className="text-sm text-neutral-400">
+              API keys are available on the <span className="text-green-500 font-semibold">Team plan</span>. Upgrade to access CI/CD integration and GitHub Action.
+            </div>
           ) : showNewKey ? (
             <div className="space-y-3">
               <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
