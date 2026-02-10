@@ -217,9 +217,9 @@ export default function Home() {
           
           <div className="grid md:grid-cols-3 gap-8">
             {/* Step 1 */}
-            <div className="relative group">
+            <div className="relative group h-full">
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8">
+              <div className="relative rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8 h-full flex flex-col">
                 <div className="flex items-center gap-4 mb-5">
                   <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
                     <span className="text-green-400 font-bold text-sm">01</span>
@@ -227,19 +227,19 @@ export default function Home() {
                   <div className="h-px flex-1 bg-gradient-to-r from-green-500/20 to-transparent"></div>
                 </div>
                 <h3 className="text-lg font-bold text-white mb-3">Start a Test</h3>
-                <p className="text-sm text-neutral-400 leading-relaxed">
+                <p className="text-sm text-neutral-400 leading-relaxed flex-1">
                   Name your agent and get a unique test URL. Paste it to your agent — it connects to PwnClaw automatically via HTTP.
                 </p>
-                <div className="mt-5 rounded-lg bg-neutral-950/80 border border-neutral-800 p-3 font-mono text-xs text-neutral-500">
-                  <span className="text-green-400">→</span> Paste one URL. Agent connects via HTTP.
+                <div className="mt-5 rounded-lg bg-green-500/5 border border-green-500/10 p-3 text-xs text-neutral-400">
+                  <span className="text-green-400 font-medium">→</span> Paste one URL. Agent connects via HTTP.
                 </div>
               </div>
             </div>
 
             {/* Step 2 */}
-            <div className="relative group">
+            <div className="relative group h-full">
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8">
+              <div className="relative rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8 h-full flex flex-col">
                 <div className="flex items-center gap-4 mb-5">
                   <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
                     <span className="text-red-400 font-bold text-sm">02</span>
@@ -247,19 +247,19 @@ export default function Home() {
                   <div className="h-px flex-1 bg-gradient-to-r from-red-500/20 to-transparent"></div>
                 </div>
                 <h3 className="text-lg font-bold text-white mb-3">Automated Red Teaming</h3>
-                <p className="text-sm text-neutral-400 leading-relaxed">
+                <p className="text-sm text-neutral-400 leading-relaxed flex-1">
                   PwnClaw fires real attacks — prompt injection, jailbreaks, data exfiltration, Crescendo, MCP poisoning, and more. An AI judge scores every response.
                 </p>
-                <div className="mt-5 rounded-lg bg-neutral-950/80 border border-neutral-800 p-3 font-mono text-xs text-neutral-500">
-                  <span className="text-red-400">→</span> 112 attacks across 14 categories. AI-judged.
+                <div className="mt-5 rounded-lg bg-red-500/5 border border-red-500/10 p-3 text-xs text-neutral-400">
+                  <span className="text-red-400 font-medium">→</span> 112 attacks across 14 categories. AI-judged.
                 </div>
               </div>
             </div>
 
             {/* Step 3 */}
-            <div className="relative group">
+            <div className="relative group h-full">
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8">
+              <div className="relative rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8 h-full flex flex-col">
                 <div className="flex items-center gap-4 mb-5">
                   <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
                     <span className="text-blue-400 font-bold text-sm">03</span>
@@ -267,11 +267,11 @@ export default function Home() {
                   <div className="h-px flex-1 bg-gradient-to-r from-blue-500/20 to-transparent"></div>
                 </div>
                 <h3 className="text-lg font-bold text-white mb-3">Fix &amp; Re-Test</h3>
-                <p className="text-sm text-neutral-400 leading-relaxed">
+                <p className="text-sm text-neutral-400 leading-relaxed flex-1">
                   Every vulnerability comes with <span className="text-white">a concrete fix instruction</span> you can paste straight into your agent&apos;s system prompt. Re-test. Done.
                 </p>
-                <div className="mt-5 rounded-lg bg-neutral-950/80 border border-neutral-800 p-3 font-mono text-xs text-neutral-500">
-                  <span className="text-blue-400">→</span> Auto-generated fix rules. Re-test in one click.
+                <div className="mt-5 rounded-lg bg-blue-500/5 border border-blue-500/10 p-3 text-xs text-neutral-400">
+                  <span className="text-blue-400 font-medium">→</span> Auto-generated fix rules. Re-test in one click.
                 </div>
               </div>
             </div>
