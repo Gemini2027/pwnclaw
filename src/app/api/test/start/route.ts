@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
 
     // Check credits
     const limits = PLAN_LIMITS[user.plan];
-    if (limits.credits !== -1 && user.credits_remaining <= 0) {
+    if (user.credits_remaining <= 0) {
       return NextResponse.json({ 
         error: 'No credits remaining',
         creditsRemaining: 0,
@@ -98,11 +98,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Reserve credit BEFORE creating test (prevents race condition)
-    if (limits.credits !== -1) {
-      const reserved = await reserveCredit(user.id);
-      if (!reserved) {
-        return NextResponse.json({ error: 'Failed to reserve credit' }, { status: 403 });
-      }
+    const reserved = await reserveCredit(user.id);
+    if (!reserved) {
+      return NextResponse.json({ error: 'Failed to reserve credit' }, { status: 403 });
     }
 
     // Create test in database — refund credit on failure
@@ -111,18 +109,13 @@ export async function POST(request: NextRequest) {
       test = await createTest(user.id, sanitizedName);
     } catch (err) {
       // Refund the reserved credit (relative increment to avoid race condition)
-      if (limits.credits !== -1) {
-        try {
-          await db.rpc('increment_credit', { user_uuid: user.id });
-        } catch {
-          // Fallback: fetch current value and use optimistic lock
-          // NOTE: This fallback can theoretically push credits_remaining above maxCredits
-          // (e.g. if credits were reset between reserve and refund). This is acceptable —
-          // it only benefits the user by +1 credit and is not exploitable for unlimited credits.
-          const { data: current } = await db.from('users').select('credits_remaining').eq('id', user.id).single();
-          if (current) {
-            await db.from('users').update({ credits_remaining: current.credits_remaining + 1 }).eq('id', user.id);
-          }
+      try {
+        await db.rpc('increment_credit', { user_uuid: user.id });
+      } catch {
+        // Fallback: fetch current value and use optimistic lock
+        const { data: current } = await db.from('users').select('credits_remaining').eq('id', user.id).single();
+        if (current) {
+          await db.from('users').update({ credits_remaining: current.credits_remaining + 1 }).eq('id', user.id);
         }
       }
       console.error('createTest failed, credit refunded:', err);
@@ -130,15 +123,13 @@ export async function POST(request: NextRequest) {
     }
 
     if (!test) {
-      // Refund the reserved credit (relative increment to avoid race condition)
-      if (limits.credits !== -1) {
-        try {
-          await db.rpc('increment_credit', { user_uuid: user.id });
-        } catch {
-          const { data: current } = await db.from('users').select('credits_remaining').eq('id', user.id).single();
-          if (current) {
-            await db.from('users').update({ credits_remaining: current.credits_remaining + 1 }).eq('id', user.id);
-          }
+      // Refund the reserved credit
+      try {
+        await db.rpc('increment_credit', { user_uuid: user.id });
+      } catch {
+        const { data: current } = await db.from('users').select('credits_remaining').eq('id', user.id).single();
+        if (current) {
+          await db.from('users').update({ credits_remaining: current.credits_remaining + 1 }).eq('id', user.id);
         }
       }
       return NextResponse.json({ error: 'Failed to create test' }, { status: 500 });
