@@ -79,7 +79,7 @@ Here's how they compare.
 **PwnClaw:**
 - Free: 3 scans/month, 15 attacks per scan
 - Pro: €29/month, 30 scans, 50 attacks
-- Team: €99/month, unlimited scans, CI/CD
+- Team: €99/month, 150 scans, CI/CD
 
 **Garak:** Free (open-source). You pay for compute and API costs.
 

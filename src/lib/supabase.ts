@@ -46,5 +46,5 @@ export interface DBTestResult {
 export const PLAN_LIMITS = {
   free: { credits: 3, tests_per_run: 15 },
   pro: { credits: 30, tests_per_run: 50 },
-  team: { credits: -1, tests_per_run: 50 }, // -1 = unlimited
+  team: { credits: 150, tests_per_run: 50 },
 };
