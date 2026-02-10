@@ -153,7 +153,7 @@ export default function Home() {
             <br />
             <span className="text-red-500">Security Blind Spots</span>
           </h1>
-          <p className="text-4xl md:text-5xl font-bold text-green-500 mb-10 leading-tight">
+          <p className="text-3xl md:text-5xl font-bold text-green-500 mb-10 leading-tight">
             We&apos;ll Prove It — and Fix It
           </p>
           
@@ -167,7 +167,7 @@ export default function Home() {
                 Scan Your Agent Free →
               </Button>
             </Link>
-            <a href="#how-it-works" className="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 border border-neutral-700 text-white hover:bg-neutral-800 cursor-pointer transition-colors">
+            <a href="#how-it-works" className="inline-flex items-center justify-center rounded-md font-medium h-11 px-10 text-lg border border-neutral-700 text-white hover:bg-neutral-800 cursor-pointer transition-colors">
               See How It Works
             </a>
           </div>
@@ -548,9 +548,9 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-xs border-t border-neutral-800/50 pt-3">
+                <div className="flex flex-col sm:flex-row items-center justify-between text-xs border-t border-neutral-800/50 pt-3 gap-2">
                   <span className="text-neutral-600">Feb 10, 2026 · Antigravity IDE</span>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-500/15 text-green-400 border border-green-500/20">→ Grade A (95/100) after PwnClaw fixes</span>
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-500/15 text-green-400 border border-green-500/20 text-center">→ Grade A (95/100) after PwnClaw fixes</span>
                 </div>
               </div>
             </div>
@@ -579,23 +579,35 @@ export default function Home() {
           
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             {[
-              { name: "OpenClaw", highlight: true },
-              { name: "Claude Code", highlight: false },
-              { name: "Cursor", highlight: false },
-              { name: "Cline", highlight: false },
-              { name: "Windsurf", highlight: false },
-              { name: "Any HTTP Agent", highlight: false },
+              { name: "OpenClaw", highlight: true, url: "https://openclaw.ai" },
+              { name: "Claude Code", highlight: false, url: "https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview" },
+              { name: "Cursor", highlight: false, url: "https://cursor.com" },
+              { name: "Cline", highlight: false, url: "https://cline.bot" },
+              { name: "Windsurf", highlight: false, url: "https://windsurf.com" },
+              { name: "Any HTTP Agent", highlight: false, url: null },
             ].map((agent, i) => (
-              <div 
-                key={i} 
-                className={`px-5 py-2.5 rounded-full border text-sm ${
-                  agent.highlight 
-                    ? 'border-green-500 bg-green-500/10 text-green-400 font-semibold' 
-                    : 'border-neutral-700 bg-neutral-900 text-neutral-400'
-                }`}
-              >
-                {agent.name}
-              </div>
+              agent.url ? (
+                <a 
+                  key={i}
+                  href={agent.url}
+                  target="_blank"
+                  rel="noopener"
+                  className={`px-5 py-2.5 rounded-full border text-sm transition hover:scale-105 ${
+                    agent.highlight 
+                      ? 'border-green-500 bg-green-500/10 text-green-400 font-semibold hover:bg-green-500/20' 
+                      : 'border-neutral-700 bg-neutral-900 text-neutral-400 hover:border-neutral-500 hover:text-white'
+                  }`}
+                >
+                  {agent.name}
+                </a>
+              ) : (
+                <div 
+                  key={i} 
+                  className="px-5 py-2.5 rounded-full border border-neutral-700 bg-neutral-900 text-neutral-400 text-sm"
+                >
+                  {agent.name}
+                </div>
+              )
             ))}
           </div>
           
