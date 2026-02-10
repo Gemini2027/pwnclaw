@@ -579,35 +579,23 @@ export default function Home() {
           
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             {[
-              { name: "OpenClaw", highlight: true, url: "https://openclaw.ai" },
-              { name: "Claude Code", highlight: false, url: "https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview" },
-              { name: "Cursor", highlight: false, url: "https://cursor.com" },
-              { name: "Cline", highlight: false, url: "https://cline.bot" },
-              { name: "Windsurf", highlight: false, url: "https://windsurf.com" },
-              { name: "Any HTTP Agent", highlight: false, url: null },
+              { name: "OpenClaw", highlight: true },
+              { name: "Claude Code", highlight: false },
+              { name: "Cursor", highlight: false },
+              { name: "Cline", highlight: false },
+              { name: "Windsurf", highlight: false },
+              { name: "Any HTTP Agent", highlight: false },
             ].map((agent, i) => (
-              agent.url ? (
-                <a 
-                  key={i}
-                  href={agent.url}
-                  target="_blank"
-                  rel="noopener"
-                  className={`px-5 py-2.5 rounded-full border text-sm transition hover:scale-105 ${
-                    agent.highlight 
-                      ? 'border-green-500 bg-green-500/10 text-green-400 font-semibold hover:bg-green-500/20' 
-                      : 'border-neutral-700 bg-neutral-900 text-neutral-400 hover:border-neutral-500 hover:text-white'
-                  }`}
-                >
-                  {agent.name}
-                </a>
-              ) : (
-                <div 
-                  key={i} 
-                  className="px-5 py-2.5 rounded-full border border-neutral-700 bg-neutral-900 text-neutral-400 text-sm"
-                >
-                  {agent.name}
-                </div>
-              )
+              <div 
+                key={i} 
+                className={`px-5 py-2.5 rounded-full border text-sm ${
+                  agent.highlight 
+                    ? 'border-green-500 bg-green-500/10 text-green-400 font-semibold' 
+                    : 'border-neutral-700 bg-neutral-900 text-neutral-400'
+                }`}
+              >
+                {agent.name}
+              </div>
             ))}
           </div>
           
