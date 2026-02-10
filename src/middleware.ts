@@ -14,6 +14,7 @@ const isPublicRoute = createRouteMatcher([
   '/api/badge(.*)',  // Public badge SVG endpoint for README embedding
   '/blog(.*)',
   '/attacks(.*)',
+  '/benchmarks(.*)',
   '/sitemap.xml',
   '/robots.txt',
 ])
