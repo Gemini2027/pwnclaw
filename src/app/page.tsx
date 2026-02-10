@@ -584,11 +584,11 @@ export default function Home() {
               { name: "Cursor", highlight: false },
               { name: "Cline", highlight: false },
               { name: "Windsurf", highlight: false },
-              { name: "Any HTTP Agent", highlight: true },
+              { name: "Any HTTP Agent", highlight: false },
             ].map((agent, i) => (
               <div 
                 key={i} 
-                className={`px-5 py-2.5 rounded-full border text-sm ${
+                className={`px-5 py-2.5 rounded-full border text-sm transition-transform hover:scale-105 ${
                   agent.highlight 
                     ? 'border-green-500 bg-green-500/10 text-green-400 font-semibold' 
                     : 'border-neutral-700 bg-neutral-900 text-neutral-400'
