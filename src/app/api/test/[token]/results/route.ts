@@ -48,6 +48,7 @@ export async function GET(
         framework: (test as any).framework || null,
         createdAt: test.created_at,
         completedAt: test.completed_at,
+        withFixes: (test as any).with_fixes || false,
       },
       // K5: Truncate attack prompts to prevent full prompt library extraction
       results: results.map(r => ({

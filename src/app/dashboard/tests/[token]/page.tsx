@@ -46,6 +46,7 @@ type TestData = {
     framework: string | null;
     createdAt: string;
     completedAt: string | null;
+    withFixes?: boolean;
   };
   results: TestResult[];
   summary: {
@@ -225,6 +226,15 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
             {test.framework && (
               <Badge className="bg-purple-500/10 text-purple-400 border-purple-500/20">
                 {test.framework}
+              </Badge>
+            )}
+            {test.withFixes ? (
+              <Badge className="bg-green-500/10 text-green-400 border-green-500/20">
+                🛡️ With PwnClaw Fixes
+              </Badge>
+            ) : (
+              <Badge className="bg-neutral-500/10 text-neutral-400 border-neutral-500/20">
+                Baseline
               </Badge>
             )}
           </div>

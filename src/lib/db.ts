@@ -217,7 +217,7 @@ export async function getUserByApiKey(apiKey: string): Promise<DBUser | null> {
 
 // ============ TEST OPERATIONS ============
 
-export async function createTest(userId: string, agentName: string, opts?: { modelName?: string; framework?: string }): Promise<DBTest | null> {
+export async function createTest(userId: string, agentName: string, opts?: { modelName?: string; framework?: string; withFixes?: boolean }): Promise<DBTest | null> {
   const insert: Record<string, unknown> = {
     user_id: userId,
     agent_name: agentName,
@@ -225,6 +225,7 @@ export async function createTest(userId: string, agentName: string, opts?: { mod
   };
   if (opts?.modelName) insert.model_name = opts.modelName;
   if (opts?.framework) insert.framework = opts.framework;
+  if (opts?.withFixes) insert.with_fixes = true;
 
   const { data, error } = await db
     .from('tests')

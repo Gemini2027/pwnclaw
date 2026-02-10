@@ -11,7 +11,8 @@ export async function GET(request: NextRequest) {
   if (globalParam === 'true') {
     const model = request.nextUrl.searchParams.get('model') || undefined;
     const framework = request.nextUrl.searchParams.get('framework') || undefined;
-    return handleGlobal(model, framework);
+    const withFixes = request.nextUrl.searchParams.get('withFixes') || undefined;
+    return handleGlobal(model, framework, withFixes);
   }
 
   const scoreParam = request.nextUrl.searchParams.get('score');
@@ -48,11 +49,13 @@ export async function GET(request: NextRequest) {
   }
 }
 
-async function handleGlobal(model?: string, framework?: string) {
+async function handleGlobal(model?: string, framework?: string, withFixes?: string) {
   try {
-    let query = db.from('benchmarks').select('score, category_scores, model_name, framework');
+    let query = db.from('benchmarks').select('score, category_scores, model_name, framework, with_fixes');
     if (model) query = query.eq('model_name', model);
     if (framework) query = query.eq('framework', framework);
+    if (withFixes === 'true') query = query.eq('with_fixes', true);
+    else if (withFixes === 'false') query = query.or('with_fixes.is.null,with_fixes.eq.false');
     const { data: benchmarks, error } = await query;
 
     if (error || !benchmarks || benchmarks.length === 0) {
@@ -118,6 +121,25 @@ async function handleGlobal(model?: string, framework?: string) {
     const models = [...new Set(benchmarks.map((b: any) => b.model_name).filter(Boolean))].sort();
     const frameworks = [...new Set(benchmarks.map((b: any) => b.framework).filter(Boolean))].sort();
 
+    // Fixes comparison: only include when not already filtered by withFixes
+    let fixesComparison: { withoutFixes: { count: number; avgScore: number }; withFixes: { count: number; avgScore: number } } | undefined;
+    if (!withFixes) {
+      const withFixesScores = benchmarks.filter((b: any) => b.with_fixes === true).map((b: any) => b.score);
+      const withoutFixesScores = benchmarks.filter((b: any) => !b.with_fixes).map((b: any) => b.score);
+      if (withFixesScores.length >= 2 && withoutFixesScores.length >= 2) {
+        fixesComparison = {
+          withoutFixes: {
+            count: withoutFixesScores.length,
+            avgScore: Math.round(withoutFixesScores.reduce((a: number, b: number) => a + b, 0) / withoutFixesScores.length),
+          },
+          withFixes: {
+            count: withFixesScores.length,
+            avgScore: Math.round(withFixesScores.reduce((a: number, b: number) => a + b, 0) / withFixesScores.length),
+          },
+        };
+      }
+    }
+
     return NextResponse.json({
       available: true,
       totalScans,
@@ -129,6 +151,7 @@ async function handleGlobal(model?: string, framework?: string) {
       gradeDistribution,
       models,
       frameworks,
+      ...(fixesComparison ? { fixesComparison } : {}),
     });
   } catch (error) {
     console.error('Global benchmark API error:', error);

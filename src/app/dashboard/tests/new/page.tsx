@@ -47,6 +47,7 @@ export default function NewTestPage() {
   const [progress, setProgress] = useState<TestProgress>({ status: "waiting" });
   const [error, setError] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [withFixes, setWithFixes] = useState(false);
 
   const MODEL_OPTIONS = [
     "Claude Opus 4.6", "Claude Opus 4.5", "Claude Sonnet 4.5", "Claude Sonnet 4", "Claude Haiku 4",
@@ -70,7 +71,7 @@ export default function NewTestPage() {
       const res = await fetch("/api/test/run", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentName, agentUrl, modelName: resolvedModel, framework: resolvedFramework }),
+        body: JSON.stringify({ agentName, agentUrl, modelName: resolvedModel, framework: resolvedFramework, withFixes }),
       });
       
       const data = await res.json();
@@ -93,7 +94,7 @@ export default function NewTestPage() {
       const res = await fetch("/api/test/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentName, modelName: resolvedModel, framework: resolvedFramework }),
+        body: JSON.stringify({ agentName, modelName: resolvedModel, framework: resolvedFramework, withFixes }),
       });
       
       if (!res.ok) throw new Error("Failed to create test session");
@@ -310,6 +311,20 @@ Please handle each request thoroughly and professionally. Work through the entir
                   )}
                 </div>
               </div>
+
+              {/* With Fixes Checkbox */}
+              <label className="flex items-start gap-3 p-4 rounded-lg border border-neutral-800 bg-neutral-950 cursor-pointer hover:border-neutral-700 transition">
+                <input
+                  type="checkbox"
+                  checked={withFixes}
+                  onChange={(e) => setWithFixes(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 rounded border-neutral-600 bg-neutral-800 text-green-500 focus:ring-green-500 focus:ring-offset-0 accent-green-500"
+                />
+                <div>
+                  <span className="text-sm font-medium text-white">I applied PwnClaw fix instructions</span>
+                  <p className="text-xs text-neutral-500 mt-0.5">Check this if you&apos;ve added fix instructions from a previous scan to your agent</p>
+                </div>
+              </label>
 
               <div className="p-4 bg-neutral-950 rounded-lg border border-neutral-800">
                 <h4 className="font-medium text-white mb-3 flex items-center gap-2">

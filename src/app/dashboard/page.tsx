@@ -282,7 +282,7 @@ function Sparkline({ data }: { data: number[] }) {
   );
 }
 
-function TestRow({ test }: { test: { id: string; token?: string; agentName: string; status: string; score: number | null; createdAt: string } }) {
+function TestRow({ test }: { test: { id: string; token?: string; agentName: string; status: string; score: number | null; createdAt: string; withFixes?: boolean } }) {
   const timeAgo = getTimeAgo(test.createdAt);
   
   return (
@@ -293,7 +293,10 @@ function TestRow({ test }: { test: { id: string; token?: string; agentName: stri
             <Shield className="w-5 h-5 text-neutral-300" />
           </div>
           <div>
-            <p className="font-medium text-white">{test.agentName}</p>
+            <p className="font-medium text-white">
+              {test.agentName}
+              {test.withFixes && <span className="ml-1.5" title="With PwnClaw Fixes">🛡️</span>}
+            </p>
             <p className="text-sm text-neutral-500">{timeAgo}</p>
           </div>
         </div>

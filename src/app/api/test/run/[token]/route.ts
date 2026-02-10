@@ -258,6 +258,7 @@ export async function POST(
       category_scores: byCategory,
       model_name: (test as any).model_name || undefined,
       framework: (test as any).framework || undefined,
+      with_fixes: (test as any).with_fixes || false,
     }).catch(() => {});
 
     return NextResponse.json({ 

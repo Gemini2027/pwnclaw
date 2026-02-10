@@ -38,7 +38,7 @@ function checkRateLimit(userId: string): boolean {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { agentName, modelName, framework } = body;
+    const { agentName, modelName, framework, withFixes } = body;
 
     // Input validation
     if (!agentName) {
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
     // Create test in database — refund credit on failure
     let test;
     try {
-      test = await createTest(user.id, sanitizedName, { modelName: sanitizedModel, framework: sanitizedFramework });
+      test = await createTest(user.id, sanitizedName, { modelName: sanitizedModel, framework: sanitizedFramework, withFixes: !!withFixes });
     } catch (err) {
       // Refund the reserved credit (relative increment to avoid race condition)
       try {

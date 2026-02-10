@@ -17,6 +17,10 @@ interface GlobalBenchmarkData {
   gradeDistribution: { grade: string; count: number; percentage: number }[];
   models?: string[];
   frameworks?: string[];
+  fixesComparison?: {
+    withoutFixes: { count: number; avgScore: number };
+    withFixes: { count: number; avgScore: number };
+  };
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -69,14 +73,16 @@ export default function BenchmarksPage() {
   const [allFrameworks, setAllFrameworks] = useState<string[]>([]);
   const [filterModel, setFilterModel] = useState("");
   const [filterFramework, setFilterFramework] = useState("");
+  const [filterFixes, setFilterFixes] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const fetchData = useCallback(async (model?: string, framework?: string) => {
+  const fetchData = useCallback(async (model?: string, framework?: string, fixes?: string) => {
     setLoading(true);
     try {
       const params = new URLSearchParams({ global: "true" });
       if (model) params.set("model", model);
       if (framework) params.set("framework", framework);
+      if (fixes) params.set("withFixes", fixes);
       const res = await fetch(`/api/benchmark?${params.toString()}`);
       if (!res.ok) { setData(null); return; }
       const d = await res.json();
@@ -97,8 +103,8 @@ export default function BenchmarksPage() {
   useEffect(() => { fetchData(); }, [fetchData]);
 
   useEffect(() => {
-    fetchData(filterModel || undefined, filterFramework || undefined);
-  }, [filterModel, filterFramework, fetchData]);
+    fetchData(filterModel || undefined, filterFramework || undefined, filterFixes || undefined);
+  }, [filterModel, filterFramework, filterFixes, fetchData]);
 
   return (
     <div className="min-h-screen bg-black">
@@ -149,9 +155,18 @@ export default function BenchmarksPage() {
                     ))}
                   </select>
                 )}
-                {(filterModel || filterFramework) && (
+                <select
+                  value={filterFixes}
+                  onChange={(e) => setFilterFixes(e.target.value)}
+                  className="rounded-md bg-neutral-900 border border-neutral-700 text-white px-3 py-2 text-sm"
+                >
+                  <option value="">All Scans</option>
+                  <option value="true">With Fixes</option>
+                  <option value="false">Baseline Only</option>
+                </select>
+                {(filterModel || filterFramework || filterFixes) && (
                   <button
-                    onClick={() => { setFilterModel(""); setFilterFramework(""); }}
+                    onClick={() => { setFilterModel(""); setFilterFramework(""); setFilterFixes(""); }}
                     className="text-xs text-neutral-400 hover:text-white underline"
                   >
                     Clear filters
@@ -181,6 +196,34 @@ export default function BenchmarksPage() {
             )}
           </div>
         </section>
+
+        {/* Fixes Comparison */}
+        {data?.fixesComparison && (
+          <section className="px-6 py-8">
+            <div className="max-w-3xl mx-auto">
+              <div className="rounded-xl border border-green-500/30 bg-gradient-to-r from-neutral-900 to-green-500/5 p-6">
+                <h3 className="text-lg font-bold text-white mb-4 text-center">🛡️ PwnClaw Fixes Impact</h3>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-neutral-300">{data.fixesComparison.withoutFixes.avgScore}/100</p>
+                    <p className="text-sm text-neutral-400 mt-1">Average <span className="font-semibold">without</span> fixes</p>
+                    <p className="text-xs text-neutral-500">{data.fixesComparison.withoutFixes.count} scans</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-green-400">{data.fixesComparison.withFixes.avgScore}/100</p>
+                    <p className="text-sm text-neutral-400 mt-1">Average <span className="font-semibold text-green-400">with</span> fixes</p>
+                    <p className="text-xs text-neutral-500">{data.fixesComparison.withFixes.count} scans</p>
+                  </div>
+                </div>
+                {data.fixesComparison.withFixes.avgScore > data.fixesComparison.withoutFixes.avgScore && (
+                  <p className="text-center text-sm text-green-400 mt-4">
+                    +{data.fixesComparison.withFixes.avgScore - data.fixesComparison.withoutFixes.avgScore} points improvement on average
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
 
         {data && (
           <>

@@ -8,6 +8,7 @@ export interface BenchmarkEntry {
   category_scores: Record<string, { passed: number; failed: number }>;
   model_name?: string;
   framework?: string;
+  with_fixes?: boolean;
 }
 
 export interface BenchmarkStats {
@@ -35,6 +36,7 @@ export async function recordBenchmark(entry: BenchmarkEntry): Promise<boolean> {
   };
   if (entry.model_name) insert.model_name = entry.model_name;
   if (entry.framework) insert.framework = entry.framework;
+  if (entry.with_fixes) insert.with_fixes = true;
 
   const { error } = await db
     .from('benchmarks')

@@ -52,7 +52,8 @@ export async function GET() {
         agentName: test.agent_name,
         status: test.status,
         score: test.score,
-        createdAt: test.created_at
+        createdAt: test.created_at,
+        withFixes: (test as any).with_fixes || false,
       }))
     });
   } catch (error) {

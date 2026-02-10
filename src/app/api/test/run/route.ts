@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { agentName, agentUrl, modelName, framework } = body;
+    const { agentName, agentUrl, modelName, framework, withFixes } = body;
 
     if (!agentName || typeof agentName !== 'string' || agentName.length > 100) {
       return NextResponse.json({ error: 'agentName required (max 100 chars)' }, { status: 400 });
@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create test
-    const test = await createTest(user.id, sanitizedName, { modelName: sanitizedModel, framework: sanitizedFramework });
+    const test = await createTest(user.id, sanitizedName, { modelName: sanitizedModel, framework: sanitizedFramework, withFixes: !!withFixes });
     if (!test) {
       if (limits.credits !== -1) {
         try { await db.rpc('increment_credit', { user_uuid: user.id }); } catch {}
