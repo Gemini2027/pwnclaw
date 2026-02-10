@@ -86,9 +86,17 @@ export function CreditsDisplay({
           <Zap className="w-4 h-4 text-green-500" />
           Upgrade to Pro
         </a>
+      ) : plan === 'pro' ? (
+        <a 
+          href="https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"
+          className="flex items-center justify-center gap-2 w-full bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg py-2 text-sm font-medium transition-colors border border-neutral-700"
+        >
+          <Zap className="w-4 h-4 text-purple-500" />
+          Upgrade to Team
+        </a>
       ) : (
         <div className="text-center text-sm text-green-500 font-medium">
-          ✓ {plan.charAt(0).toUpperCase() + plan.slice(1)} Plan
+          ✓ Team Plan
         </div>
       )}
     </div>

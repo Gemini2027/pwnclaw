@@ -173,14 +173,21 @@ export default function DashboardPage() {
         {data?.user?.plan === 'free' ? (
           <QuickAction
             title="Upgrade to Pro"
-            description="50 attacks from 112-attack library, full reports"
+            description="50 attacks/scan, adaptive AI, 30 scans/mo"
             href="https://noid-privacy.lemonsqueezy.com/checkout/buy/83fb581f-b786-4032-a1e2-fef4430e2d59?logo=0"
+            icon={Target}
+          />
+        ) : data?.user?.plan === 'pro' ? (
+          <QuickAction
+            title="Upgrade to Team"
+            description="150 scans/mo, CI/CD API, GitHub Action"
+            href="https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"
             icon={Target}
           />
         ) : (
           <QuickAction
             title="Settings"
-            description={`${data?.user?.plan?.charAt(0).toUpperCase()}${data?.user?.plan?.slice(1)} Plan active`}
+            description="Team Plan · API keys & integrations"
             href="/dashboard/settings"
             icon={CheckCircle2}
           />

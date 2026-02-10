@@ -89,11 +89,15 @@ export function MobileSidebar({ plan, credits, maxCredits, checkoutUrl }: Mobile
                 {credits === -1 ? '∞' : credits}/{maxCredits === -1 ? '∞' : maxCredits} scans
               </div>
               <div className="text-xs text-neutral-500 capitalize">{plan} Plan</div>
-              {plan === 'free' && (
+              {plan === 'free' ? (
                 <a href={checkoutUrl} className="text-xs text-green-500 hover:underline">
                   Upgrade to Pro →
                 </a>
-              )}
+              ) : plan === 'pro' ? (
+                <a href="https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0" className="text-xs text-purple-500 hover:underline">
+                  Upgrade to Team →
+                </a>
+              ) : null}
             </div>
 
             {/* Footer */}
