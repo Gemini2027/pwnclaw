@@ -271,7 +271,7 @@ export default function Home() {
                   Every vulnerability comes with <span className="text-white">a concrete fix instruction</span> you can paste straight into your agent&apos;s system prompt. Re-test. Done.
                 </p>
                 <div className="mt-5 rounded-lg bg-blue-500/5 border border-blue-500/10 p-3 text-xs text-neutral-400">
-                  <span className="text-blue-400 font-medium">→</span> Auto-generated fix rules. Re-test in one click.
+                  <span className="text-blue-400 font-medium">→</span> Get fix rules. Re-test in one click.
                 </div>
               </div>
             </div>
