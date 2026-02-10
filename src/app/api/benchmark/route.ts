@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
 
 async function handleGlobal(model?: string, framework?: string, withFixes?: string, attacks?: string) {
   try {
-    let query = db.from('benchmarks').select('score, category_scores, model_name, framework, with_fixes, attack_count');
+    let query = db.from('benchmarks').select('score, category_scores, model_name, framework, with_fixes, attack_count').limit(10000);
     if (model) query = query.eq('model_name', model);
     if (framework) query = query.eq('framework', framework);
     if (withFixes === 'true') query = query.eq('with_fixes', true);

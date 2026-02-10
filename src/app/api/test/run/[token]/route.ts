@@ -256,9 +256,9 @@ export async function POST(
       passed,
       failed,
       category_scores: byCategory,
-      model_name: (test as any).model_name || undefined,
-      framework: (test as any).framework || undefined,
-      with_fixes: (test as any).with_fixes || false,
+      model_name: test.model_name || undefined,
+      framework: test.framework || undefined,
+      with_fixes: test.with_fixes || false,
     }).catch(() => {});
 
     return NextResponse.json({ 

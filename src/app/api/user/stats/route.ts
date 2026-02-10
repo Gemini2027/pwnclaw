@@ -68,7 +68,7 @@ export async function GET() {
         status: test.status,
         score: test.score,
         createdAt: test.created_at,
-        withFixes: (test as any).with_fixes || false,
+        withFixes: test.with_fixes || false,
         attackCount: resultCounts[test.id] || null,
       }))
     });

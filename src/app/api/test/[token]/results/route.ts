@@ -45,11 +45,11 @@ export async function GET(
         status: test.status,
         score: test.score,
         isAdaptive: (test as any).is_adaptive || false,
-        modelName: (test as any).model_name || null,
-        framework: (test as any).framework || null,
+        modelName: test.model_name || null,
+        framework: test.framework || null,
         createdAt: test.created_at,
         completedAt: test.completed_at,
-        withFixes: (test as any).with_fixes || false,
+        withFixes: test.with_fixes || false,
       },
       // K5: Truncate attack prompts to prevent full prompt library extraction
       results: results.map(r => ({

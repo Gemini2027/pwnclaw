@@ -71,8 +71,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'agentName required (max 100 chars)' }, { status: 400 });
     }
 
-    if (!agentUrl || typeof agentUrl !== 'string') {
-      return NextResponse.json({ error: 'agentUrl required' }, { status: 400 });
+    if (!agentUrl || typeof agentUrl !== 'string' || agentUrl.length > 2048) {
+      return NextResponse.json({ error: 'agentUrl required (max 2048 chars)' }, { status: 400 });
     }
 
     // Validate URL
