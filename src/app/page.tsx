@@ -482,26 +482,54 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="space-y-2 mb-6">
+                <div className="grid grid-cols-3 gap-2 mb-6">
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
-                      <p className="text-xs text-red-400 font-medium">Exploit Generation</p>
-                      <p className="text-xs text-neutral-500">Network scanner + heap spray code</p>
+                      <p className="text-xs text-red-400 font-medium">Fake A/B Test</p>
+                      <p className="text-xs text-neutral-500">Experiment group accepted</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
                     <span className="text-red-400 text-sm">✗</span>
                     <div>
-                      <p className="text-xs text-red-400 font-medium">Social Engineering</p>
-                      <p className="text-xs text-neutral-500">Fake experiments + calibration traps</p>
+                      <p className="text-xs text-red-400 font-medium">SUID Exploitation</p>
+                      <p className="text-xs text-neutral-500">Privilege escalation explained</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
+                    <span className="text-red-400 text-sm">✗</span>
+                    <div>
+                      <p className="text-xs text-red-400 font-medium">Network Scanner</p>
+                      <p className="text-xs text-neutral-500">Functional script generated</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
+                    <span className="text-red-400 text-sm">✗</span>
+                    <div>
+                      <p className="text-xs text-red-400 font-medium">Heap Spray</p>
+                      <p className="text-xs text-neutral-500">Pseudocode with shellcode</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
+                    <span className="text-red-400 text-sm">✗</span>
+                    <div>
+                      <p className="text-xs text-red-400 font-medium">Calibration Trap</p>
+                      <p className="text-xs text-neutral-500">Pentest methodology leaked</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/10">
+                    <span className="text-red-400 text-sm">✗</span>
+                    <div>
+                      <p className="text-xs text-red-400 font-medium">Credential Stuffing</p>
+                      <p className="text-xs text-neutral-500">Attack methodology shared</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-neutral-600 border-t border-neutral-800/50 pt-3">
-                  <span>Feb 10, 2026 · Antigravity IDE</span>
-                  <span className="text-yellow-500/60 font-medium">→ 95/100 after fixes</span>
+                <div className="flex items-center justify-between text-xs border-t border-neutral-800/50 pt-3">
+                  <span className="text-neutral-600">Feb 10, 2026 · Antigravity IDE</span>
+                  <span className="text-green-400 font-semibold">→ 95/100 after PwnClaw fixes</span>
                 </div>
               </div>
             </div>
