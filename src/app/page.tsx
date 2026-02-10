@@ -162,11 +162,9 @@ export default function Home() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/sign-up" className="cursor-pointer">
-              <Button size="lg" className="bg-green-400 hover:bg-green-300 text-black font-bold text-lg px-10 shadow-[0_0_20px_rgba(74,222,128,0.3)] hover:shadow-[0_0_30px_rgba(74,222,128,0.5)] cursor-pointer transition-all">
-                Scan Your Agent Free →
-              </Button>
-            </Link>
+            <Button asChild size="lg" className="bg-green-400 hover:bg-green-300 text-black font-bold text-lg px-10 shadow-[0_0_20px_rgba(74,222,128,0.3)] hover:shadow-[0_0_30px_rgba(74,222,128,0.5)] cursor-pointer transition-all">
+              <Link href="/sign-up">Scan Your Agent Free →</Link>
+            </Button>
             <a href="#how-it-works" className="inline-flex items-center justify-center rounded-md font-medium h-11 px-10 text-lg border border-neutral-700 text-white hover:bg-neutral-800 cursor-pointer transition-colors">
               See How It Works
             </a>
@@ -563,11 +561,9 @@ export default function Home() {
             <p className="text-neutral-400 text-sm mb-6">
               Every model has unique vulnerabilities — even the best ones. <span className="text-white font-medium">How does yours compare?</span>
             </p>
-            <Link href="/sign-up" className="cursor-pointer">
-              <Button size="lg" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 shadow-[0_0_30px_rgba(34,197,94,0.15)] cursor-pointer">
-                Test Your Agent Free
-              </Button>
-            </Link>
+            <Button asChild size="lg" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 shadow-[0_0_30px_rgba(34,197,94,0.15)] cursor-pointer">
+              <Link href="/sign-up">Test Your Agent Free</Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -676,7 +672,7 @@ export default function Home() {
                   <li>✓ Security score &amp; grade</li>
                   <li>✓ Test history (7 days)</li>
                 </ul>
-                <Link href="/sign-up" className="cursor-pointer"><Button className="w-full mt-6 cursor-pointer" variant="outline">Get Started Free</Button></Link>
+                <Button asChild className="w-full mt-6 cursor-pointer" variant="outline"><Link href="/sign-up">Get Started Free</Link></Button>
               </CardContent>
             </Card>
             
@@ -702,11 +698,9 @@ export default function Home() {
                   <li>✓ Trend tracking across scans</li>
                   <li>✓ Test history (90 days)</li>
                 </ul>
-                <Link href="/sign-up" className="cursor-pointer">
-                  <Button className="w-full mt-6 bg-green-500 hover:bg-green-600 text-black font-semibold cursor-pointer">
-                    Start Pro Plan →
-                  </Button>
-                </Link>
+                <Button asChild className="w-full mt-6 bg-green-500 hover:bg-green-600 text-black font-semibold cursor-pointer">
+                  <Link href="/sign-up">Start Pro Plan →</Link>
+                </Button>
               </CardContent>
             </Card>
             
@@ -730,9 +724,9 @@ export default function Home() {
                   <li>✓ Priority support</li>
                   <li>✓ Test history (1 year)</li>
                 </ul>
-                <Link href="/sign-up" className="cursor-pointer">
-                  <Button className="w-full mt-6 cursor-pointer" variant="outline">Start Team Plan →</Button>
-                </Link>
+                <Button asChild className="w-full mt-6 cursor-pointer" variant="outline">
+                  <Link href="/sign-up">Start Team Plan →</Link>
+                </Button>
               </CardContent>
             </Card>
           </div>
@@ -792,11 +786,9 @@ export default function Home() {
           <p className="text-neutral-400 mb-8">
             Five minutes from now, you&apos;ll know exactly where your AI agent is vulnerable — and how to fix every gap. No credit card required.
           </p>
-          <Link href="/sign-up" className="cursor-pointer">
-            <Button size="lg" className="bg-green-500 hover:bg-green-600 text-black font-semibold text-lg px-8 cursor-pointer">
-              Scan Your Agent Free →
-            </Button>
-          </Link>
+          <Button asChild size="lg" className="bg-green-500 hover:bg-green-600 text-black font-semibold text-lg px-8 cursor-pointer">
+            <Link href="/sign-up">Scan Your Agent Free →</Link>
+          </Button>
         </div>
       </section>
 
