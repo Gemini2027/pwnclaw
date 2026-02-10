@@ -180,8 +180,8 @@ export default function DashboardPage() {
         ) : data?.user?.plan === 'pro' ? (
           <QuickAction
             title="Upgrade to Team"
-            description="150 scans/mo, CI/CD API, GitHub Action"
-            href="https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"
+            description="Cancel Pro first, then upgrade to Team"
+            href="/dashboard/upgrade-team"
             icon={Target}
           />
         ) : (

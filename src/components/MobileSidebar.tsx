@@ -94,7 +94,7 @@ export function MobileSidebar({ plan, credits, maxCredits, checkoutUrl }: Mobile
                   Upgrade to Pro →
                 </a>
               ) : plan === 'pro' ? (
-                <a href="https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0" className="text-xs text-purple-500 hover:underline">
+                <a href="/dashboard/upgrade-team" className="text-xs text-purple-500 hover:underline">
                   Upgrade to Team →
                 </a>
               ) : null}

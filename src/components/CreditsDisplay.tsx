@@ -88,7 +88,7 @@ export function CreditsDisplay({
         </a>
       ) : plan === 'pro' ? (
         <a 
-          href="https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"
+          href="/dashboard/upgrade-team"
           className="flex items-center justify-center gap-2 w-full bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg py-2 text-sm font-medium transition-colors border border-neutral-700"
         >
           <Zap className="w-4 h-4 text-purple-500" />
