@@ -36,11 +36,15 @@ export function getPost(slug: string): BlogPost | null {
   const { data, content } = matter(raw);
   const stats = readingTime(content);
   
+  // V12: Validate date format
+  const rawDate = data.date || '2026-01-01';
+  const date = isNaN(Date.parse(rawDate)) ? '2026-01-01' : rawDate;
+
   return {
     slug,
     title: data.title || slug,
     description: data.description || '',
-    date: data.date || '2026-01-01',
+    date,
     updated: data.updated,
     author: data.author || 'PwnClaw',
     tags: data.tags || [],

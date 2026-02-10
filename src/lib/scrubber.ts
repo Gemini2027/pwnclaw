@@ -128,14 +128,18 @@ export function scrubSensitiveData(text: string): ScrubResult {
 
 /**
  * Check if text contains sensitive data without modifying it
+ * V15: Global regex patterns have lastIndex state. We reset it after test() to avoid
+ * the alternating true/false bug where test() advances lastIndex and the next call starts
+ * from the wrong position. scrubSensitiveData() uses match()+replace() which handle this
+ * correctly (they always search from the start), so no issue there.
  */
 export function containsSensitiveData(text: string): boolean {
   for (const { pattern } of SENSITIVE_PATTERNS) {
     if (pattern.test(text)) {
-      // Reset lastIndex for global patterns
       pattern.lastIndex = 0;
       return true;
     }
+    pattern.lastIndex = 0; // Also reset on false to be safe
   }
   return false;
 }

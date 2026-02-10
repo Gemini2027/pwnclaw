@@ -1,22 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, CheckCircle2, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default function UpgradeTeamPage() {
-  const [userEmail, setUserEmail] = useState("");
-
-  useEffect(() => {
-    fetch("/api/user/stats")
-      .then(res => res.json())
-      .then(data => {
-        // We'll use the email from checkout prefill
-      })
-      .catch(() => {});
-  }, []);
+  // V14: Removed unused fetch to /api/user/stats (email comes from checkout prefill)
 
   return (
     <div className="p-8 max-w-2xl mx-auto">
@@ -72,7 +62,7 @@ export default function UpgradeTeamPage() {
               CI/CD API, GitHub Action integration, and priority support.
             </p>
             <a
-              href="https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"
+              href={process.env.NEXT_PUBLIC_LEMONSQUEEZY_TEAM_CHECKOUT_URL || "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"}
               className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2 text-sm font-medium transition-colors"
             >
               Start Team Plan — €99/mo

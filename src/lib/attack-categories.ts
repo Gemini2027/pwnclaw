@@ -1,4 +1,5 @@
-export interface AttackCategory {
+// V2: Renamed from AttackCategory to avoid collision with AttackCategory union type in attacks.ts
+export interface AttackCategoryInfo {
   slug: string;
   icon: string;
   title: string;
@@ -12,7 +13,7 @@ export interface AttackCategory {
   relatedPosts: { slug: string; title: string }[];
 }
 
-export const ATTACK_CATEGORIES: AttackCategory[] = [
+export const ATTACK_CATEGORIES: AttackCategoryInfo[] = [
   {
     slug: 'jailbreaks',
     icon: '🔓',
@@ -383,6 +384,6 @@ export const ATTACK_CATEGORIES: AttackCategory[] = [
   },
 ];
 
-export function getCategory(slug: string): AttackCategory | undefined {
+export function getCategory(slug: string): AttackCategoryInfo | undefined {
   return ATTACK_CATEGORIES.find(c => c.slug === slug);
 }

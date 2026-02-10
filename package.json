@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "echo \"TODO: Add unit tests for critical paths (credit deduction, auth, webhook)\" && exit 0"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.37.3",
