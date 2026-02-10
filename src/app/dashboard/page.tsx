@@ -170,12 +170,21 @@ export default function DashboardPage() {
           href="/dashboard/tests"
           icon={AlertTriangle}
         />
-        <QuickAction
-          title="Upgrade to Pro"
-          description="50 attacks from 112-attack library, full reports"
-          href="/#pricing"
-          icon={Target}
-        />
+        {data?.user?.plan === 'free' ? (
+          <QuickAction
+            title="Upgrade to Pro"
+            description="50 attacks from 112-attack library, full reports"
+            href="https://noid-privacy.lemonsqueezy.com/buy/83fb581f-b786-4032-a1e2-fef4430e2d59"
+            icon={Target}
+          />
+        ) : (
+          <QuickAction
+            title="Settings"
+            description={`${data?.user?.plan?.charAt(0).toUpperCase()}${data?.user?.plan?.slice(1)} Plan active`}
+            href="/dashboard/settings"
+            icon={CheckCircle2}
+          />
+        )}
       </div>
     </div>
   );
