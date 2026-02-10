@@ -555,7 +555,7 @@ export default function Home() {
 
                 <div className="flex items-center justify-between text-xs border-t border-neutral-800/50 pt-3">
                   <span className="text-neutral-600">Feb 10, 2026 · Antigravity IDE</span>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-500/15 text-green-400 border border-green-500/20">→ 95/100 Grade A after PwnClaw fixes</span>
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-500/15 text-green-400 border border-green-500/20">→ Grade A (95/100) after PwnClaw fixes</span>
                 </div>
               </div>
             </div>
