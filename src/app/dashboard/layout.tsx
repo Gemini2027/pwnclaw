@@ -11,6 +11,8 @@ import { CreditsDisplay } from "@/components/CreditsDisplay";
 import { MobileSidebar } from "@/components/MobileSidebar";
 import { DashboardNav } from "@/components/DashboardNav";
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardLayout({
   children,
 }: {
