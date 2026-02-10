@@ -149,7 +149,7 @@ export default function TermsPage() {
           <h2 className="text-xl font-semibold text-white mt-8">12. Contact</h2>
           <p>
             For questions about these Terms, contact us at{" "}
-            <a href="#" onClick={(e) => { e.preventDefault(); window.location.href = "mai" + "lto:leg" + "al@pwn" + "claw.com"; }} className="text-green-500 hover:underline cursor-pointer">legal[at]pwnclaw.com</a>
+            <span className="text-green-500">legal[at]pwnclaw.com</span>
           </p>
           <p className="mt-8 text-sm text-neutral-500">
             Learn more about <Link href="/" className="text-green-500 hover:underline">AI agent security testing with PwnClaw</Link>.
