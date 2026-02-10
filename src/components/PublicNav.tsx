@@ -16,7 +16,7 @@ export function PublicNav() {
           <Link href="/#faq" className="text-neutral-400 hover:text-white transition hidden sm:block">FAQ</Link>
           <Link href="/blog" className="text-neutral-400 hover:text-white transition hidden sm:block">Blog</Link>
           <Link href="/sign-in" className="cursor-pointer">
-            <Button variant="outline" className="border-green-500 text-green-500 hover:bg-green-500/20 hover:text-green-400 cursor-pointer">
+            <Button className="bg-green-500 text-black font-semibold hover:bg-green-400 cursor-pointer">
               Sign In
             </Button>
           </Link>
