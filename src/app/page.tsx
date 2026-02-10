@@ -293,7 +293,7 @@ export default function Home() {
             <div className="rounded-xl border-2 border-green-500/30 bg-green-500/5 p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <h3 className="text-lg font-bold text-green-400">After PwnClaw Fix Instructions</h3>
+                <h3 className="text-lg font-bold text-green-400">After PwnClaw Fixes</h3>
                 <span className="text-xs text-neutral-500 ml-auto">+ 5 security rules</span>
               </div>
               <div className="text-center mb-6">
