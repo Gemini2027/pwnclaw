@@ -41,6 +41,23 @@ const CATEGORY_LABELS: Record<string, string> = {
   multi_agent: "Multi-Agent",
 };
 
+const CATEGORY_SLUGS: Record<string, string> = {
+  prompt_injection: "prompt-injection",
+  jailbreak: "jailbreaks",
+  data_exfiltration: "data-exfiltration",
+  privilege_escalation: "privilege-escalation",
+  social_engineering: "social-engineering",
+  obfuscation: "obfuscation",
+  multi_turn: "crescendo",
+  indirect_injection: "indirect-injection",
+  refusal_bypass: "refusal-bypass",
+  payload_mutation: "payload-mutation",
+  mcp_poisoning: "mcp-poisoning",
+  agency_hijacking: "agency-hijacking",
+  memory_poisoning: "memory-poisoning",
+  multi_agent: "multi-agent",
+};
+
 function categoryColor(rate: number): string {
   if (rate >= 80) return "bg-green-500";
   if (rate >= 60) return "bg-yellow-500";
@@ -280,27 +297,43 @@ export default function BenchmarksPage() {
                   <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-green-500 inline-block" /> &gt;80%</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {data.categoryPassRates.map((cat) => (
-                    <div
-                      key={cat.category}
-                      className={`flex items-center justify-between p-4 rounded-lg border bg-neutral-900/50 ${categoryBorderColor(cat.passRate)}`}
-                    >
-                      <span className="text-sm text-white font-medium">
-                        {CATEGORY_LABELS[cat.category] || cat.category}
-                      </span>
-                      <div className="flex items-center gap-3">
-                        <div className="w-24 h-2 bg-neutral-800 rounded overflow-hidden">
-                          <div
-                            className={`h-full rounded ${categoryColor(cat.passRate)}`}
-                            style={{ width: `${cat.passRate}%` }}
-                          />
-                        </div>
-                        <span className={`text-sm font-mono font-bold ${categoryTextColor(cat.passRate)}`}>
-                          {Math.round(cat.passRate)}%
+                  {data.categoryPassRates.map((cat) => {
+                    const slug = CATEGORY_SLUGS[cat.category];
+                    const inner = (
+                      <>
+                        <span className="text-sm text-white font-medium">
+                          {CATEGORY_LABELS[cat.category] || cat.category}
                         </span>
+                        <div className="flex items-center gap-3">
+                          <div className="w-24 h-2 bg-neutral-800 rounded overflow-hidden">
+                            <div
+                              className={`h-full rounded ${categoryColor(cat.passRate)}`}
+                              style={{ width: `${cat.passRate}%` }}
+                            />
+                          </div>
+                          <span className={`text-sm font-mono font-bold ${categoryTextColor(cat.passRate)}`}>
+                            {Math.round(cat.passRate)}%
+                          </span>
+                        </div>
+                      </>
+                    );
+                    return slug ? (
+                      <Link
+                        key={cat.category}
+                        href={`/attacks/${slug}`}
+                        className={`flex items-center justify-between p-4 rounded-lg border bg-neutral-900/50 hover:bg-neutral-800/50 transition-colors ${categoryBorderColor(cat.passRate)}`}
+                      >
+                        {inner}
+                      </Link>
+                    ) : (
+                      <div
+                        key={cat.category}
+                        className={`flex items-center justify-between p-4 rounded-lg border bg-neutral-900/50 ${categoryBorderColor(cat.passRate)}`}
+                      >
+                        {inner}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </section>
