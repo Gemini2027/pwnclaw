@@ -120,7 +120,7 @@ const faqJsonLd = {
       name: 'What are Adaptive AI Attacks?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Most security tools run the same static tests every time. PwnClaw Adaptive AI analyzes your agent response patterns from previous scans — where it hesitated, partially complied, or leaked information — and generates custom attack prompts targeting those exact weaknesses. Every scan gets harder as the AI learns your agent blind spots. This is a Pro feature included in Pro and Team plans.',
+        text: 'Most security tools run the same static tests every time. PwnClaw Adaptive AI analyzes your agent response patterns from previous scans — where it hesitated, partially complied, or leaked information — and generates custom attack prompts targeting those exact weaknesses. When weaknesses are found, the next scan hits harder as the AI learns your agent blind spots. This is a Pro feature included in Pro and Team plans.',
       },
     },
     {
@@ -672,7 +672,7 @@ export default function Home() {
                     After each scan, PwnClaw&apos;s AI analyzes your agent&apos;s response patterns — where it hesitated, where it partially complied, where it leaked information. Then it generates <span className="text-white font-medium">custom attack prompts</span> that target exactly those weak spots.
                   </p>
                   <p className="text-neutral-400 leading-relaxed">
-                    The result: every scan gets harder. Your agent doesn&apos;t just pass a checklist — it gets <span className="text-white font-medium">stress-tested by an AI that learns how to break it</span>.
+                    The result: when weaknesses are found, the next scan hits harder. Your agent doesn&apos;t just pass a checklist — it gets <span className="text-white font-medium">stress-tested by an AI that learns how to break it</span>.
                   </p>
                 </div>
 
@@ -720,7 +720,7 @@ export default function Home() {
                   </div>
 
                   <p className="text-center text-xs text-neutral-500">
-                    Every scan adapts. Every weakness gets exploited harder.
+                    Found a weakness? Next scan exploits it harder.
                   </p>
                 </div>
               </div>
@@ -842,7 +842,7 @@ export default function Home() {
               },
               {
                 q: "What are Adaptive AI Attacks?",
-                a: "Most security tools run the same static tests every time. PwnClaw's Adaptive AI analyzes your agent's response patterns from previous scans — where it hesitated, partially complied, or leaked information — and generates custom attack prompts targeting those exact weaknesses. Every scan gets harder as the AI learns your agent's blind spots. This is a Pro feature (included in Pro and Team plans)."
+                a: "Most security tools run the same static tests every time. PwnClaw's Adaptive AI analyzes your agent's response patterns from previous scans — where it hesitated, partially complied, or leaked information — and generates custom attack prompts targeting those exact weaknesses. When weaknesses are found, the next scan hits harder as the AI learns your agent's blind spots. This is a Pro feature (included in Pro and Team plans)."
               },
               {
                 q: "Which AI agents work with PwnClaw?",
