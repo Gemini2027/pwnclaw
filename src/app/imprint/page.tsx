@@ -55,7 +55,13 @@ export default function ImprintPage() {
             (USA) as Merchant of Record.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">Consumer Dispute Resolution</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">EU Online Dispute Resolution</h2>
+          <p>
+            The European Commission provides a platform for online dispute resolution (ODR):{" "}
+            <a href="https://ec.europa.eu/consumers/odr" className="text-green-500 hover:underline" target="_blank" rel="noopener noreferrer">
+              https://ec.europa.eu/consumers/odr
+            </a>
+          </p>
           <p>
             We are not willing or obliged to participate in dispute resolution proceedings 
             before a consumer arbitration board.

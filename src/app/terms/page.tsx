@@ -90,7 +90,25 @@ export default function TermsPage() {
             <li>We do not store your payment details — all billing data is held by Lemon Squeezy</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">6. Data Handling</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">6. Right of Withdrawal (EU Consumers)</h2>
+          <p>
+            You have the right to withdraw from this contract within <strong>14 days</strong> without giving any reason.
+          </p>
+          <p>
+            To exercise your right of withdrawal, contact:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Lemon Squeezy</strong> (Merchant of Record): <span className="text-green-500">help@lemonsqueezy.com</span></li>
+            <li>Or alternatively: <span className="text-green-500">support[at]pwnclaw.com</span> (we will forward)</li>
+          </ul>
+          <p className="mt-4">
+            <strong>Expiry of withdrawal right:</strong> For digital services, the right of withdrawal expires 
+            once the service has been fully performed, if you gave prior express consent and acknowledged 
+            the loss of your right of withdrawal. By starting a security scan, you consent to immediate 
+            performance of the service.
+          </p>
+
+          <h2 className="text-xl font-semibold text-white mt-8">7. Data Handling</h2>
           <p>
             By using the Service, you acknowledge that:
           </p>
@@ -102,7 +120,7 @@ export default function TermsPage() {
             <li>Data is automatically deleted according to your plan&apos;s retention period</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">7. Intellectual Property</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">8. Intellectual Property</h2>
           <p>
             The attack prompts, testing methodology, and analysis algorithms are proprietary to PwnClaw. 
             You may not:
@@ -113,7 +131,7 @@ export default function TermsPage() {
             <li>Reverse engineer the security analysis</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">8. Disclaimer of Warranties</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">9. Disclaimer of Warranties</h2>
           <p>
             THE SERVICE IS PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY KIND.
           </p>
@@ -124,7 +142,7 @@ export default function TermsPage() {
             <li>You remain responsible for your agent&apos;s security</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">9. Limitation of Liability</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">10. Limitation of Liability</h2>
           <p>
             PwnClaw shall not be liable for:
           </p>
@@ -139,7 +157,7 @@ export default function TermsPage() {
             preceding the claim.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">10. Termination</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">11. Termination</h2>
           <p>
             We may terminate or suspend your account immediately, without prior notice, for:
           </p>
@@ -150,19 +168,19 @@ export default function TermsPage() {
             <li>Attempting to attack our infrastructure</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">11. Changes to Terms</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">12. Changes to Terms</h2>
           <p>
             We reserve the right to modify these terms at any time. We will notify you of significant 
             changes via email. Continued use after changes constitutes acceptance.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">12. Governing Law</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">13. Governing Law</h2>
           <p>
             These terms are governed by the laws of Germany. Any disputes shall be resolved in the 
             courts of Berlin, Germany.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">13. Contact</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">14. Contact</h2>
           <p>
             For questions about these Terms, contact us at{" "}
             <span className="text-green-500">legal[at]pwnclaw.com</span>

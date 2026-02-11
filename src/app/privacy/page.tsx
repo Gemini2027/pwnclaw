@@ -36,6 +36,15 @@ export default function PrivacyPage() {
             </p>
           </div>
 
+          <h2 className="text-xl font-semibold text-white mt-8">Controller (Art. 13(1)(a) GDPR)</h2>
+          <p>
+            Fabio Mantegna<br />
+            c/o Autorenglück #52020<br />
+            Albert-Einstein-Straße 47<br />
+            02977 Hoyerswerda, Germany<br />
+            Email: <span className="text-green-500">privacy[at]pwnclaw.com</span>
+          </p>
+
           <h2 className="text-xl font-semibold text-white mt-8">1. Information We Collect</h2>
           
           <h3 className="text-lg font-medium text-white mt-4">Account Information</h3>
@@ -61,7 +70,16 @@ export default function PrivacyPage() {
             <li><strong>Analysis results</strong> - our security assessment</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">2. How We Protect Your Data</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">2. Legal Basis for Processing (Art. 13(1)(c) GDPR)</h2>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Account creation & authentication:</strong> Art. 6(1)(b) GDPR — contract performance</li>
+            <li><strong>Security test execution & analysis:</strong> Art. 6(1)(b) GDPR — contract performance (the core service you signed up for)</li>
+            <li><strong>Payment processing (via Lemon Squeezy):</strong> Art. 6(1)(b) GDPR — contract performance</li>
+            <li><strong>Server logs & security:</strong> Art. 6(1)(f) GDPR — legitimate interest (service security, abuse prevention)</li>
+            <li><strong>Benchmark aggregation:</strong> Art. 6(1)(f) GDPR — legitimate interest (anonymous, aggregated statistics)</li>
+          </ul>
+
+          <h2 className="text-xl font-semibold text-white mt-8">3. How We Protect Your Data</h2>
           <ul className="list-disc pl-6 space-y-2">
             <li><strong>Encryption in transit</strong> - All data transmitted via TLS 1.3</li>
             <li><strong>Encryption at rest</strong> - Database encrypted using AES-256 (Supabase)</li>
@@ -70,7 +88,7 @@ export default function PrivacyPage() {
             <li><strong>No training</strong> - We do NOT use your data to train AI models</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">3. Data Retention & Auto-Deletion</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">4. Data Retention & Auto-Deletion</h2>
           <p>Test data is automatically deleted based on your plan:</p>
           <ul className="list-disc pl-6 space-y-2">
             <li><strong>Free plans:</strong> 7 days after test completion</li>
@@ -82,7 +100,7 @@ export default function PrivacyPage() {
             from your dashboard. Deleted data cannot be recovered.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">4. What We Do NOT Do</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">5. What We Do NOT Do</h2>
           <ul className="list-disc pl-6 space-y-2">
             <li>❌ We do NOT sell your data</li>
             <li>❌ We do NOT share agent responses with third parties</li>
@@ -91,7 +109,7 @@ export default function PrivacyPage() {
             <li>❌ We do NOT store credentials you enter (only what your agent leaks)</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">5. Third-Party Services</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">6. Third-Party Services</h2>
           <p>We use the following services that may process your data:</p>
           <ul className="list-disc pl-6 space-y-2">
             <li><strong>Clerk</strong> (Authentication) - Email, login sessions</li>
@@ -116,14 +134,29 @@ export default function PrivacyPage() {
             </li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">6. Cookies</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">7. International Data Transfers</h2>
+          <p>
+            Some of our service providers are based in the United States. Data transfers to the US 
+            are protected by the following mechanisms:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Clerk (USA)</strong> — EU-U.S. Data Privacy Framework (DPF)</li>
+            <li><strong>Vercel (USA)</strong> — EU-U.S. Data Privacy Framework (DPF)</li>
+            <li><strong>Google / Gemini (USA)</strong> — EU-U.S. Data Privacy Framework (DPF) + Standard Contractual Clauses (SCC)</li>
+            <li><strong>Lemon Squeezy (USA)</strong> — Standard Contractual Clauses (SCC)</li>
+          </ul>
+          <p className="mt-2">
+            <strong>Supabase</strong> — our database is hosted in the EU region. No international transfer.
+          </p>
+
+          <h2 className="text-xl font-semibold text-white mt-8">8. Cookies</h2>
           <p>
             We only use <strong>strictly necessary cookies</strong> for authentication and session management 
             (via Clerk). We do not use marketing, analytics, or tracking cookies. Since these cookies are 
             technically required for the Service to function, no cookie consent banner is needed under GDPR.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">7. Your Rights (GDPR)</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">9. Your Rights (GDPR)</h2>
           <p>You have the right to:</p>
           <ul className="list-disc pl-6 space-y-2">
             <li><strong>Access</strong> - Download all your data</li>
@@ -136,8 +169,17 @@ export default function PrivacyPage() {
             To exercise these rights, email{" "}
             <span className="text-green-500">privacy[at]pwnclaw.com</span>
           </p>
+          <p className="mt-4">
+            <strong>Right to lodge a complaint (Art. 77 GDPR):</strong> You have the right to lodge a 
+            complaint with a supervisory authority. Our competent authority is:
+          </p>
+          <p className="text-sm text-neutral-400 mt-2">
+            The Saxon Data Protection Commissioner (Sächsischer Datenschutzbeauftragter)<br />
+            Devrientstraße 5, 01067 Dresden, Germany<br />
+            <a href="https://www.saechsdsb.de" className="text-green-500 hover:underline" target="_blank" rel="noopener noreferrer">www.saechsdsb.de</a>
+          </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">8. Security Recommendations</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">10. Security Recommendations</h2>
           <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
             <p className="text-neutral-300">
               <strong>Before testing your agent:</strong>
@@ -150,13 +192,13 @@ export default function PrivacyPage() {
             </ul>
           </div>
 
-          <h2 className="text-xl font-semibold text-white mt-8">9. Changes to This Policy</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">11. Changes to This Policy</h2>
           <p>
             We will notify you of significant changes via email. Continued use after changes 
             constitutes acceptance.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">10. Contact</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">12. Contact</h2>
           <p>
             Data Protection Officer:{" "}
             <span className="text-green-500">privacy[at]pwnclaw.com</span>
