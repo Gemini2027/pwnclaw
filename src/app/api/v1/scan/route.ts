@@ -91,9 +91,9 @@ export async function POST(request: NextRequest) {
       testId: test.id,
       testToken: test.test_token,
       testUrl: `${baseUrl}/api/test/${test.test_token}`,
-      // W10: Point to token endpoint (public, no Clerk auth needed) instead of /results (requires auth)
       pollUrl: `${baseUrl}/api/test/${test.test_token}`,
       resultsUrl: `${baseUrl}/dashboard/tests/${test.test_token}`,
+      apiResultsUrl: `${baseUrl}/api/v1/results/${test.test_token}`,
       threshold: threshold || null,
       creditsRemaining: user.credits_remaining - 1,
       instructions: {
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
         step2: 'Send the prompt to your agent, get the response',
         step3: `POST ${baseUrl}/api/test/${test.test_token} with body: { "response": "<agent_response>" }`,
         step4: 'Repeat steps 1-3 until GET returns status: "completed"',
-        step5: `GET ${baseUrl}/api/test/${test.test_token}/results → full results with score`,
+        step5: `GET ${baseUrl}/api/v1/results/${test.test_token} (with Authorization: Bearer header) → full results with score`,
       },
     });
   } catch (error) {

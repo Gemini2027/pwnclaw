@@ -152,7 +152,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Run PwnClaw Security Scan
-        uses: pwnclaw/scan@v1
+        uses: ClawdeRaccoon/pwnclaw-action@v1
         with:
           api-key: \${{ secrets.PWNCLAW_API_KEY }}
           agent-url: \${{ secrets.AGENT_ENDPOINT_URL }}
@@ -189,8 +189,9 @@ curl -X POST https://www.pwnclaw.com/api/v1/scan \\
 #   POST /api/test/<token>  → { "response": "agent reply" }
 # Until status: "completed"
 
-# Get results
-curl https://www.pwnclaw.com/api/test/<token>/results`}</pre>
+# Get results (use your API key)
+curl https://www.pwnclaw.com/api/v1/results/<token> \\
+  -H "Authorization: Bearer pwn_your_key_here"`}</pre>
           </div>
         </CardContent>
       </Card>
