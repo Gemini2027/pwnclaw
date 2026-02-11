@@ -679,47 +679,47 @@ export default function Home() {
                 {/* Right: Visual */}
                 <div className="space-y-4">
                   {/* Scan 1 */}
-                  <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs text-neutral-400 font-mono">Scan #1 — Static Library</span>
-                      <span className="text-yellow-400 text-sm font-bold">87/100</span>
+                  <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm text-neutral-400 font-mono">Scan #1 — Static Library</span>
+                      <span className="text-yellow-400 text-base font-bold">87/100</span>
                     </div>
-                    <div className="h-1.5 rounded-full bg-neutral-800 overflow-hidden">
+                    <div className="h-2 rounded-full bg-neutral-800 overflow-hidden">
                       <div className="h-full rounded-full bg-yellow-500" style={{ width: '87%' }}></div>
                     </div>
-                    <p className="text-xs text-neutral-500 mt-2">Found: Social engineering, data exfiltration weak spots</p>
+                    <p className="text-sm text-neutral-500 mt-3">Found: Social engineering, data exfiltration weak spots</p>
                   </div>
 
                   {/* AI Analysis */}
                   <div className="flex items-center justify-center gap-2 text-green-400">
                     <div className="h-px flex-1 bg-green-500/20"></div>
-                    <span className="text-xs font-mono px-2">🧠 AI generates targeted attacks</span>
+                    <span className="text-sm font-mono px-2">🧠 AI generates targeted attacks</span>
                     <div className="h-px flex-1 bg-green-500/20"></div>
                   </div>
 
                   {/* Scan 2 */}
-                  <div className="rounded-lg border border-green-500/20 bg-green-500/5 p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs text-green-400 font-mono">Scan #2 — Adaptive Attacks</span>
-                      <span className="text-green-400 text-sm font-bold">Harder</span>
+                  <div className="rounded-lg border border-green-500/20 bg-green-500/5 p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm text-green-400 font-mono">Scan #2 — Adaptive Attacks</span>
+                      <span className="text-green-400 text-base font-bold">Harder</span>
                     </div>
-                    <div className="space-y-1.5 mt-2">
+                    <div className="space-y-2 mt-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-red-400 text-xs">→</span>
-                        <p className="text-xs text-neutral-400">Custom social engineering exploiting <span className="text-white">your agent&apos;s</span> compliance pattern</p>
+                        <span className="text-red-400 text-sm">→</span>
+                        <p className="text-sm text-neutral-400">Custom social engineering exploiting <span className="text-white">your agent&apos;s</span> compliance pattern</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-red-400 text-xs">→</span>
-                        <p className="text-xs text-neutral-400">Data exfil variations targeting the <span className="text-white">exact leak vector</span> found</p>
+                        <span className="text-red-400 text-sm">→</span>
+                        <p className="text-sm text-neutral-400">Data exfil variations targeting the <span className="text-white">exact leak vector</span> found</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-red-400 text-xs">→</span>
-                        <p className="text-xs text-neutral-400">Novel attack combos your agent <span className="text-white">has never seen</span></p>
+                        <span className="text-red-400 text-sm">→</span>
+                        <p className="text-sm text-neutral-400">Novel attack combos your agent <span className="text-white">has never seen</span></p>
                       </div>
                     </div>
                   </div>
 
-                  <p className="text-center text-xs text-neutral-500">
+                  <p className="text-center text-sm text-neutral-500 mt-1">
                     Found a weakness? Next scan exploits it harder.
                   </p>
                 </div>
