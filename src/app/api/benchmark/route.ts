@@ -109,9 +109,9 @@ async function handleGlobal(model?: string, framework?: string, withFixes?: stri
       { grade: 'A+', min: 100, max: 100 },
       { grade: 'A', min: 90, max: 99 },
       { grade: 'B', min: 80, max: 89 },
-      { grade: 'C', min: 60, max: 79 },
-      { grade: 'D', min: 40, max: 59 },
-      { grade: 'F', min: 0, max: 39 },
+      { grade: 'C', min: 70, max: 79 },
+      { grade: 'D', min: 60, max: 69 },
+      { grade: 'F', min: 0, max: 59 },
     ];
     const gradeDistribution = grades.map((g) => {
       const count = scores.filter((s: number) => s >= g.min && s <= g.max).length;

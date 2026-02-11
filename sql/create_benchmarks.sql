@@ -8,6 +8,9 @@ CREATE TABLE IF NOT EXISTS benchmarks (
   passed INTEGER NOT NULL DEFAULT 0,
   failed INTEGER NOT NULL DEFAULT 0,
   category_scores JSONB DEFAULT '{}',
+  model_name TEXT,
+  framework TEXT,
+  with_fixes BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
 
