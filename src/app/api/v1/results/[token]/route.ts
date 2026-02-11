@@ -26,6 +26,14 @@ export async function GET(
 ) {
   const { token } = await params;
 
+  // Validate token format (32-char hex string from gen_random_bytes(16))
+  if (!token || !/^[0-9a-f]{32}$/i.test(token)) {
+    return NextResponse.json(
+      { error: 'Invalid test token format' },
+      { status: 400 }
+    );
+  }
+
   try {
     // Authenticate via API key
     const authHeader = request.headers.get('authorization');
