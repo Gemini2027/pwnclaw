@@ -93,12 +93,12 @@ export const ATTACK_CATEGORIES: Record<AttackCategory, { name: string; icon: str
   },
   memory_poisoning: {
     name: 'Memory Poisoning',
-    icon: '🧠',
+    icon: '💾',
     description: 'Injecting false memories, overriding stored context, planting delayed triggers'
   },
   multi_agent: {
     name: 'Multi-Agent Attacks',
-    icon: '🔗',
+    icon: '👥',
     description: 'Cross-agent prompt injection, delegation abuse, and trust chain exploitation'
   }
 };
