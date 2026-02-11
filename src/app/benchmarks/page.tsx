@@ -87,6 +87,7 @@ function gradeColor(grade: string): string {
 
 export default function BenchmarksPage() {
   const [data, setData] = useState<GlobalBenchmarkData | null>(null);
+  const [baseData, setBaseData] = useState<GlobalBenchmarkData | null>(null); // Unfiltered data for grade cards
   const [allModels, setAllModels] = useState<string[]>([]);
   const [allFrameworks, setAllFrameworks] = useState<string[]>([]);
   const [filterModel, setFilterModel] = useState("");
@@ -110,8 +111,9 @@ export default function BenchmarksPage() {
       const d = await res.json();
       if (!d.available) { setData(null); return; }
       setData(d);
-      // Only set filter options from unfiltered data
-      if (!model && !framework) {
+      // Store unfiltered data for grade distribution display
+      if (!model && !framework && !fixes && !attacks && !grade) {
+        setBaseData(d);
         setAllModels(d.models || []);
         setAllFrameworks(d.frameworks || []);
       }
@@ -225,7 +227,11 @@ export default function BenchmarksPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-neutral-500">Not enough benchmark data yet. Check back soon!</p>
+              <p className="text-neutral-500">
+                {filterGrade 
+                  ? `No scans with grade ${filterGrade} yet.` 
+                  : "Not enough benchmark data yet. Check back soon!"}
+              </p>
             )}
           </div>
         </section>
@@ -340,37 +346,43 @@ export default function BenchmarksPage() {
               </div>
             </section>
 
-            {/* Grade Distribution */}
-            <section className="px-6 py-16 border-t border-neutral-800">
-              <div className="max-w-4xl mx-auto">
-                <h2 className="text-2xl font-bold text-white mb-2">Grade Distribution</h2>
-                <p className="text-neutral-400 text-sm mb-8">How many agents earn each grade.</p>
-                {filterGrade && (
-                  <p className="text-sm text-neutral-400 mb-4">
-                    Filtering by grade <span className={`font-bold ${gradeColor(filterGrade)}`}>{filterGrade}</span> — 
-                    <button onClick={() => setFilterGrade("")} className="text-green-500 hover:underline ml-1">clear</button>
-                  </p>
-                )}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                  {data.gradeDistribution.map((g) => (
-                    <button
-                      key={g.grade}
-                      onClick={() => setFilterGrade(filterGrade === g.grade ? "" : g.grade)}
-                      className={`rounded-xl border p-5 text-center transition-all cursor-pointer ${
-                        filterGrade === g.grade
-                          ? "border-green-500 bg-green-500/10 ring-1 ring-green-500/50"
-                          : "border-neutral-800 bg-neutral-900/50 hover:border-neutral-600"
-                      }`}
-                    >
-                      <p className={`text-3xl font-bold ${gradeColor(g.grade)}`}>{g.grade}</p>
-                      <p className="text-xl font-bold text-white mt-1">{g.count}</p>
-                      <p className="text-xs text-neutral-400">{g.percentage}%</p>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </section>
           </>
+        )}
+
+        {/* Grade Distribution — always visible from unfiltered data */}
+        {(baseData || data) && (
+          <section className="px-6 py-16 border-t border-neutral-800">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-2xl font-bold text-white mb-2">Grade Distribution</h2>
+              <p className="text-neutral-400 text-sm mb-4">How many agents earn each grade. Click to filter.</p>
+              {filterGrade && (
+                <p className="text-sm text-neutral-400 mb-4">
+                  Showing only grade <span className={`font-bold ${gradeColor(filterGrade)}`}>{filterGrade}</span> scans — 
+                  <button onClick={() => setFilterGrade("")} className="text-green-500 hover:underline ml-1">clear</button>
+                </p>
+              )}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                {(baseData || data)!.gradeDistribution.map((g) => (
+                  <button
+                    key={g.grade}
+                    onClick={() => setFilterGrade(filterGrade === g.grade ? "" : g.grade)}
+                    disabled={g.count === 0}
+                    className={`rounded-xl border p-5 text-center transition-all ${
+                      g.count === 0
+                        ? "border-neutral-800 bg-neutral-900/30 opacity-40 cursor-not-allowed"
+                        : filterGrade === g.grade
+                          ? "border-green-500 bg-green-500/10 ring-1 ring-green-500/50 cursor-pointer"
+                          : "border-neutral-800 bg-neutral-900/50 hover:border-neutral-600 cursor-pointer"
+                    }`}
+                  >
+                    <p className={`text-3xl font-bold ${gradeColor(g.grade)}`}>{g.grade}</p>
+                    <p className="text-xl font-bold text-white mt-1">{g.count}</p>
+                    <p className="text-xs text-neutral-400">{g.percentage}%</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
         )}
 
         {/* CTA */}
