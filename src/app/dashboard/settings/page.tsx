@@ -5,8 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ArrowLeft, Key, Copy, Check, Trash2, RefreshCw, Loader2, Terminal, GitBranch } from "lucide-react";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
+
+const TEAM_BASE_URL = "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0";
+
+function buildCheckoutUrl(baseUrl: string, email?: string, userId?: string): string {
+  const sep = baseUrl.includes('?') ? '&' : '?';
+  return email 
+    ? `${baseUrl}${sep}checkout[email]=${encodeURIComponent(email)}&checkout[custom][user_id]=${userId || ''}&checkout[custom][source]=pwnclaw`
+    : `${baseUrl}${sep}checkout[custom][source]=pwnclaw`;
+}
 
 export default function SettingsPage() {
+  const { user: clerkUser } = useUser();
+  const userEmail = clerkUser?.emailAddresses?.[0]?.emailAddress;
+  const teamCheckoutUrl = buildCheckoutUrl(TEAM_BASE_URL, userEmail, clerkUser?.id);
   const [apiKey, setApiKey] = useState<string | null>(null);
   const [hasKey, setHasKey] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -84,7 +97,11 @@ export default function SettingsPage() {
             <Loader2 className="w-5 h-5 animate-spin text-neutral-500" />
           ) : plan !== 'team' ? (
             <div className="text-sm text-neutral-400">
-              API keys are available on the <Link href="/dashboard/upgrade-team" className="text-green-500 font-semibold hover:text-green-400 underline underline-offset-2">Team plan</Link>. {plan === 'pro' ? 'Cancel Pro first, then upgrade to avoid double billing.' : 'Upgrade to access CI/CD integration and GitHub Action.'}
+              API keys are available on the {plan === 'pro' ? (
+                <Link href="/dashboard/upgrade-team" className="text-green-500 font-semibold hover:text-green-400 underline underline-offset-2">Team plan</Link>
+              ) : (
+                <a href={teamCheckoutUrl} className="text-green-500 font-semibold hover:text-green-400 underline underline-offset-2">Team plan</a>
+              )}. {plan === 'pro' ? 'Cancel Pro first, then upgrade to avoid double billing.' : 'Upgrade to access CI/CD integration and GitHub Action.'}
             </div>
           ) : showNewKey ? (
             <div className="space-y-3">
