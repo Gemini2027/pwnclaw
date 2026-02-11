@@ -327,16 +327,18 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                 .sort(([,a], [,b]) => (a.passed/a.total) - (b.passed/b.total))
                 .map(([cat, { passed, total }]) => {
                   const pct = Math.round((passed / total) * 100);
+                  const barColor = pct === 100 ? 'bg-green-500' : pct >= 80 ? 'bg-green-500' : pct >= 60 ? 'bg-yellow-500' : pct > 0 ? 'bg-orange-500' : 'bg-red-500';
+                  const bgColor = pct === 100 ? 'bg-neutral-800' : pct === 0 ? 'bg-red-500/20' : 'bg-neutral-800';
                   return (
                     <div key={cat} className="flex items-center gap-3">
-                      <span className="text-xs text-neutral-400 w-36 truncate">{getCategoryName(cat)}</span>
-                      <div className="flex-1 bg-neutral-800 rounded-full h-2">
+                      <span className={`text-xs w-36 truncate ${pct === 100 ? 'text-neutral-400' : pct === 0 ? 'text-red-400' : 'text-neutral-400'}`}>{getCategoryName(cat)}</span>
+                      <div className={`flex-1 rounded-full h-2 ${bgColor}`}>
                         <div
-                          className={`h-2 rounded-full ${pct >= 80 ? 'bg-green-500' : pct >= 60 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                          style={{ width: `${pct}%` }}
+                          className={`h-2 rounded-full ${barColor}`}
+                          style={{ width: `${Math.max(pct, pct === 0 ? 100 : 0)}%` }}
                         />
                       </div>
-                      <span className="text-xs font-mono text-neutral-300 w-16 text-right">{passed}/{total}</span>
+                      <span className={`text-xs font-mono w-16 text-right ${pct === 100 ? 'text-green-400' : pct === 0 ? 'text-red-400' : 'text-yellow-400'}`}>{passed}/{total}</span>
                     </div>
                   );
                 });
@@ -400,89 +402,6 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
             </div>
           </CardContent>
         </Card>
-      )}
-
-      {/* Share & Export */}
-      {test.status === 'completed' && test.score !== null && (
-        <div className="grid md:grid-cols-2 gap-4 mb-6">
-          {/* README Badge */}
-          <Card className="bg-neutral-900 border-neutral-800">
-            <CardContent className="py-5">
-              <div className="flex items-center gap-3 mb-4">
-                <Shield className="w-5 h-5 text-green-500" />
-                <div>
-                  <p className="font-medium text-white">README Badge</p>
-                  <p className="text-xs text-neutral-400">Show your security score in your README</p>
-                </div>
-              </div>
-              <div className="flex items-center justify-center bg-black rounded-lg p-4 mb-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/api/badge/${token}.svg`} alt="PwnClaw Score Badge" height={20} />
-              </div>
-              <div className="bg-black rounded p-2 font-mono text-xs text-neutral-400 overflow-x-auto mb-3">
-                {`![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`}
-              </div>
-              <Button
-                variant="outline"
-                className="w-full border-neutral-700 cursor-pointer"
-                onClick={() => {
-                  const md = `![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`;
-                  navigator.clipboard.writeText(md);
-                  setCopiedBadge(true);
-                  setTimeout(() => setCopiedBadge(false), 3000);
-                }}
-              >
-                {copiedBadge ? (
-                  <>
-                    <Check className="w-4 h-4 mr-2" />
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4 mr-2" />
-                    Copy Markdown
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Export Report */}
-          <Card className="bg-neutral-900 border-neutral-800">
-            <CardContent className="py-5">
-              <div className="flex items-center gap-3 mb-4">
-                <FileDown className="w-5 h-5 text-blue-400" />
-                <div>
-                  <p className="font-medium text-white">Export Report</p>
-                  <p className="text-xs text-neutral-400">Download full results as Markdown</p>
-                </div>
-              </div>
-              <div className="bg-black rounded-lg p-4 mb-4 text-sm text-neutral-400 space-y-1">
-                <p>📊 Score, grade &amp; benchmark percentile</p>
-                <p>🔍 All attack results with details</p>
-                <p>🔧 Fix instructions for every vulnerability</p>
-                <p>📈 Category breakdown &amp; severity counts</p>
-              </div>
-              <Button
-                variant="outline"
-                className="w-full border-neutral-700 cursor-pointer"
-                onClick={() => {
-                  const md = generateMarkdownReport(test, results, summary, benchmark);
-                  const blob = new Blob([md], { type: 'text/markdown' });
-                  const url = URL.createObjectURL(blob);
-                  const a = document.createElement('a');
-                  a.href = url;
-                  a.download = `pwnclaw-${test.agentName.replace(/\s+/g, '-').toLowerCase()}-${new Date(test.createdAt).toISOString().slice(0,10)}.md`;
-                  a.click();
-                  URL.revokeObjectURL(url);
-                }}
-              >
-                <FileDown className="w-4 h-4 mr-2" />
-                Download Report (.md)
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
       )}
 
       {/* Results List */}
@@ -585,6 +504,89 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
           })}
         </CardContent>
       </Card>
+
+      {/* Share & Export */}
+      {test.status === 'completed' && test.score !== null && (
+        <div className="grid md:grid-cols-2 gap-4 mt-6">
+          {/* README Badge */}
+          <Card className="bg-neutral-900 border-neutral-800">
+            <CardContent className="py-5">
+              <div className="flex items-center gap-3 mb-4">
+                <Shield className="w-5 h-5 text-green-500" />
+                <div>
+                  <p className="font-medium text-white">README Badge</p>
+                  <p className="text-xs text-neutral-400">Show your security score in your README</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-center bg-black rounded-lg p-4 mb-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`/api/badge/${token}.svg`} alt="PwnClaw Score Badge" height={20} />
+              </div>
+              <div className="bg-black rounded p-2 font-mono text-xs text-neutral-400 overflow-x-auto mb-3">
+                {`![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`}
+              </div>
+              <Button
+                variant="outline"
+                className="w-full border-neutral-700 cursor-pointer"
+                onClick={() => {
+                  const md = `![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`;
+                  navigator.clipboard.writeText(md);
+                  setCopiedBadge(true);
+                  setTimeout(() => setCopiedBadge(false), 3000);
+                }}
+              >
+                {copiedBadge ? (
+                  <>
+                    <Check className="w-4 h-4 mr-2" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 mr-2" />
+                    Copy Markdown
+                  </>
+                )}
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Export Report */}
+          <Card className="bg-neutral-900 border-neutral-800">
+            <CardContent className="py-5">
+              <div className="flex items-center gap-3 mb-4">
+                <FileDown className="w-5 h-5 text-blue-400" />
+                <div>
+                  <p className="font-medium text-white">Export Report</p>
+                  <p className="text-xs text-neutral-400">Download full results as Markdown</p>
+                </div>
+              </div>
+              <div className="bg-black rounded-lg p-4 mb-4 text-sm text-neutral-400 space-y-1">
+                <p>📊 Score, grade &amp; benchmark percentile</p>
+                <p>🔍 All attack results with details</p>
+                <p>🔧 Fix instructions for every vulnerability</p>
+                <p>📈 Category breakdown &amp; severity counts</p>
+              </div>
+              <Button
+                variant="outline"
+                className="w-full border-neutral-700 cursor-pointer"
+                onClick={() => {
+                  const md = generateMarkdownReport(test, results, summary, benchmark);
+                  const blob = new Blob([md], { type: 'text/markdown' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `pwnclaw-${test.agentName.replace(/\s+/g, '-').toLowerCase()}-${new Date(test.createdAt).toISOString().slice(0,10)}.md`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+              >
+                <FileDown className="w-4 h-4 mr-2" />
+                Download Report (.md)
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Actions */}
       <div className="flex gap-4 mt-8">
