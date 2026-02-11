@@ -166,7 +166,7 @@ export default function Home() {
           </p>
           
           <p className="text-lg md:text-xl text-neutral-400 mb-8 max-w-2xl mx-auto">
-            PwnClaw is an AI agent security testing platform. 112 real-world attacks — jailbreaks, prompt injection, data exfiltration, MCP poisoning, and more. Security score plus fix instructions for every vulnerability found. Results in five minutes, no API keys needed.
+            Think of it as <span className="text-white font-medium">antivirus for AI agents</span>. 112 real-world attacks — jailbreaks, prompt injection, data exfiltration, MCP poisoning, and more. Security score plus fix instructions for every vulnerability found. Results in five minutes, no API keys needed.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
