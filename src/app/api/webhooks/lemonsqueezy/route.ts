@@ -4,7 +4,9 @@ import { db } from '@/lib/db';
 import { PLAN_LIMITS } from '@/lib/supabase';
 
 // Lemon Squeezy Webhook Handler
-// Events: order_created, subscription_created, subscription_updated, subscription_cancelled
+// Events: order_created, order_refunded, subscription_created, subscription_updated,
+// subscription_cancelled, subscription_expired, subscription_paused, subscription_resumed,
+// subscription_payment_failed
 
 // Known PwnClaw Product IDs → plan mapping
 const PRODUCT_PLAN_MAP: Record<string, 'pro' | 'team'> = {
@@ -141,8 +143,17 @@ export async function POST(request: NextRequest) {
       productName.includes('pwnclaw') || productName.includes('agent security');
     
     if (!isPwnClaw) {
-      console.log(`Ignoring non-PwnClaw product: "${productName}" (ID: ${productId})`);
-      return NextResponse.json({ received: true, ignored: true });
+      // For lifecycle events (refund, pause, resume, cancel) product info may be missing.
+      // If we can find the user by lemon_customer_id, they're a PwnClaw user.
+      const isLifecycleEvent = ['order_refunded', 'subscription_paused', 'subscription_resumed',
+        'subscription_cancelled', 'subscription_expired', 'subscription_payment_failed'].includes(eventName);
+      
+      if (!isLifecycleEvent) {
+        console.log(`Ignoring non-PwnClaw product: "${productName}" (ID: ${productId})`);
+        return NextResponse.json({ received: true, ignored: true });
+      }
+      // Lifecycle events: continue — findUser will determine if they're ours
+      console.log(`Lifecycle event ${eventName} without product match — proceeding with user lookup`);
     }
 
     const plan = detectPlan(productId, productName);
@@ -215,6 +226,56 @@ export async function POST(request: NextRequest) {
           console.log(`Payment failed — downgraded ${found.user.email} to Free (via ${found.method})`);
         } else {
           console.error(`[WEBHOOK] payment_failed: User not found! customer=${customerId}, email=${userEmail}`);
+        }
+        break;
+      }
+
+      case 'order_refunded': {
+        // Refund — downgrade to free immediately
+        const found = await findUser(lookupOpts);
+        if (found) {
+          await db.from('users').update({
+            plan: 'free',
+            credits_remaining: PLAN_LIMITS.free.credits,
+            lemon_subscription_id: null, // Clear sub ID — subscription is void after refund
+          }).eq('id', found.user.id);
+          console.log(`Refunded — downgraded ${found.user.email} to Free (via ${found.method})`);
+        } else {
+          console.error(`[WEBHOOK] order_refunded: User not found! customer=${customerId}, email=${userEmail}`);
+        }
+        break;
+      }
+
+      case 'subscription_paused': {
+        // Paused — downgrade to free while paused
+        const found = await findUser(lookupOpts);
+        if (found) {
+          await db.from('users').update({
+            plan: 'free',
+            credits_remaining: PLAN_LIMITS.free.credits
+          }).eq('id', found.user.id);
+          console.log(`Paused — downgraded ${found.user.email} to Free (via ${found.method})`);
+        } else {
+          console.error(`[WEBHOOK] subscription_paused: User not found! customer=${customerId}, email=${userEmail}`);
+        }
+        break;
+      }
+
+      case 'subscription_resumed': {
+        // Resumed — restore paid plan
+        const found = await findUser(lookupOpts);
+        if (found) {
+          const updates: Record<string, any> = {
+            plan,
+            credits_remaining: PLAN_LIMITS[plan].credits,
+          };
+          if (customerId) updates.lemon_customer_id = customerId;
+          if (subscriptionId) updates.lemon_subscription_id = subscriptionId;
+          
+          await db.from('users').update(updates).eq('id', found.user.id);
+          console.log(`Resumed — upgraded ${found.user.email} to ${plan} (via ${found.method})`);
+        } else {
+          console.error(`[WEBHOOK] subscription_resumed: User not found! customer=${customerId}, email=${userEmail}`);
         }
         break;
       }
