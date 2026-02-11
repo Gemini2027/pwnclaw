@@ -52,7 +52,7 @@ const jsonLd = {
     },
   ],
   featureList: [
-    '112 real-world attack prompts (50 per scan)',
+    '112 real-world attack prompts (15–50 per scan depending on plan)',
     '14 attack categories',
     'Prompt injection testing',
     'Jailbreak detection',

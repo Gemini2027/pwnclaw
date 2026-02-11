@@ -149,7 +149,7 @@ export default function AgentsOverviewPage() {
                           {agent.latestScore}/100
                         </div>
                         <div className="text-xs text-neutral-500">
-                          {agent.latestScore >= 90 ? 'A' : agent.latestScore >= 80 ? 'B' : agent.latestScore >= 70 ? 'C' : agent.latestScore >= 60 ? 'D' : 'F'}
+                          {agent.latestScore === 100 ? 'A+' : agent.latestScore >= 90 ? 'A' : agent.latestScore >= 80 ? 'B' : agent.latestScore >= 70 ? 'C' : agent.latestScore >= 60 ? 'D' : 'F'}
                         </div>
                       </div>
                     </div>
