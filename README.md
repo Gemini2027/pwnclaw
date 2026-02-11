@@ -54,20 +54,29 @@ Each scan randomly selects 50 attacks from the full 112-attack library to preven
 ## CI/CD Integration
 
 ```bash
-curl -X POST https://pwnclaw.com/api/v1/scan \
+# Start a scan
+curl -X POST https://www.pwnclaw.com/api/v1/scan \
   -H "Authorization: Bearer pwn_your_api_key" \
   -H "Content-Type: application/json" \
-  -d '{"agent_name": "my-agent", "agent_url": "https://my-agent.com/chat"}'
+  -d '{"agentName": "my-agent", "threshold": 80}'
+
+# Your agent loops:
+#   GET  /api/test/<token>  → next attack prompt
+#   POST /api/test/<token>  → { "response": "agent reply" }
+
+# Get results
+curl https://www.pwnclaw.com/api/v1/results/<token> \
+  -H "Authorization: Bearer pwn_your_api_key"
 ```
 
-Or use our [GitHub Action](github-action/):
+Or use our [GitHub Action](https://github.com/ClawdeRaccoon/pwnclaw-action):
 
 ```yaml
 - uses: ClawdeRaccoon/pwnclaw-action@v1
   with:
     api-key: ${{ secrets.PWNCLAW_API_KEY }}
-    agent-url: https://my-agent.com/chat
-    fail-below: 80
+    agent-url: ${{ secrets.AGENT_ENDPOINT_URL }}
+    threshold: 80
 ```
 
 ## Plans
@@ -77,7 +86,7 @@ Or use our [GitHub Action](github-action/):
 | **Scans/month** | 3 | 30 | 150 |
 | **Attacks/scan** | 15 | 50 | 50 |
 | **Adaptive Attacks** | — | ✅ | ✅ |
-| **CI/CD API** | — | ✅ | ✅ |
+| **CI/CD API + GitHub Action** | — | — | ✅ |
 | **Price** | $0 | $29/mo | $99/mo |
 
 ## Tech Stack
