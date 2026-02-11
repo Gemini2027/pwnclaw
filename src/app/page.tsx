@@ -655,7 +655,7 @@ export default function Home() {
 
       {/* Adaptive AI Attacks */}
       <section className="px-6 py-24 border-t border-neutral-800">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="relative rounded-2xl border border-green-500/20 bg-gradient-to-br from-neutral-900 via-neutral-950 to-green-500/5 p-1">
             <div className="rounded-xl bg-neutral-950/80 p-8 md:p-12">
               <div className="grid md:grid-cols-2 gap-10 items-center">
