@@ -133,12 +133,12 @@ export default function BenchmarksPage() {
 
             {/* Filter Dropdowns */}
             {(allModels.length > 0 || allFrameworks.length > 0) && (
-              <div className="flex flex-wrap justify-center gap-4 mb-8 max-w-2xl mx-auto">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 max-w-3xl mx-auto">
                 {allModels.length > 0 && (
                   <select
                     value={filterModel}
                     onChange={(e) => setFilterModel(e.target.value)}
-                    className="rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-8 py-2 text-sm"
+                    className="w-full appearance-none rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-10 py-2.5 text-sm cursor-pointer bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%23a3a3a3%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.47%206.47a.75.75%200%200%201%201.06%200L8%208.94l2.47-2.47a.75.75%200%201%201%201.06%201.06l-3%203a.75.75%200%200%201-1.06%200l-3-3a.75.75%200%200%201%200-1.06z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat"
                   >
                     <option value="">All Models</option>
                     {allModels.map((m) => (
@@ -150,7 +150,7 @@ export default function BenchmarksPage() {
                   <select
                     value={filterFramework}
                     onChange={(e) => setFilterFramework(e.target.value)}
-                    className="rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-8 py-2 text-sm"
+                    className="w-full appearance-none rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-10 py-2.5 text-sm cursor-pointer bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%23a3a3a3%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.47%206.47a.75.75%200%200%201%201.06%200L8%208.94l2.47-2.47a.75.75%200%201%201%201.06%201.06l-3%203a.75.75%200%200%201-1.06%200l-3-3a.75.75%200%200%201%200-1.06z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat"
                   >
                     <option value="">All Frameworks</option>
                     {allFrameworks.map((f) => (
@@ -161,7 +161,7 @@ export default function BenchmarksPage() {
                 <select
                   value={filterFixes}
                   onChange={(e) => setFilterFixes(e.target.value)}
-                  className="rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-8 py-2 text-sm"
+                  className="w-full appearance-none rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-10 py-2.5 text-sm cursor-pointer bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%23a3a3a3%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.47%206.47a.75.75%200%200%201%201.06%200L8%208.94l2.47-2.47a.75.75%200%201%201%201.06%201.06l-3%203a.75.75%200%200%201-1.06%200l-3-3a.75.75%200%200%201%200-1.06z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat"
                 >
                   <option value="">All Scans</option>
                   <option value="true">With Fixes</option>
@@ -170,21 +170,23 @@ export default function BenchmarksPage() {
                 <select
                   value={filterAttacks}
                   onChange={(e) => setFilterAttacks(e.target.value)}
-                  className="rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-8 py-2 text-sm"
+                  className="w-full appearance-none rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-10 py-2.5 text-sm cursor-pointer bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%23a3a3a3%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.47%206.47a.75.75%200%200%201%201.06%200L8%208.94l2.47-2.47a.75.75%200%201%201%201.06%201.06l-3%203a.75.75%200%200%201-1.06%200l-3-3a.75.75%200%200%201%200-1.06z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat"
                 >
                   <option value="">All Scan Types</option>
                   <option value="15">Free (15 attacks)</option>
                   <option value="50">Pro (50 attacks)</option>
                 </select>
-                {(filterModel || filterFramework || filterFixes || filterAttacks) && (
+              </div>
+              {(filterModel || filterFramework || filterFixes || filterAttacks) && (
+                <div className="text-center mb-8">
                   <button
                     onClick={() => { setFilterModel(""); setFilterFramework(""); setFilterFixes(""); setFilterAttacks(""); }}
                     className="text-xs text-neutral-400 hover:text-white underline"
                   >
                     Clear filters
                   </button>
-                )}
-              </div>
+                </div>
+              )}
             )}
 
             {loading ? (
