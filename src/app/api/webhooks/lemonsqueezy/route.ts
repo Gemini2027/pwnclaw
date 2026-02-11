@@ -118,8 +118,14 @@ export async function POST(request: NextRequest) {
     
     const userEmail = attrs.user_email || attrs.customer_email || customData.email || '';
     const customerId = attrs.customer_id?.toString() || '';
-    const subscriptionId = payload.data?.id?.toString() || '';
     const clerkUserId = customData.user_id || '';
+    
+    // subscription_id: only trust data.id for subscription_* events.
+    // For order_created, data.id is the ORDER id — not a subscription id.
+    const isSubscriptionEvent = eventName?.startsWith('subscription_');
+    const subscriptionId = isSubscriptionEvent 
+      ? payload.data?.id?.toString() || ''
+      : '';
     
     const productId = attrs.product_id?.toString() || attrs.first_order_item?.product_id?.toString() || '';
     const productName = (attrs.product_name || attrs.first_order_item?.product_name || '').toLowerCase();
@@ -158,12 +164,11 @@ export async function POST(request: NextRequest) {
           
           await db.from('users').update(updates).eq('id', found.user.id);
           console.log(`Upgraded ${found.user.email} to ${plan} (via ${found.method}). Lemon customer=${customerId}, sub=${subscriptionId}`);
-        } else if (clerkUserId || userEmail) {
-          // No existing user found — create with Lemon IDs
+        } else if (clerkUserId) {
+          // User has Clerk ID but doesn't exist in DB yet (signed up via Lemon before visiting dashboard)
           const newEmail = userEmail || `${clerkUserId}@clerk.user`;
-          const newClerkId = clerkUserId || `lemon_${customerId || Date.now()}`;
           const { data: newUser, error } = await db.from('users').insert({
-            clerk_id: newClerkId,
+            clerk_id: clerkUserId,
             email: newEmail,
             plan,
             credits_remaining: PLAN_LIMITS[plan].credits,
@@ -173,12 +178,14 @@ export async function POST(request: NextRequest) {
           }).select().single();
           
           if (newUser) {
-            console.log(`Created user ${newEmail} with ${plan} plan (webhook). Lemon customer=${customerId}`);
+            console.log(`Created user ${newEmail} with ${plan} plan (webhook, Clerk ID). Lemon customer=${customerId}`);
           } else {
             console.error(`Failed to create user:`, error);
           }
         } else {
-          console.error(`[WEBHOOK] ${eventName}: No identifiers available! Cannot match or create user.`);
+          // NO Clerk ID available — cannot reliably link to a PwnClaw account.
+          // Do NOT create a phantom user. Log for manual resolution.
+          console.error(`[WEBHOOK] ${eventName}: Cannot match payment to user! No Clerk ID in custom_data. Email=${userEmail}, customer=${customerId}. Manual linking required.`);
         }
         break;
       }
