@@ -116,7 +116,14 @@ export default function PrivacyPage() {
             </li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">6. Your Rights (GDPR)</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">6. Cookies</h2>
+          <p>
+            We only use <strong>strictly necessary cookies</strong> for authentication and session management 
+            (via Clerk). We do not use marketing, analytics, or tracking cookies. Since these cookies are 
+            technically required for the Service to function, no cookie consent banner is needed under GDPR.
+          </p>
+
+          <h2 className="text-xl font-semibold text-white mt-8">7. Your Rights (GDPR)</h2>
           <p>You have the right to:</p>
           <ul className="list-disc pl-6 space-y-2">
             <li><strong>Access</strong> - Download all your data</li>
@@ -130,7 +137,7 @@ export default function PrivacyPage() {
             <span className="text-green-500">privacy[at]pwnclaw.com</span>
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">7. Security Recommendations</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">8. Security Recommendations</h2>
           <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
             <p className="text-neutral-300">
               <strong>Before testing your agent:</strong>
@@ -143,13 +150,13 @@ export default function PrivacyPage() {
             </ul>
           </div>
 
-          <h2 className="text-xl font-semibold text-white mt-8">8. Changes to This Policy</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">9. Changes to This Policy</h2>
           <p>
             We will notify you of significant changes via email. Continued use after changes 
             constitutes acceptance.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">9. Contact</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">10. Contact</h2>
           <p>
             Data Protection Officer:{" "}
             <span className="text-green-500">privacy[at]pwnclaw.com</span>
