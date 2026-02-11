@@ -132,8 +132,8 @@ export default function BenchmarksPage() {
             </p>
 
             {/* Filter Dropdowns */}
-            {(allModels.length > 0 || allFrameworks.length > 0) && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 max-w-3xl mx-auto">
+            {(allModels.length > 0 || allFrameworks.length > 0) && (<>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4 max-w-3xl mx-auto">
                 {allModels.length > 0 && (
                   <select
                     value={filterModel}
@@ -178,7 +178,7 @@ export default function BenchmarksPage() {
                 </select>
               </div>
               {(filterModel || filterFramework || filterFixes || filterAttacks) && (
-                <div className="text-center mb-8">
+                <div className="text-center mb-4">
                   <button
                     onClick={() => { setFilterModel(""); setFilterFramework(""); setFilterFixes(""); setFilterAttacks(""); }}
                     className="text-xs text-neutral-400 hover:text-white underline"
@@ -187,7 +187,7 @@ export default function BenchmarksPage() {
                   </button>
                 </div>
               )}
-            )}
+            </>)}
 
             {loading ? (
               <p className="text-neutral-500">Loading benchmark data...</p>
