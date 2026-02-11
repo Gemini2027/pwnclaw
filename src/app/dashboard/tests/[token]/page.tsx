@@ -402,11 +402,11 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
         </Card>
       )}
 
-      {/* Badge Embed */}
+      {/* Share & Export */}
       {test.status === 'completed' && test.score !== null && (
         <Card className="bg-neutral-900 border-neutral-800 mb-6">
           <CardContent className="py-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <Shield className="w-6 h-6 text-green-500" />
                 <div>
@@ -437,9 +437,26 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                 )}
               </Button>
             </div>
-            <div className="mt-3 bg-black rounded p-2 font-mono text-xs text-neutral-400 overflow-x-auto">
+            <div className="bg-black rounded p-2 font-mono text-xs text-neutral-400 overflow-x-auto mb-4">
               {`![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`}
             </div>
+            <Button
+              variant="outline"
+              className="border-neutral-700 cursor-pointer"
+              onClick={() => {
+                const md = generateMarkdownReport(test, results, summary, benchmark);
+                const blob = new Blob([md], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `pwnclaw-${test.agentName.replace(/\s+/g, '-').toLowerCase()}-${new Date(test.createdAt).toISOString().slice(0,10)}.md`;
+                a.click();
+                URL.revokeObjectURL(url);
+              }}
+            >
+              <FileDown className="w-4 h-4 mr-2" />
+              Export Full Report (.md)
+            </Button>
           </CardContent>
         </Card>
       )}
@@ -558,27 +575,6 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
             Re-Test {test.agentName}
           </Button>
         </Link>
-      </div>
-
-      {/* Export */}
-      <div className="flex gap-4 mt-4">
-        <Button
-          variant="outline"
-          className="border-neutral-700 cursor-pointer"
-          onClick={() => {
-            const md = generateMarkdownReport(test, results, summary, benchmark);
-            const blob = new Blob([md], { type: 'text/markdown' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `pwnclaw-${test.agentName.replace(/\s+/g, '-').toLowerCase()}-${new Date(test.createdAt).toISOString().slice(0,10)}.md`;
-            a.click();
-            URL.revokeObjectURL(url);
-          }}
-        >
-          <FileDown className="w-4 h-4 mr-2" />
-          Export Report (.md)
-        </Button>
       </div>
 
       {/* Delete Section */}
