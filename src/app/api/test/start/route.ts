@@ -3,38 +3,6 @@ import { auth, currentUser } from '@clerk/nextjs/server';
 import { getOrCreateUser, createTest, getUserByClerkId, reserveCredit, db } from '@/lib/db';
 import { PLAN_LIMITS } from '@/lib/supabase';
 
-// ⚠️ WARNING: In-memory rate limiting does NOT work on Vercel serverless.
-// Each invocation may run on a different instance, so the Map is not shared.
-// Rate limiting via DB-based credit system (durable, no Redis needed):
-//   https://upstash.com/docs/redis/sdks/ratelimit-ts/overview
-// The DB-based rate check below (checkRecentTest) provides a durable fallback.
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT = 10; // Max 10 tests per minute per user
-const RATE_WINDOW = 60 * 1000; // 1 minute
-
-function checkRateLimit(userId: string): boolean {
-  const now = Date.now();
-  const userLimit = rateLimitMap.get(userId);
-  
-  if (!userLimit || now > userLimit.resetTime) {
-    rateLimitMap.set(userId, { count: 1, resetTime: now + RATE_WINDOW });
-    // W1: Cleanup expired entries to prevent memory leak on warm instances
-    if (rateLimitMap.size > 50) {
-      for (const [key, val] of rateLimitMap.entries()) {
-        if (now > val.resetTime) rateLimitMap.delete(key);
-      }
-    }
-    return true;
-  }
-  
-  if (userLimit.count >= RATE_LIMIT) {
-    return false;
-  }
-  
-  userLimit.count++;
-  return true;
-}
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -67,11 +35,6 @@ export async function POST(request: NextRequest) {
     
     if (!clerkId) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
-    }
-
-    // Rate limiting (in-memory, unreliable on serverless — see comment above)
-    if (!checkRateLimit(clerkId)) {
-      return NextResponse.json({ error: 'Rate limit exceeded. Max 10 tests per minute.' }, { status: 429 });
     }
 
     let user = await getUserByClerkId(clerkId);

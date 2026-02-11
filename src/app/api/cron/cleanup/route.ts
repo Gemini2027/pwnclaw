@@ -115,7 +115,7 @@ export async function GET(request: NextRequest) {
     const nextReset = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
     
     // Reset each plan separately (different credit amounts) — uses PLAN_LIMITS as source of truth
-    for (const [plan, credits] of [['free', PLAN_LIMITS.free.credits], ['pro', PLAN_LIMITS.pro.credits], ['team', PLAN_LIMITS.team.credits === -1 ? 999 : PLAN_LIMITS.team.credits]] as const) {
+    for (const [plan, credits] of [['free', PLAN_LIMITS.free.credits], ['pro', PLAN_LIMITS.pro.credits], ['team', PLAN_LIMITS.team.credits]] as const) {
       const { error: creditError } = await supabase
         .from('users')
         .update({

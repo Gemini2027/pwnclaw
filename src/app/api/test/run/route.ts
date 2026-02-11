@@ -28,7 +28,20 @@ function isPrivateIP(ip: string): boolean {
   // Handle IPv4-mapped IPv6 (::ffff:x.x.x.x)
   const v4match = ip.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/i);
   const checkIp = v4match ? v4match[1] : ip;
-  
+
+  // IPv6 private ranges
+  const ipLower = ip.toLowerCase().replace(/\[|\]/g, '');
+  if (
+    ipLower === '::1' ||                          // loopback
+    ipLower === '::' ||                            // unspecified
+    ipLower.startsWith('fe80') ||                  // link-local (fe80::/10)
+    ipLower.startsWith('fc') ||                    // ULA (fc00::/7)
+    ipLower.startsWith('fd') ||                    // ULA (fc00::/7)
+    ipLower.startsWith('100::') ||                 // discard (100::/64)
+    ipLower.startsWith('2001:db8')                 // documentation (2001:db8::/32)
+  ) return true;
+
+  // IPv4 check
   const parts = checkIp.split('.').map(Number);
   if (parts.length !== 4 || parts.some(p => isNaN(p))) return false;
   
@@ -95,9 +108,12 @@ export async function POST(request: NextRequest) {
 
     // K1: DNS resolution check — resolve hostname BEFORE making the request to prevent DNS rebinding
     try {
-      const { resolve4 } = await import('dns/promises');
-      const ips = await resolve4(hostname);
-      if (ips.some(ip => isPrivateIP(ip))) {
+      const { resolve4, resolve6 } = await import('dns/promises');
+      const [v4ips, v6ips] = await Promise.all([
+        resolve4(hostname).catch(() => [] as string[]),
+        resolve6(hostname).catch(() => [] as string[]),
+      ]);
+      if ([...v4ips, ...v6ips].some(ip => isPrivateIP(ip))) {
         return NextResponse.json({ error: 'Cannot target private network addresses (DNS resolved to private IP)' }, { status: 400 });
       }
     } catch {
