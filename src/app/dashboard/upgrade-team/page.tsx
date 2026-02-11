@@ -3,10 +3,22 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, CheckCircle2, ArrowRight } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
+const TEAM_BASE_URL = "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0";
+
+function buildCheckoutUrl(baseUrl: string, email?: string, userId?: string): string {
+  const sep = baseUrl.includes('?') ? '&' : '?';
+  return email 
+    ? `${baseUrl}${sep}checkout[email]=${encodeURIComponent(email)}&checkout[custom][user_id]=${userId || ''}&checkout[custom][source]=pwnclaw`
+    : `${baseUrl}${sep}checkout[custom][source]=pwnclaw`;
+}
+
 export default function UpgradeTeamPage() {
-  // V14: Removed unused fetch to /api/user/stats (email comes from checkout prefill)
+  const { user: clerkUser } = useUser();
+  const userEmail = clerkUser?.emailAddresses?.[0]?.emailAddress;
+  const teamCheckoutUrl = buildCheckoutUrl(TEAM_BASE_URL, userEmail, clerkUser?.id);
 
   return (
     <div className="p-8 max-w-2xl mx-auto">
@@ -62,7 +74,7 @@ export default function UpgradeTeamPage() {
               CI/CD API, GitHub Action integration, and priority support.
             </p>
             <a
-              href={process.env.NEXT_PUBLIC_LEMONSQUEEZY_TEAM_CHECKOUT_URL || "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"}
+              href={teamCheckoutUrl}
               className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2 text-sm font-medium transition-colors"
             >
               Start Team Plan — €99/mo

@@ -10,9 +10,10 @@ interface MobileSidebarProps {
   credits: number;
   maxCredits: number;
   checkoutUrl: string;
+  teamCheckoutUrl?: string;
 }
 
-export function MobileSidebar({ plan, credits, maxCredits, checkoutUrl }: MobileSidebarProps) {
+export function MobileSidebar({ plan, credits, maxCredits, checkoutUrl, teamCheckoutUrl }: MobileSidebarProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -90,9 +91,14 @@ export function MobileSidebar({ plan, credits, maxCredits, checkoutUrl }: Mobile
               </div>
               <div className="text-xs text-neutral-500 capitalize">{plan} Plan</div>
               {plan === 'free' ? (
-                <a href={checkoutUrl} className="text-xs text-green-500 hover:underline">
-                  Upgrade to Pro →
-                </a>
+                <div className="space-y-1">
+                  <a href={checkoutUrl} className="block text-xs text-green-500 hover:underline">
+                    Upgrade to Pro →
+                  </a>
+                  <a href={teamCheckoutUrl || checkoutUrl} className="block text-xs text-purple-500 hover:underline">
+                    Upgrade to Team →
+                  </a>
+                </div>
               ) : plan === 'pro' ? (
                 <a href="/dashboard/upgrade-team" className="text-xs text-purple-500 hover:underline">
                   Upgrade to Team →

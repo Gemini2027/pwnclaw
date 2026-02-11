@@ -8,13 +8,15 @@ interface CreditsDisplayProps {
   maxCredits: number;
   plan: string;
   checkoutUrl: string;
+  teamCheckoutUrl?: string;
 }
 
 export function CreditsDisplay({ 
   initialCredits, 
   maxCredits, 
   plan, 
-  checkoutUrl 
+  checkoutUrl,
+  teamCheckoutUrl 
 }: CreditsDisplayProps) {
   const [credits, setCredits] = useState(initialCredits);
   const isUnlimited = maxCredits === -1;
@@ -90,7 +92,7 @@ export function CreditsDisplay({
             Upgrade to Pro
           </a>
           <a 
-            href={process.env.NEXT_PUBLIC_LEMONSQUEEZY_TEAM_CHECKOUT_URL || "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"}
+            href={teamCheckoutUrl || "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"}
             className="flex items-center justify-center gap-2 w-full bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg py-2 text-sm font-medium transition-colors border border-purple-500/50"
           >
             <Zap className="w-4 h-4 text-purple-500" />

@@ -31,11 +31,17 @@ export default async function DashboardLayout({
   // NOTE: NEXT_PUBLIC_ vars are inlined at build time. If not set during build, the fallback URL is used.
   // Store: noid-privacy.lemonsqueezy.com (shared store for PwnClaw + NoID Privacy)
   const baseCheckoutUrl = process.env.NEXT_PUBLIC_LEMONSQUEEZY_CHECKOUT_URL || "https://noid-privacy.lemonsqueezy.com/checkout/buy/83fb581f-b786-4032-a1e2-fef4430e2d59?logo=0";
-  // W2: Use & if baseCheckoutUrl already contains ? to avoid double ?
-  const separator = baseCheckoutUrl.includes('?') ? '&' : '?';
-  const checkoutUrl = userEmail 
-    ? `${baseCheckoutUrl}${separator}checkout[email]=${encodeURIComponent(userEmail)}&checkout[custom][user_id]=${user?.id || ''}&checkout[custom][source]=pwnclaw`
-    : `${baseCheckoutUrl}${separator}checkout[custom][source]=pwnclaw`;
+  const baseTeamCheckoutUrl = process.env.NEXT_PUBLIC_LEMONSQUEEZY_TEAM_CHECKOUT_URL || "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0";
+  
+  function buildCheckoutUrl(baseUrl: string): string {
+    const sep = baseUrl.includes('?') ? '&' : '?';
+    return userEmail 
+      ? `${baseUrl}${sep}checkout[email]=${encodeURIComponent(userEmail)}&checkout[custom][user_id]=${user?.id || ''}&checkout[custom][source]=pwnclaw`
+      : `${baseUrl}${sep}checkout[custom][source]=pwnclaw`;
+  }
+  
+  const checkoutUrl = buildCheckoutUrl(baseCheckoutUrl);
+  const teamCheckoutUrl = buildCheckoutUrl(baseTeamCheckoutUrl);
   return (
     <div className="min-h-screen flex bg-black">
       {/* Mobile Header */}
@@ -44,7 +50,7 @@ export default async function DashboardLayout({
           <span className="text-xl font-bold text-green-500 font-mono">PWN</span>
           <span className="text-xl font-bold text-white font-mono">CLAW</span>
         </Link>
-        <MobileSidebar plan={plan} credits={credits} maxCredits={maxCredits} checkoutUrl={checkoutUrl} />
+        <MobileSidebar plan={plan} credits={credits} maxCredits={maxCredits} checkoutUrl={checkoutUrl} teamCheckoutUrl={teamCheckoutUrl} />
       </div>
       
       {/* Sidebar — hidden on mobile */}
@@ -78,6 +84,7 @@ export default async function DashboardLayout({
             maxCredits={maxCredits}
             plan={plan}
             checkoutUrl={checkoutUrl}
+            teamCheckoutUrl={teamCheckoutUrl}
           />
         </div>
 

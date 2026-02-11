@@ -16,7 +16,18 @@ import {
   CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 import { getTimeAgo } from "@/lib/utils";
+
+function buildCheckoutUrl(baseUrl: string, email?: string, userId?: string): string {
+  const sep = baseUrl.includes('?') ? '&' : '?';
+  return email 
+    ? `${baseUrl}${sep}checkout[email]=${encodeURIComponent(email)}&checkout[custom][user_id]=${userId || ''}&checkout[custom][source]=pwnclaw`
+    : `${baseUrl}${sep}checkout[custom][source]=pwnclaw`;
+}
+
+const PRO_BASE_URL = "https://noid-privacy.lemonsqueezy.com/checkout/buy/83fb581f-b786-4032-a1e2-fef4430e2d59?logo=0";
+const TEAM_BASE_URL = "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0";
 
 type UserStats = {
   user: {
@@ -47,9 +58,14 @@ type TrendData = {
 };
 
 export default function DashboardPage() {
+  const { user: clerkUser } = useUser();
   const [data, setData] = useState<UserStats | null>(null);
   const [trends, setTrends] = useState<TrendData | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const userEmail = clerkUser?.emailAddresses?.[0]?.emailAddress;
+  const proCheckoutUrl = buildCheckoutUrl(PRO_BASE_URL, userEmail, clerkUser?.id);
+  const teamCheckoutUrl = buildCheckoutUrl(TEAM_BASE_URL, userEmail, clerkUser?.id);
 
   useEffect(() => {
     Promise.all([
@@ -186,13 +202,13 @@ export default function DashboardPage() {
           <QuickAction
             title="Upgrade to Pro"
             description="50 attacks/scan, adaptive AI, 30 scans/mo — €29/mo"
-            href="https://noid-privacy.lemonsqueezy.com/checkout/buy/83fb581f-b786-4032-a1e2-fef4430e2d59?logo=0"
+            href={proCheckoutUrl}
             icon={Target}
           />
           <QuickAction
             title="Upgrade to Team"
             description="150 scans/mo, CI/CD API, GitHub Action — €99/mo"
-            href={process.env.NEXT_PUBLIC_LEMONSQUEEZY_TEAM_CHECKOUT_URL || "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"}
+            href={teamCheckoutUrl}
             icon={CheckCircle2}
           />
           </>
