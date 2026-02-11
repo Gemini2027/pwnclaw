@@ -84,7 +84,7 @@ export default function SettingsPage() {
             <Loader2 className="w-5 h-5 animate-spin text-neutral-500" />
           ) : plan !== 'team' ? (
             <div className="text-sm text-neutral-400">
-              API keys are available on the <span className="text-green-500 font-semibold">Team plan</span>. Upgrade to access CI/CD integration and GitHub Action.
+              API keys are available on the <Link href="/dashboard/upgrade-team" className="text-green-500 font-semibold hover:text-green-400 underline underline-offset-2">Team plan</Link>. Upgrade to access CI/CD integration and GitHub Action.
             </div>
           ) : showNewKey ? (
             <div className="space-y-3">
