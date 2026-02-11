@@ -55,7 +55,7 @@ export default function NewTestPage() {
     fetch('/api/user/stats')
       .then(res => res.json())
       .then(data => {
-        const plan = data?.account?.plan || 'free';
+        const plan = data?.user?.plan || 'free';
         const counts: Record<string, number> = { free: 15, pro: 50, team: 50 };
         setAttackCount(counts[plan] || 15);
       })
