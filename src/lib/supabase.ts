@@ -13,6 +13,8 @@ export interface DBUser {
   credits_remaining: number;
   credits_reset_at: string;
   api_key: string | null;
+  lemon_customer_id: string | null;
+  lemon_subscription_id: string | null;
   created_at: string;
 }
 

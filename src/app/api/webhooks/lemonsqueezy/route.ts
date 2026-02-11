@@ -6,16 +6,66 @@ import { PLAN_LIMITS } from '@/lib/supabase';
 // Lemon Squeezy Webhook Handler
 // Events: order_created, subscription_created, subscription_updated, subscription_cancelled
 
+// Known PwnClaw Product IDs → plan mapping
+const PRODUCT_PLAN_MAP: Record<string, 'pro' | 'team'> = {
+  '816634': 'pro',   // PwnClaw Pro (Variant 1287201)
+  '821997': 'team',  // PwnClaw Team (Variant 1295478)
+};
+const PWNCLAW_PRODUCT_IDS = Object.keys(PRODUCT_PLAN_MAP);
+
 // In-memory idempotency guard (survives within a single serverless instance lifetime).
-// DB upsert below provides durable idempotency across cold starts.
 const processedEvents = new Set<string>();
+
+/**
+ * Find user by best available identifier. Priority:
+ * 1. Lemon subscription_id (most reliable for lifecycle events)
+ * 2. Lemon customer_id (persists across subscriptions)
+ * 3. Clerk user_id from custom_data
+ * 4. Email fallback (least reliable)
+ */
+async function findUser(opts: {
+  subscriptionId?: string;
+  customerId?: string;
+  clerkUserId?: string;
+  email?: string;
+}): Promise<{ user: any; method: string } | null> {
+  // 1. Lemon subscription_id
+  if (opts.subscriptionId) {
+    const { data } = await db.from('users').select('*').eq('lemon_subscription_id', opts.subscriptionId).single();
+    if (data) return { user: data, method: 'lemon_subscription_id' };
+  }
+  // 2. Lemon customer_id
+  if (opts.customerId) {
+    const { data } = await db.from('users').select('*').eq('lemon_customer_id', opts.customerId).single();
+    if (data) return { user: data, method: 'lemon_customer_id' };
+  }
+  // 3. Clerk ID
+  if (opts.clerkUserId) {
+    const { data } = await db.from('users').select('*').eq('clerk_id', opts.clerkUserId).single();
+    if (data) return { user: data, method: 'clerk_id' };
+  }
+  // 4. Email fallback
+  if (opts.email) {
+    const { data } = await db.from('users').select('*').eq('email', opts.email).limit(1).single();
+    if (data) return { user: data, method: 'email' };
+  }
+  return null;
+}
+
+/**
+ * Detect plan from product_id. Falls back to product name matching.
+ */
+function detectPlan(productId: string, productName: string): 'pro' | 'team' {
+  if (PRODUCT_PLAN_MAP[productId]) return PRODUCT_PLAN_MAP[productId];
+  return productName.toLowerCase().includes('team') ? 'team' : 'pro';
+}
 
 export async function POST(request: NextRequest) {
   try {
     const rawBody = await request.text();
     const signature = request.headers.get('x-signature');
     
-    // Verify webhook signature (REQUIRED in production)
+    // Verify webhook signature
     const webhookSecret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
     if (!webhookSecret) {
       console.error('LEMONSQUEEZY_WEBHOOK_SECRET not configured — rejecting webhook');
@@ -38,280 +88,145 @@ export async function POST(request: NextRequest) {
     const payload = JSON.parse(rawBody);
     const eventName = payload.meta?.event_name;
     
-    // Idempotency: skip already-processed events (retries from Lemon Squeezy)
+    // Idempotency
     const eventId = payload.meta?.webhook_id || payload.data?.id;
     if (eventId) {
-      // Fast in-memory check
       if (processedEvents.has(eventId)) {
-        console.log(`Skipping duplicate webhook event: ${eventId}`);
         return NextResponse.json({ received: true, duplicate: true });
       }
-      // DB-level idempotency: check if event already exists
       const { data: existingEvent } = await db
         .from('webhook_events')
         .select('id')
         .eq('event_id', eventId)
         .single();
       if (existingEvent) {
-        console.log(`Skipping duplicate webhook event (DB): ${eventId}`);
         return NextResponse.json({ received: true, duplicate: true });
       }
-      // Insert new event
-      await db
-        .from('webhook_events')
-        .insert({ event_id: eventId, event_name: eventName, payload: payload, processed: true, processed_at: new Date().toISOString() });
+      await db.from('webhook_events').insert({
+        event_id: eventId, event_name: eventName, payload, processed: true, processed_at: new Date().toISOString()
+      });
       processedEvents.add(eventId);
-      // Cap in-memory set size
       if (processedEvents.size > 1000) {
         const first = processedEvents.values().next().value;
         if (first) processedEvents.delete(first);
       }
     }
     
-    // Custom data can be in different places depending on the event
+    // Extract all identifiers from payload
     const customData = payload.meta?.custom_data || payload.data?.attributes?.custom_data || {};
+    const attrs = payload.data?.attributes || {};
     
-    // Email can be in multiple places
-    const userEmail = 
-      payload.data?.attributes?.user_email || 
-      payload.data?.attributes?.customer_email ||
-      customData.email ||
-      '';
+    const userEmail = attrs.user_email || attrs.customer_email || customData.email || '';
+    const customerId = attrs.customer_id?.toString() || '';
+    const subscriptionId = payload.data?.id?.toString() || '';
+    const clerkUserId = customData.user_id || '';
     
-    const productId = payload.data?.attributes?.product_id?.toString() || 
-                      payload.data?.attributes?.first_order_item?.product_id?.toString() || '';
-    const productName = (
-      payload.data?.attributes?.product_name || 
-      payload.data?.attributes?.first_order_item?.product_name || 
-      ''
-    ).toLowerCase();
-    const variantId = payload.data?.attributes?.variant_id?.toString();
+    const productId = attrs.product_id?.toString() || attrs.first_order_item?.product_id?.toString() || '';
+    const productName = (attrs.product_name || attrs.first_order_item?.product_name || '').toLowerCase();
     
-    // Determine plan from product name
-    const isTeamProduct = productName.includes('team');
-    const detectedPlan = isTeamProduct ? 'team' : 'pro';
-    
-    // Log full payload for debugging (remove in production later)
-    console.log('Lemon Squeezy webhook received:', JSON.stringify({
-      event: eventName,
-      email: userEmail,
-      product: productName,
-      productId,
-      customData
+    console.log('Lemon Squeezy webhook:', JSON.stringify({
+      event: eventName, email: userEmail, customerId, subscriptionId,
+      clerkUserId: clerkUserId || 'none', product: productName, productId
     }, null, 2));
     
-    // Only process PwnClaw products - ignore NoID Privacy etc.
-    // Primary: match by known Product ID. Secondary: name-based fallback.
-    const PWNCLAW_PRODUCT_ID = '816634';
-    const PWNCLAW_PRODUCT_IDS = (process.env.LEMONSQUEEZY_PRODUCT_IDS || PWNCLAW_PRODUCT_ID).split(',').filter(Boolean);
-    const isPwnClawProduct = 
-      PWNCLAW_PRODUCT_IDS.includes(productId) ||
-      productId === PWNCLAW_PRODUCT_ID ||
-      (customData.source === 'pwnclaw') ||
-      productName.includes('pwnclaw') ||
-      productName.includes('agent security');
+    // Only process PwnClaw products
+    const isPwnClaw = PWNCLAW_PRODUCT_IDS.includes(productId) ||
+      customData.source === 'pwnclaw' ||
+      productName.includes('pwnclaw') || productName.includes('agent security');
     
-    if (!isPwnClawProduct) {
-      console.log(`Ignoring webhook for non-PwnClaw product: "${productName}" (ID: ${productId})`);
+    if (!isPwnClaw) {
+      console.log(`Ignoring non-PwnClaw product: "${productName}" (ID: ${productId})`);
       return NextResponse.json({ received: true, ignored: true });
     }
-    
-    console.log(`Processing PwnClaw product: "${productName}" (ID: ${productId})`);
 
-    // Handle different events
+    const plan = detectPlan(productId, productName);
+    const lookupOpts = { subscriptionId, customerId, clerkUserId, email: userEmail };
+
     switch (eventName) {
       case 'order_created':
       case 'subscription_created': {
-        // Upgrade user to Pro
-        const email = userEmail || customData.email;
-        const clerkUserId = customData.user_id;
+        const found = await findUser(lookupOpts);
         
-        let upgraded = false;
-        
-        // Try to find user by Clerk ID first (most reliable)
-        if (clerkUserId) {
-          const { data: userByClerk } = await db
-            .from('users')
-            .select('*')
-            .eq('clerk_id', clerkUserId)
-            .single();
+        if (found) {
+          // Upgrade existing user + store Lemon IDs
+          const updates: Record<string, any> = {
+            plan,
+            credits_remaining: PLAN_LIMITS[plan].credits,
+          };
+          if (customerId) updates.lemon_customer_id = customerId;
+          if (subscriptionId) updates.lemon_subscription_id = subscriptionId;
           
-          if (userByClerk) {
-            await db
-              .from('users')
-              .update({ 
-                plan: detectedPlan,
-                credits_remaining: PLAN_LIMITS[detectedPlan].credits
-              })
-              .eq('id', userByClerk.id);
-            
-            console.log(`Upgraded user ${userByClerk.email} to ${detectedPlan} plan (via Clerk ID)`);
-            upgraded = true;
-          }
-        }
-        
-        // Fallback: Try by email
-        if (!upgraded && email) {
-          const { data: userByEmail } = await db
-            .from('users')
-            .select('*')
-            .eq('email', email)
-            .single();
-
-          if (userByEmail) {
-            await db
-              .from('users')
-              .update({ 
-                plan: detectedPlan,
-                credits_remaining: PLAN_LIMITS[detectedPlan].credits
-              })
-              .eq('id', userByEmail.id);
-            
-            console.log(`Upgraded user ${email} to ${detectedPlan} plan (via email)`);
-            upgraded = true;
-          }
-        }
-        
-        // If user not found, create them with detected plan
-        if (!upgraded && (clerkUserId || email)) {
-          const newEmail = email || `${clerkUserId}@clerk.user`;
-          const newClerkId = clerkUserId || `unknown_${Date.now()}`;
-          const { data: newUser, error: createError } = await db
-            .from('users')
-            .insert({ 
-              clerk_id: newClerkId, 
-              email: newEmail,
-              plan: detectedPlan,
-              credits_remaining: PLAN_LIMITS[detectedPlan].credits,
-              credits_reset_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-            })
-            .select()
-            .single();
+          await db.from('users').update(updates).eq('id', found.user.id);
+          console.log(`Upgraded ${found.user.email} to ${plan} (via ${found.method}). Lemon customer=${customerId}, sub=${subscriptionId}`);
+        } else if (clerkUserId || userEmail) {
+          // No existing user found — create with Lemon IDs
+          const newEmail = userEmail || `${clerkUserId}@clerk.user`;
+          const newClerkId = clerkUserId || `lemon_${customerId || Date.now()}`;
+          const { data: newUser, error } = await db.from('users').insert({
+            clerk_id: newClerkId,
+            email: newEmail,
+            plan,
+            credits_remaining: PLAN_LIMITS[plan].credits,
+            credits_reset_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+            lemon_customer_id: customerId || null,
+            lemon_subscription_id: subscriptionId || null,
+          }).select().single();
+          
           if (newUser) {
-            console.log(`Created new user ${newEmail} with ${detectedPlan} plan (via webhook)`);
-            upgraded = true;
+            console.log(`Created user ${newEmail} with ${plan} plan (webhook). Lemon customer=${customerId}`);
           } else {
-            console.error(`Failed to create user for upgrade:`, createError);
+            console.error(`Failed to create user:`, error);
           }
-        }
-        
-        if (!upgraded) {
-          console.log(`User not found and could not create. Email: ${email}, ClerkID: ${clerkUserId}`);
+        } else {
+          console.error(`[WEBHOOK] ${eventName}: No identifiers available! Cannot match or create user.`);
         }
         break;
       }
 
       case 'subscription_cancelled':
       case 'subscription_expired': {
-        // Downgrade to free — use email lookup (subscription_id/customer_id columns
-        // don't exist in the users table; email is the most reliable identifier we have
-        // from Lemon Squeezy cancel/expire events)
-        const email = userEmail || customData.email;
-        const clerkUserId = customData.user_id;
-        
-        let downgraded = false;
-        
-        // Try Clerk ID first (most reliable if custom_data was passed)
-        if (!downgraded && clerkUserId) {
-          const { data: userByClerk } = await db
-            .from('users')
-            .select('id, email')
-            .eq('clerk_id', clerkUserId)
-            .single();
-          if (userByClerk) {
-            await db.from('users').update({ plan: 'free', credits_remaining: PLAN_LIMITS.free.credits }).eq('id', userByClerk.id);
-            console.log(`Downgraded user ${userByClerk.email} to Free plan (via Clerk ID)`);
-            downgraded = true;
-          }
-        }
-        
-        // K4: Fallback: email — use .limit(1) to avoid updating multiple users with same email
-        // Email lookup is unreliable if multiple users share the same email. Prefer Clerk ID.
-        if (!downgraded && email) {
-          console.warn(`[WEBHOOK] subscription_cancelled: Falling back to email lookup for ${email} — Clerk ID not available. This is unreliable if multiple users share this email.`);
-          const { data: userByEmail } = await db
-            .from('users')
-            .select('id')
-            .eq('email', email)
-            .limit(1)
-            .single();
-          if (userByEmail) {
-            await db.from('users').update({ plan: 'free', credits_remaining: PLAN_LIMITS.free.credits }).eq('id', userByEmail.id);
-            console.log(`Downgraded user ${email} to Free plan (via email fallback)`);
-          }
+        const found = await findUser(lookupOpts);
+        if (found) {
+          await db.from('users').update({
+            plan: 'free',
+            credits_remaining: PLAN_LIMITS.free.credits
+          }).eq('id', found.user.id);
+          console.log(`Downgraded ${found.user.email} to Free (via ${found.method})`);
+        } else {
+          console.error(`[WEBHOOK] ${eventName}: User not found! customer=${customerId}, sub=${subscriptionId}, email=${userEmail}`);
         }
         break;
       }
 
       case 'subscription_payment_failed': {
-        // Payment failed — downgrade to free plan
-        const email = userEmail || customData.email;
-        const clerkUserId = customData.user_id;
-        
-        let handled = false;
-        
-        if (clerkUserId) {
-          const { data: userByClerk } = await db
-            .from('users')
-            .select('id, email')
-            .eq('clerk_id', clerkUserId)
-            .single();
-          if (userByClerk) {
-            await db.from('users').update({ plan: 'free', credits_remaining: PLAN_LIMITS.free.credits }).eq('id', userByClerk.id);
-            console.log(`Payment failed — downgraded user ${userByClerk.email} to Free plan (via Clerk ID)`);
-            handled = true;
-          }
-        }
-        
-        // K4: Email fallback with warning
-        if (!handled && email) {
-          console.warn(`[WEBHOOK] payment_failed: Falling back to email lookup for ${email}`);
-          const { data: userByEmail } = await db.from('users').select('id').eq('email', email).limit(1).single();
-          if (userByEmail) {
-            await db.from('users').update({ plan: 'free', credits_remaining: PLAN_LIMITS.free.credits }).eq('id', userByEmail.id);
-            console.log(`Payment failed — downgraded user ${email} to Free plan (via email fallback)`);
-            handled = true;
-          }
-        }
-        
-        if (!handled && !email) {
-          console.log(`Payment failed but no user found. ClerkID: ${clerkUserId}, Email: ${email}`);
+        const found = await findUser(lookupOpts);
+        if (found) {
+          await db.from('users').update({
+            plan: 'free',
+            credits_remaining: PLAN_LIMITS.free.credits
+          }).eq('id', found.user.id);
+          console.log(`Payment failed — downgraded ${found.user.email} to Free (via ${found.method})`);
+        } else {
+          console.error(`[WEBHOOK] payment_failed: User not found! customer=${customerId}, email=${userEmail}`);
         }
         break;
       }
 
       case 'subscription_updated': {
-        // Handle plan changes (e.g., Pro to Team) — use detectedPlan from product_name
-        const email = userEmail || customData.email;
-        const clerkUserId = customData.user_id;
-        
-        const plan = detectedPlan;
-        const credits = PLAN_LIMITS[plan]?.credits ?? PLAN_LIMITS.pro.credits;
-        
-        let updated = false;
-        
-        // Try Clerk ID first
-        if (!updated && clerkUserId) {
-          const { data: userByClerk } = await db
-            .from('users')
-            .select('id')
-            .eq('clerk_id', clerkUserId)
-            .single();
-          if (userByClerk) {
-            await db.from('users').update({ plan, credits_remaining: credits }).eq('id', userByClerk.id);
-            console.log(`Updated user to ${plan} plan (via Clerk ID)`);
-            updated = true;
-          }
-        }
-        
-        // K4: Email fallback with warning
-        if (!updated && email) {
-          console.warn(`[WEBHOOK] subscription_updated: Falling back to email lookup for ${email}`);
-          const { data: userByEmail } = await db.from('users').select('id').eq('email', email).limit(1).single();
-          if (userByEmail) {
-            await db.from('users').update({ plan, credits_remaining: credits }).eq('id', userByEmail.id);
-            console.log(`Updated user ${email} to ${plan} plan (via email fallback)`);
-          }
+        const found = await findUser(lookupOpts);
+        if (found) {
+          const updates: Record<string, any> = {
+            plan,
+            credits_remaining: PLAN_LIMITS[plan].credits,
+          };
+          // Update Lemon IDs if changed (e.g. plan switch creates new subscription)
+          if (customerId) updates.lemon_customer_id = customerId;
+          if (subscriptionId) updates.lemon_subscription_id = subscriptionId;
+          
+          await db.from('users').update(updates).eq('id', found.user.id);
+          console.log(`Updated ${found.user.email} to ${plan} (via ${found.method})`);
+        } else {
+          console.error(`[WEBHOOK] subscription_updated: User not found! customer=${customerId}, email=${userEmail}`);
         }
         break;
       }
