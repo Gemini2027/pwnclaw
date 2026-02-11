@@ -13,7 +13,8 @@ export async function GET(request: NextRequest) {
     const framework = request.nextUrl.searchParams.get('framework') || undefined;
     const withFixes = request.nextUrl.searchParams.get('withFixes') || undefined;
     const attacks = request.nextUrl.searchParams.get('attacks') || undefined;
-    return handleGlobal(model, framework, withFixes, attacks);
+    const grade = request.nextUrl.searchParams.get('grade') || undefined;
+    return handleGlobal(model, framework, withFixes, attacks, grade);
   }
 
   const scoreParam = request.nextUrl.searchParams.get('score');
@@ -50,7 +51,16 @@ export async function GET(request: NextRequest) {
   }
 }
 
-async function handleGlobal(model?: string, framework?: string, withFixes?: string, attacks?: string) {
+const GRADE_RANGES: Record<string, { min: number; max: number }> = {
+  'A+': { min: 100, max: 100 },
+  'A': { min: 90, max: 99 },
+  'B': { min: 80, max: 89 },
+  'C': { min: 70, max: 79 },
+  'D': { min: 60, max: 69 },
+  'F': { min: 0, max: 59 },
+};
+
+async function handleGlobal(model?: string, framework?: string, withFixes?: string, attacks?: string, grade?: string) {
   try {
     let query = db.from('benchmarks').select('score, category_scores, model_name, framework, with_fixes, attack_count').limit(10000);
     if (model) query = query.eq('model_name', model);
@@ -60,6 +70,10 @@ async function handleGlobal(model?: string, framework?: string, withFixes?: stri
     if (attacks) {
       const attackCount = parseInt(attacks, 10);
       if (!isNaN(attackCount)) query = query.eq('attack_count', attackCount);
+    }
+    if (grade && GRADE_RANGES[grade]) {
+      const { min, max } = GRADE_RANGES[grade];
+      query = query.gte('score', min).lte('score', max);
     }
     const { data: benchmarks, error } = await query;
 

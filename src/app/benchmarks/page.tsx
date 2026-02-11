@@ -93,9 +93,10 @@ export default function BenchmarksPage() {
   const [filterFramework, setFilterFramework] = useState("");
   const [filterFixes, setFilterFixes] = useState("");
   const [filterAttacks, setFilterAttacks] = useState("");
+  const [filterGrade, setFilterGrade] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const fetchData = useCallback(async (model?: string, framework?: string, fixes?: string, attacks?: string) => {
+  const fetchData = useCallback(async (model?: string, framework?: string, fixes?: string, attacks?: string, grade?: string) => {
     setLoading(true);
     try {
       const params = new URLSearchParams({ global: "true" });
@@ -103,6 +104,7 @@ export default function BenchmarksPage() {
       if (framework) params.set("framework", framework);
       if (fixes) params.set("withFixes", fixes);
       if (attacks) params.set("attacks", attacks);
+      if (grade) params.set("grade", grade);
       const res = await fetch(`/api/benchmark?${params.toString()}`);
       if (!res.ok) { setData(null); return; }
       const d = await res.json();
@@ -123,8 +125,8 @@ export default function BenchmarksPage() {
   useEffect(() => { fetchData(); }, [fetchData]);
 
   useEffect(() => {
-    fetchData(filterModel || undefined, filterFramework || undefined, filterFixes || undefined, filterAttacks || undefined);
-  }, [filterModel, filterFramework, filterFixes, filterAttacks, fetchData]);
+    fetchData(filterModel || undefined, filterFramework || undefined, filterFixes || undefined, filterAttacks || undefined, filterGrade || undefined);
+  }, [filterModel, filterFramework, filterFixes, filterAttacks, filterGrade, fetchData]);
 
   return (
     <div className="min-h-screen bg-black">
@@ -197,7 +199,7 @@ export default function BenchmarksPage() {
               {(filterModel || filterFramework || filterFixes || filterAttacks) && (
                 <div className="text-center mb-4">
                   <button
-                    onClick={() => { setFilterModel(""); setFilterFramework(""); setFilterFixes(""); setFilterAttacks(""); }}
+                    onClick={() => { setFilterModel(""); setFilterFramework(""); setFilterFixes(""); setFilterAttacks(""); setFilterGrade(""); }}
                     className="text-xs text-neutral-400 hover:text-white underline"
                   >
                     Clear filters
@@ -343,13 +345,27 @@ export default function BenchmarksPage() {
               <div className="max-w-4xl mx-auto">
                 <h2 className="text-2xl font-bold text-white mb-2">Grade Distribution</h2>
                 <p className="text-neutral-400 text-sm mb-8">How many agents earn each grade.</p>
+                {filterGrade && (
+                  <p className="text-sm text-neutral-400 mb-4">
+                    Filtering by grade <span className={`font-bold ${gradeColor(filterGrade)}`}>{filterGrade}</span> — 
+                    <button onClick={() => setFilterGrade("")} className="text-green-500 hover:underline ml-1">clear</button>
+                  </p>
+                )}
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
                   {data.gradeDistribution.map((g) => (
-                    <div key={g.grade} className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-5 text-center">
+                    <button
+                      key={g.grade}
+                      onClick={() => setFilterGrade(filterGrade === g.grade ? "" : g.grade)}
+                      className={`rounded-xl border p-5 text-center transition-all cursor-pointer ${
+                        filterGrade === g.grade
+                          ? "border-green-500 bg-green-500/10 ring-1 ring-green-500/50"
+                          : "border-neutral-800 bg-neutral-900/50 hover:border-neutral-600"
+                      }`}
+                    >
                       <p className={`text-3xl font-bold ${gradeColor(g.grade)}`}>{g.grade}</p>
                       <p className="text-xl font-bold text-white mt-1">{g.count}</p>
                       <p className="text-xs text-neutral-400">{g.percentage}%</p>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>
