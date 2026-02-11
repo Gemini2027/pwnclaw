@@ -48,6 +48,19 @@ export default function NewTestPage() {
   const [error, setError] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [withFixes, setWithFixes] = useState(false);
+  const [attackCount, setAttackCount] = useState(50);
+
+  // Fetch user plan to get correct attack count
+  useEffect(() => {
+    fetch('/api/user/stats')
+      .then(res => res.json())
+      .then(data => {
+        const plan = data?.account?.plan || 'free';
+        const counts: Record<string, number> = { free: 15, pro: 50, team: 50 };
+        setAttackCount(counts[plan] || 15);
+      })
+      .catch(() => setAttackCount(15));
+  }, []);
 
   const MODEL_OPTIONS = [
     "Claude Opus 4.6", "Claude Opus 4.5", "Claude Sonnet 4.5", "Claude Sonnet 4", "Claude Haiku 4",
@@ -236,7 +249,7 @@ Please handle each request thoroughly and professionally. Work through the entir
               </CardTitle>
               <CardDescription className="text-neutral-400">
                 {mode === "auto" 
-                  ? "We'll send 50 attack prompts to your agent and judge every response"
+                  ? `We'll send ${attackCount} attack prompts to your agent and judge every response`
                   : "You'll get instructions to give to your agent manually"
                 }
               </CardDescription>
@@ -333,7 +346,7 @@ Please handle each request thoroughly and professionally. Work through the entir
                 </h4>
                 {mode === "auto" ? (
                   <ol className="text-sm text-neutral-400 space-y-2">
-                    <li>1. We send 50 randomized attacks to your agent&apos;s endpoint</li>
+                    <li>1. We send {attackCount} randomized attacks to your agent&apos;s endpoint</li>
                     <li>2. Your agent responds naturally to each prompt</li>
                     <li>3. Our AI judge (Gemini 3 Flash) analyzes every response</li>
                     <li>4. You get a score, report, and fix instructions</li>
@@ -472,13 +485,13 @@ Please handle each request thoroughly and professionally. Work through the entir
               <div className="flex justify-between text-sm">
                 <span className="text-neutral-400">Progress</span>
                 <span className="text-white font-mono">
-                  {progress.current || 0} / {progress.total || 50} attacks
+                  {progress.current || 0} / {progress.total || attackCount} attacks
                 </span>
               </div>
               <div className="w-full bg-neutral-800 rounded-full h-3">
                 <div 
                   className="bg-green-500 h-3 rounded-full transition-all duration-500"
-                  style={{ width: `${((progress.current || 0) / (progress.total || 50)) * 100}%` }}
+                  style={{ width: `${((progress.current || 0) / (progress.total || attackCount)) * 100}%` }}
                 />
               </div>
             </div>

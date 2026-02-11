@@ -180,12 +180,20 @@ export default function DashboardPage() {
           icon={AlertTriangle}
         />
         {data?.user?.plan === 'free' ? (
+          <>
           <QuickAction
             title="Upgrade to Pro"
-            description="50 attacks/scan, adaptive AI, 30 scans/mo"
+            description="50 attacks/scan, adaptive AI, 30 scans/mo — €29/mo"
             href="https://noid-privacy.lemonsqueezy.com/checkout/buy/83fb581f-b786-4032-a1e2-fef4430e2d59?logo=0"
             icon={Target}
           />
+          <QuickAction
+            title="Upgrade to Team"
+            description="150 scans/mo, CI/CD API, GitHub Action — €99/mo"
+            href={process.env.NEXT_PUBLIC_LEMONSQUEEZY_TEAM_CHECKOUT_URL || "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0"}
+            icon={CheckCircle2}
+          />
+          </>
         ) : data?.user?.plan === 'pro' ? (
           <QuickAction
             title="Upgrade to Team"
