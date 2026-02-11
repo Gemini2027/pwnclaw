@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
       avgScore: stats.avgScore,
       medianScore: stats.medianScore,
     });
-    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
+    response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=3600');
     return response;
   } catch (error) {
     console.error('Benchmark API error:', error);
@@ -186,7 +186,7 @@ async function handleGlobal(model?: string, framework?: string, withFixes?: stri
       attackCounts,
     });
     // Cache for 5 minutes on CDN, serve stale up to 1 hour while revalidating
-    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
+    response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=3600');
     return response;
   } catch (error) {
     console.error('Global benchmark API error:', error);
