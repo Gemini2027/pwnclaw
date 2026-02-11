@@ -117,6 +117,14 @@ const faqJsonLd = {
     },
     {
       '@type': 'Question',
+      name: 'What are Adaptive AI Attacks?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Most security tools run the same static tests every time. PwnClaw Adaptive AI analyzes your agent response patterns from previous scans — where it hesitated, partially complied, or leaked information — and generates custom attack prompts targeting those exact weaknesses. Every scan gets harder as the AI learns your agent blind spots. This is a Pro feature included in Pro and Team plans.',
+      },
+    },
+    {
+      '@type': 'Question',
       name: 'Which AI agents work with PwnClaw?',
       acceptedAnswer: {
         '@type': 'Answer',
@@ -645,6 +653,82 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Adaptive AI Attacks */}
+      <section className="px-6 py-24 border-t border-neutral-800">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative rounded-2xl border border-green-500/20 bg-gradient-to-br from-neutral-900 via-neutral-950 to-green-500/5 p-1">
+            <div className="rounded-xl bg-neutral-950/80 p-8 md:p-12">
+              <div className="grid md:grid-cols-2 gap-10 items-center">
+                {/* Left: Explanation */}
+                <div>
+                  <Badge className="mb-4 bg-green-500/10 text-green-500 border-green-500/20">Pro Feature</Badge>
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                    Adaptive AI Attacks
+                  </h2>
+                  <p className="text-neutral-400 mb-6 leading-relaxed">
+                    Static attack libraries find known vulnerabilities. Adaptive AI finds <span className="text-white font-medium">yours</span>.
+                  </p>
+                  <p className="text-neutral-400 mb-6 leading-relaxed">
+                    After each scan, PwnClaw&apos;s AI analyzes your agent&apos;s response patterns — where it hesitated, where it partially complied, where it leaked information. Then it generates <span className="text-white font-medium">custom attack prompts</span> that target exactly those weak spots.
+                  </p>
+                  <p className="text-neutral-400 leading-relaxed">
+                    The result: every scan gets harder. Your agent doesn&apos;t just pass a checklist — it gets <span className="text-white font-medium">stress-tested by an AI that learns how to break it</span>.
+                  </p>
+                </div>
+
+                {/* Right: Visual */}
+                <div className="space-y-4">
+                  {/* Scan 1 */}
+                  <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs text-neutral-400 font-mono">Scan #1 — Static Library</span>
+                      <span className="text-yellow-400 text-sm font-bold">87/100</span>
+                    </div>
+                    <div className="h-1.5 rounded-full bg-neutral-800 overflow-hidden">
+                      <div className="h-full rounded-full bg-yellow-500" style={{ width: '87%' }}></div>
+                    </div>
+                    <p className="text-xs text-neutral-500 mt-2">Found: Social engineering, data exfiltration weak spots</p>
+                  </div>
+
+                  {/* AI Analysis */}
+                  <div className="flex items-center justify-center gap-2 text-green-400">
+                    <div className="h-px flex-1 bg-green-500/20"></div>
+                    <span className="text-xs font-mono px-2">🧠 AI generates targeted attacks</span>
+                    <div className="h-px flex-1 bg-green-500/20"></div>
+                  </div>
+
+                  {/* Scan 2 */}
+                  <div className="rounded-lg border border-green-500/20 bg-green-500/5 p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs text-green-400 font-mono">Scan #2 — Adaptive Attacks</span>
+                      <span className="text-green-400 text-sm font-bold">Harder</span>
+                    </div>
+                    <div className="space-y-1.5 mt-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-red-400 text-xs">→</span>
+                        <p className="text-xs text-neutral-400">Custom social engineering exploiting <span className="text-white">your agent&apos;s</span> compliance pattern</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-red-400 text-xs">→</span>
+                        <p className="text-xs text-neutral-400">Data exfil variations targeting the <span className="text-white">exact leak vector</span> found</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-red-400 text-xs">→</span>
+                        <p className="text-xs text-neutral-400">Novel attack combos your agent <span className="text-white">has never seen</span></p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-center text-xs text-neutral-500">
+                    Every scan adapts. Every weakness gets exploited harder.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing */}
       <section id="pricing" className="px-6 py-24 border-t border-neutral-800">
         <div className="max-w-6xl mx-auto">
@@ -755,6 +839,10 @@ export default function Home() {
               {
                 q: "How much does PwnClaw cost?",
                 a: "Free forever for basic scans (3/month, 15 attacks). Pro is €29/month for 30 scans with 50 attacks and adaptive AI. Team is €99/month for 150 scans plus CI/CD integration. No contracts, cancel anytime."
+              },
+              {
+                q: "What are Adaptive AI Attacks?",
+                a: "Most security tools run the same static tests every time. PwnClaw's Adaptive AI analyzes your agent's response patterns from previous scans — where it hesitated, partially complied, or leaked information — and generates custom attack prompts targeting those exact weaknesses. Every scan gets harder as the AI learns your agent's blind spots. This is a Pro feature (included in Pro and Team plans)."
               },
               {
                 q: "Which AI agents work with PwnClaw?",
