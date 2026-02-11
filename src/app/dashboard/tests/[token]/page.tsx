@@ -332,7 +332,7 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                   const barWidth = pct === 0 ? 5 : pct;
                   return (
                     <div key={cat} className="flex items-center gap-3">
-                      <span className={`text-xs w-36 truncate ${pct === 0 ? 'text-red-400' : pct < 100 ? 'text-yellow-400' : 'text-neutral-400'}`}>{getCategoryName(cat)}</span>
+                      <span className={`text-xs w-36 truncate ${pct === 0 ? 'text-red-400' : pct < 100 ? 'text-yellow-400' : 'text-green-400'}`}>{getCategoryName(cat)}</span>
                       <div className={`flex-1 rounded-full h-2 ${bgColor}`}>
                         <div
                           className={`h-2 rounded-full ${barColor}`}
