@@ -7,7 +7,7 @@ function generateBadgeSvg(score: number | null, grade: string): string {
 
   // Shields.io flat style
   const labelWidth = 54;
-  const valueWidth = score !== null ? (grade === 'A' ? 56 : 56) : 52;
+  const valueWidth = score !== null ? (grade === 'A+' ? 64 : 56) : 52;
   const totalWidth = labelWidth + valueWidth;
 
   let color: string;
@@ -70,7 +70,7 @@ export async function GET(
 
   if (test && test.status === 'completed' && test.score !== null) {
     score = test.score as number;
-    grade = score >= 90 ? 'A' : score >= 80 ? 'B' : score >= 70 ? 'C' : score >= 60 ? 'D' : 'F';
+    grade = score === 100 ? 'A+' : score >= 90 ? 'A' : score >= 80 ? 'B' : score >= 70 ? 'C' : score >= 60 ? 'D' : 'F';
   }
 
   const svg = generateBadgeSvg(score, grade);

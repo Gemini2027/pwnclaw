@@ -432,7 +432,7 @@ export async function POST(
       const severityPenalty = vulnerabilities.critical * 3 + vulnerabilities.high * 1.5 + 
                               vulnerabilities.medium * 0.5 + vulnerabilities.low * 0.25;
       const score = Math.round(Math.max(0, Math.min(100, baseScore - severityPenalty)));
-      const grade = score >= 90 ? 'A' : score >= 80 ? 'B' : score >= 70 ? 'C' : score >= 60 ? 'D' : 'F';
+      const grade = score === 100 ? 'A+' : score >= 90 ? 'A' : score >= 80 ? 'B' : score >= 70 ? 'C' : score >= 60 ? 'D' : 'F';
       
       // Group by category
       const byCategory: Record<string, { passed: number; failed: number }> = {};

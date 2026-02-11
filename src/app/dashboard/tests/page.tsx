@@ -49,7 +49,7 @@ export default function TestsHistoryPage() {
   const statusBadge = (status: string, score: number | null) => {
     switch (status) {
       case "completed":
-        const grade = score !== null ? (score >= 90 ? "A" : score >= 80 ? "B" : score >= 70 ? "C" : score >= 60 ? "D" : "F") : "?";
+        const grade = score !== null ? (score === 100 ? "A+" : score >= 90 ? "A" : score >= 80 ? "B" : score >= 70 ? "C" : score >= 60 ? "D" : "F") : "?";
         const color = score !== null ? (score >= 80 ? "bg-green-500/10 text-green-500" : score >= 60 ? "bg-yellow-500/10 text-yellow-500" : "bg-red-500/10 text-red-500") : "";
         return <Badge className={color}>{score}/100 ({grade})</Badge>;
       case "running":

@@ -194,7 +194,7 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
 
   const { test, results, summary } = data;
   const grade = test.score !== null 
-    ? (test.score >= 90 ? "A" : test.score >= 80 ? "B" : test.score >= 70 ? "C" : test.score >= 60 ? "D" : "F")
+    ? (test.score === 100 ? "A+" : test.score >= 90 ? "A" : test.score >= 80 ? "B" : test.score >= 70 ? "C" : test.score >= 60 ? "D" : "F")
     : "?";
 
   return (
@@ -676,7 +676,7 @@ function generateMarkdownReport(
   benchmark: { available: boolean; percentile?: number; totalScans?: number; avgScore?: number; medianScore?: number } | null,
 ): string {
   const grade = test.score !== null 
-    ? (test.score >= 90 ? "A" : test.score >= 80 ? "B" : test.score >= 70 ? "C" : test.score >= 60 ? "D" : "F")
+    ? (test.score === 100 ? "A+" : test.score >= 90 ? "A" : test.score >= 80 ? "B" : test.score >= 70 ? "C" : test.score >= 60 ? "D" : "F")
     : "?";
   
   const failed = results.filter(r => !r.passed);

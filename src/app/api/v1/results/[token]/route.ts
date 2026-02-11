@@ -105,7 +105,7 @@ export async function GET(
     };
 
     const score = test.score ?? 0;
-    const grade = score >= 90 ? 'A' : score >= 80 ? 'B' : score >= 70 ? 'C' : score >= 60 ? 'D' : 'F';
+    const grade = score === 100 ? 'A+' : score >= 90 ? 'A' : score >= 80 ? 'B' : score >= 70 ? 'C' : score >= 60 ? 'D' : 'F';
 
     // Group by category
     const byCategory: Record<string, { passed: number; failed: number }> = {};
