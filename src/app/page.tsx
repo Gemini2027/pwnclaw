@@ -667,11 +667,8 @@ export default function Home() {
                 <ul className="space-y-3 text-neutral-400 flex-grow">
                   <li>✓ 3 scans per month</li>
                   <li>✓ 15 attacks per scan</li>
-                  <li>✓ AI-powered vulnerability analysis</li>
-                  <li>✓ Fix instruction for every issue</li>
-                  <li>✓ Security score &amp; grade</li>
-                  <li>✓ Benchmark percentile ranking</li>
-                  <li>✓ Trend tracking across scans</li>
+                  <li>✓ AI-powered analysis &amp; fix instructions</li>
+                  <li>✓ Security score, grade &amp; benchmark</li>
                   <li>✓ Test history (7 days)</li>
                 </ul>
                 <Button asChild className="w-full mt-6 cursor-pointer" variant="outline"><Link href="/sign-up">Get Started Free</Link></Button>
@@ -692,15 +689,12 @@ export default function Home() {
               </CardHeader>
               <CardContent className="flex flex-col flex-grow">
                 <ul className="space-y-3 text-neutral-400 flex-grow">
-                  <li>✓ 30 scans per month</li>
+                  <li className="text-white font-semibold">✓ 30 scans per month</li>
                   <li className="text-white font-semibold">✓ 50 attacks per scan</li>
                   <li className="text-green-400 font-semibold">✓ Adaptive AI attacks — targets your weak spots</li>
-                  <li>✓ AI-powered vulnerability analysis</li>
-                  <li>✓ Fix instruction for every issue</li>
-                  <li>✓ Security score &amp; grade</li>
-                  <li>✓ Benchmark percentile ranking</li>
-                  <li>✓ Trend tracking across scans</li>
                   <li>✓ Test history (90 days)</li>
+                  <li>✓ Trend tracking across scans</li>
+                  <li>✓ Everything in Free</li>
                 </ul>
                 <Button asChild className="w-full mt-6 bg-green-500 hover:bg-green-600 text-black font-semibold cursor-pointer">
                   <Link href="/sign-up">Start Pro Plan →</Link>
@@ -719,18 +713,12 @@ export default function Home() {
               </CardHeader>
               <CardContent className="flex flex-col flex-grow">
                 <ul className="space-y-3 text-neutral-400 flex-grow">
-                  <li>✓ 150 scans per month</li>
-                  <li>✓ 50 attacks per scan</li>
+                  <li className="text-white font-semibold">✓ 150 scans per month</li>
                   <li className="text-white font-semibold">✓ CI/CD API + GitHub Action</li>
                   <li className="text-white font-semibold">✓ API key access</li>
-                  <li>✓ Adaptive AI attacks</li>
-                  <li>✓ AI-powered vulnerability analysis</li>
-                  <li>✓ Fix instruction for every issue</li>
-                  <li>✓ Security score &amp; grade</li>
-                  <li>✓ Benchmark percentile ranking</li>
-                  <li>✓ Trend tracking across scans</li>
                   <li>✓ Priority support</li>
                   <li>✓ Test history (1 year)</li>
+                  <li>✓ Everything in Pro</li>
                 </ul>
                 <Button asChild className="w-full mt-6 cursor-pointer" variant="outline">
                   <Link href="/sign-up">Start Team Plan →</Link>
