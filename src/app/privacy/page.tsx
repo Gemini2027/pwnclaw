@@ -200,7 +200,7 @@ export default function PrivacyPage() {
 
           <h2 className="text-xl font-semibold text-white mt-8">12. Contact</h2>
           <p>
-            Data Protection Officer:{" "}
+            Data protection inquiries:{" "}
             <span className="text-green-500">privacy[at]pwnclaw.com</span>
           </p>
           <p className="mt-8 text-sm text-neutral-500">

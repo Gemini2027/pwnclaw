@@ -176,8 +176,9 @@ export default function TermsPage() {
 
           <h2 className="text-xl font-semibold text-white mt-8">13. Governing Law</h2>
           <p>
-            These terms are governed by the laws of Germany. Any disputes shall be resolved in the 
-            courts of Berlin, Germany.
+            These terms are governed by the laws of Germany, excluding the UN Convention on Contracts 
+            for the International Sale of Goods (CISG). For business customers (B2B), the courts of 
+            Hoyerswerda, Germany shall have jurisdiction. For consumers (B2C), statutory jurisdiction applies.
           </p>
 
           <h2 className="text-xl font-semibold text-white mt-8">14. Contact</h2>
