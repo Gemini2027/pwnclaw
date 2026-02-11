@@ -167,12 +167,14 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <QuickAction
-          title="Full Security Scan"
-          description="50 randomized attacks from 112-attack library"
-          href="/dashboard/tests/new"
-          icon={Shield}
-        />
+        {data?.user?.plan !== 'free' && (
+          <QuickAction
+            title="Full Security Scan"
+            description="50 randomized attacks from 112-attack library"
+            href="/dashboard/tests/new"
+            icon={Shield}
+          />
+        )}
         <QuickAction
           title="View Test History"
           description="Review past scans and fix instructions"
