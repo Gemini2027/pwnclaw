@@ -143,17 +143,22 @@ export async function POST(request: NextRequest) {
       productName.includes('pwnclaw') || productName.includes('agent security');
     
     if (!isPwnClaw) {
-      // For lifecycle events (refund, pause, resume, cancel) product info may be missing.
-      // If we can find the user by lemon_customer_id, they're a PwnClaw user.
+      // If product_id is present but NOT a PwnClaw product → definitely not ours, skip.
+      // Only proceed without product match if product_id is genuinely missing (rare edge case).
+      if (productId) {
+        console.log(`Ignoring non-PwnClaw product: "${productName}" (ID: ${productId})`);
+        return NextResponse.json({ received: true, ignored: true });
+      }
+      
+      // No product_id at all — only allow lifecycle events to proceed
       const isLifecycleEvent = ['order_refunded', 'subscription_paused', 'subscription_resumed',
         'subscription_cancelled', 'subscription_expired', 'subscription_payment_failed'].includes(eventName);
       
       if (!isLifecycleEvent) {
-        console.log(`Ignoring non-PwnClaw product: "${productName}" (ID: ${productId})`);
+        console.log(`Ignoring event without product info: ${eventName}`);
         return NextResponse.json({ received: true, ignored: true });
       }
-      // Lifecycle events: continue — findUser will determine if they're ours
-      console.log(`Lifecycle event ${eventName} without product match — proceeding with user lookup`);
+      console.log(`Lifecycle event ${eventName} without product_id — proceeding with user lookup`);
     }
 
     const plan = detectPlan(productId, productName);
@@ -247,14 +252,16 @@ export async function POST(request: NextRequest) {
       }
 
       case 'subscription_paused': {
-        // Paused — downgrade to free while paused
+        // Paused — downgrade to free but keep current credits (don't punish pausing)
         const found = await findUser(lookupOpts);
         if (found) {
+          // Cap credits at free limit so they can't use Pro credits while paused
+          const cappedCredits = Math.min(found.user.credits_remaining, PLAN_LIMITS.free.credits);
           await db.from('users').update({
             plan: 'free',
-            credits_remaining: PLAN_LIMITS.free.credits
+            credits_remaining: cappedCredits
           }).eq('id', found.user.id);
-          console.log(`Paused — downgraded ${found.user.email} to Free (via ${found.method})`);
+          console.log(`Paused — downgraded ${found.user.email} to Free, credits capped to ${cappedCredits} (via ${found.method})`);
         } else {
           console.error(`[WEBHOOK] subscription_paused: User not found! customer=${customerId}, email=${userEmail}`);
         }
@@ -262,7 +269,7 @@ export async function POST(request: NextRequest) {
       }
 
       case 'subscription_resumed': {
-        // Resumed — restore paid plan
+        // Resumed — restore paid plan with fresh credits (new billing cycle)
         const found = await findUser(lookupOpts);
         if (found) {
           const updates: Record<string, any> = {
@@ -283,16 +290,24 @@ export async function POST(request: NextRequest) {
       case 'subscription_updated': {
         const found = await findUser(lookupOpts);
         if (found) {
-          const updates: Record<string, any> = {
-            plan,
-            credits_remaining: PLAN_LIMITS[plan].credits,
-          };
-          // Update Lemon IDs if changed (e.g. plan switch creates new subscription)
+          const updates: Record<string, any> = {};
+          
+          // Only change plan + credits if the plan actually changed
+          const currentPlan = found.user.plan;
+          if (currentPlan !== plan) {
+            updates.plan = plan;
+            updates.credits_remaining = PLAN_LIMITS[plan].credits;
+            console.log(`Plan changed ${currentPlan} → ${plan} for ${found.user.email}`);
+          }
+          
+          // Always update Lemon IDs if available (e.g. plan switch creates new subscription)
           if (customerId) updates.lemon_customer_id = customerId;
           if (subscriptionId) updates.lemon_subscription_id = subscriptionId;
           
-          await db.from('users').update(updates).eq('id', found.user.id);
-          console.log(`Updated ${found.user.email} to ${plan} (via ${found.method})`);
+          if (Object.keys(updates).length > 0) {
+            await db.from('users').update(updates).eq('id', found.user.id);
+          }
+          console.log(`subscription_updated for ${found.user.email} (via ${found.method}), plan change: ${currentPlan !== plan}`);
         } else {
           console.error(`[WEBHOOK] subscription_updated: User not found! customer=${customerId}, email=${userEmail}`);
         }
