@@ -7,6 +7,7 @@ const isPublicRoute = createRouteMatcher([
   '/sign-up(.*)',
   '/terms',
   '/privacy',
+  '/imprint',
   '/api/webhooks(.*)',
   '/api/test(.*)',  // Public for agent connections
   '/api/v1(.*)',    // W11: Public for API-key-authenticated CI/CD endpoints
