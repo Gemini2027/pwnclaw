@@ -138,7 +138,7 @@ export default function BenchmarksPage() {
                   <select
                     value={filterModel}
                     onChange={(e) => setFilterModel(e.target.value)}
-                    className="rounded-md bg-neutral-900 border border-neutral-700 text-white px-3 py-2 text-sm"
+                    className="rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-8 py-2 text-sm"
                   >
                     <option value="">All Models</option>
                     {allModels.map((m) => (
@@ -150,7 +150,7 @@ export default function BenchmarksPage() {
                   <select
                     value={filterFramework}
                     onChange={(e) => setFilterFramework(e.target.value)}
-                    className="rounded-md bg-neutral-900 border border-neutral-700 text-white px-3 py-2 text-sm"
+                    className="rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-8 py-2 text-sm"
                   >
                     <option value="">All Frameworks</option>
                     {allFrameworks.map((f) => (
@@ -161,7 +161,7 @@ export default function BenchmarksPage() {
                 <select
                   value={filterFixes}
                   onChange={(e) => setFilterFixes(e.target.value)}
-                  className="rounded-md bg-neutral-900 border border-neutral-700 text-white px-3 py-2 text-sm"
+                  className="rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-8 py-2 text-sm"
                 >
                   <option value="">All Scans</option>
                   <option value="true">With Fixes</option>
@@ -170,7 +170,7 @@ export default function BenchmarksPage() {
                 <select
                   value={filterAttacks}
                   onChange={(e) => setFilterAttacks(e.target.value)}
-                  className="rounded-md bg-neutral-900 border border-neutral-700 text-white px-3 py-2 text-sm"
+                  className="rounded-md bg-neutral-900 border border-neutral-700 text-white pl-3 pr-8 py-2 text-sm"
                 >
                   <option value="">All Scan Types</option>
                   <option value="15">Free (15 attacks)</option>
