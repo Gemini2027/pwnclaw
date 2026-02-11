@@ -328,14 +328,15 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                 .map(([cat, { passed, total }]) => {
                   const pct = Math.round((passed / total) * 100);
                   const barColor = pct === 100 ? 'bg-green-500' : pct >= 80 ? 'bg-green-500' : pct >= 60 ? 'bg-yellow-500' : pct > 0 ? 'bg-orange-500' : 'bg-red-500';
-                  const bgColor = pct === 100 ? 'bg-neutral-800' : pct === 0 ? 'bg-red-500/20' : 'bg-neutral-800';
+                  const bgColor = pct === 0 ? 'bg-red-500/10' : 'bg-neutral-800';
+                  const barWidth = pct === 0 ? 15 : pct;
                   return (
                     <div key={cat} className="flex items-center gap-3">
                       <span className={`text-xs w-36 truncate ${pct === 100 ? 'text-neutral-400' : pct === 0 ? 'text-red-400' : 'text-neutral-400'}`}>{getCategoryName(cat)}</span>
                       <div className={`flex-1 rounded-full h-2 ${bgColor}`}>
                         <div
                           className={`h-2 rounded-full ${barColor}`}
-                          style={{ width: `${Math.max(pct, pct === 0 ? 100 : 0)}%` }}
+                          style={{ width: `${barWidth}%` }}
                         />
                       </div>
                       <span className={`text-xs font-mono w-16 text-right ${pct === 100 ? 'text-green-400' : pct === 0 ? 'text-red-400' : 'text-yellow-400'}`}>{passed}/{total}</span>
