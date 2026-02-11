@@ -18,6 +18,7 @@ export function PublicFooter() {
             <Link href="/blog" className="hover:text-white transition">Blog</Link>
             <Link href="/terms" className="hover:text-white transition">Terms</Link>
             <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
+            <Link href="/imprint" className="hover:text-white transition">Imprint</Link>
             <a href="https://github.com/ClawdeRaccoon/pwnclaw" target="_blank" rel="noopener" className="hover:text-white transition">GitHub</a>
           </div>
         </div>

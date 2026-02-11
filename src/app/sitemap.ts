@@ -33,7 +33,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: 'https://www.pwnclaw.com/terms',
-      lastModified: new Date('2026-02-07'),
+      lastModified: new Date('2026-02-11'),
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: 'https://www.pwnclaw.com/imprint',
+      lastModified: new Date('2026-02-11'),
       changeFrequency: 'yearly',
       priority: 0.3,
     },
