@@ -155,7 +155,8 @@ export async function POST(request: NextRequest) {
       const isLifecycleEvent = ['order_refunded', 'subscription_paused', 'subscription_resumed',
         'subscription_unpaused', 'subscription_cancelled', 'subscription_expired',
         'subscription_payment_failed', 'subscription_payment_recovered',
-        'subscription_payment_refunded', 'dispute_created'].includes(eventName);
+        'subscription_payment_refunded', 'subscription_plan_changed',
+        'dispute_created', 'dispute_resolved'].includes(eventName);
       
       if (!isLifecycleEvent) {
         console.log(`Ignoring event without product info: ${eventName}`);
@@ -337,6 +338,16 @@ export async function POST(request: NextRequest) {
         break;
       }
 
+      case 'dispute_resolved': {
+        // Dispute resolved — if we won, restore the plan
+        // Note: Lemon doesn't tell us if we won or lost in the webhook.
+        // Log for manual review. Don't auto-upgrade (could be resolved against us).
+        const found = await findUser(lookupOpts);
+        console.log(`[DISPUTE] Resolved for ${found?.user?.email || userEmail}. customer=${customerId}. CHECK MANUALLY if plan should be restored.`);
+        break;
+      }
+
+      case 'subscription_plan_changed':
       case 'subscription_updated': {
         const found = await findUser(lookupOpts);
         if (found) {
