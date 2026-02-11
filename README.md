@@ -103,7 +103,7 @@ Or use our [GitHub Action](https://github.com/ClawdeRaccoon/pwnclaw-action):
 
 PwnClaw automatically scrubs sensitive data (API keys, credentials, tokens, PII) from agent responses before storage. See `src/lib/scrubber.ts` for the full list of 40+ credential patterns detected.
 
-Found a security issue? Email [security@pwnclaw.com](mailto:security@pwnclaw.com).
+Found a security issue? See [SECURITY.md](SECURITY.md).
 
 ## Blog
 

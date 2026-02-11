@@ -4,7 +4,7 @@
 
 If you discover a security vulnerability in PwnClaw, please report it responsibly.
 
-**Email:** [security@pwnclaw.com](mailto:security@pwnclaw.com)
+**Email:** security[at]pwnclaw.com
 
 We will acknowledge your report within 48 hours and aim to resolve critical issues within 7 days.
 
