@@ -404,19 +404,27 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
 
       {/* Share & Export */}
       {test.status === 'completed' && test.score !== null && (
-        <Card className="bg-neutral-900 border-neutral-800 mb-6">
-          <CardContent className="py-4">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <Shield className="w-6 h-6 text-green-500" />
+        <div className="grid md:grid-cols-2 gap-4 mb-6">
+          {/* README Badge */}
+          <Card className="bg-neutral-900 border-neutral-800">
+            <CardContent className="py-5">
+              <div className="flex items-center gap-3 mb-4">
+                <Shield className="w-5 h-5 text-green-500" />
                 <div>
                   <p className="font-medium text-white">README Badge</p>
-                  <p className="text-sm text-neutral-400">Show your security score in your README</p>
+                  <p className="text-xs text-neutral-400">Show your security score in your README</p>
                 </div>
+              </div>
+              <div className="flex items-center justify-center bg-black rounded-lg p-4 mb-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`/api/badge/${token}.svg`} alt="PwnClaw Score Badge" height={20} />
+              </div>
+              <div className="bg-black rounded p-2 font-mono text-xs text-neutral-400 overflow-x-auto mb-3">
+                {`![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`}
               </div>
               <Button
                 variant="outline"
-                className="border-neutral-700"
+                className="w-full border-neutral-700 cursor-pointer"
                 onClick={() => {
                   const md = `![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`;
                   navigator.clipboard.writeText(md);
@@ -432,33 +440,49 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                 ) : (
                   <>
                     <Copy className="w-4 h-4 mr-2" />
-                    Copy Badge Markdown
+                    Copy Markdown
                   </>
                 )}
               </Button>
-            </div>
-            <div className="bg-black rounded p-2 font-mono text-xs text-neutral-400 overflow-x-auto mb-4">
-              {`![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`}
-            </div>
-            <Button
-              variant="outline"
-              className="border-neutral-700 cursor-pointer"
-              onClick={() => {
-                const md = generateMarkdownReport(test, results, summary, benchmark);
-                const blob = new Blob([md], { type: 'text/markdown' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `pwnclaw-${test.agentName.replace(/\s+/g, '-').toLowerCase()}-${new Date(test.createdAt).toISOString().slice(0,10)}.md`;
-                a.click();
-                URL.revokeObjectURL(url);
-              }}
-            >
-              <FileDown className="w-4 h-4 mr-2" />
-              Export Full Report (.md)
-            </Button>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+
+          {/* Export Report */}
+          <Card className="bg-neutral-900 border-neutral-800">
+            <CardContent className="py-5">
+              <div className="flex items-center gap-3 mb-4">
+                <FileDown className="w-5 h-5 text-blue-400" />
+                <div>
+                  <p className="font-medium text-white">Export Report</p>
+                  <p className="text-xs text-neutral-400">Download full results as Markdown</p>
+                </div>
+              </div>
+              <div className="bg-black rounded-lg p-4 mb-4 text-sm text-neutral-400 space-y-1">
+                <p>📊 Score, grade &amp; benchmark percentile</p>
+                <p>🔍 All attack results with details</p>
+                <p>🔧 Fix instructions for every vulnerability</p>
+                <p>📈 Category breakdown &amp; severity counts</p>
+              </div>
+              <Button
+                variant="outline"
+                className="w-full border-neutral-700 cursor-pointer"
+                onClick={() => {
+                  const md = generateMarkdownReport(test, results, summary, benchmark);
+                  const blob = new Blob([md], { type: 'text/markdown' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `pwnclaw-${test.agentName.replace(/\s+/g, '-').toLowerCase()}-${new Date(test.createdAt).toISOString().slice(0,10)}.md`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+              >
+                <FileDown className="w-4 h-4 mr-2" />
+                Download Report (.md)
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       )}
 
       {/* Results List */}
