@@ -38,13 +38,15 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       available: true,
       percentile: stats.percentile,
       totalScans: stats.totalScans,
       avgScore: stats.avgScore,
       medianScore: stats.medianScore,
     });
+    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
+    return response;
   } catch (error) {
     console.error('Benchmark API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -169,7 +171,7 @@ async function handleGlobal(model?: string, framework?: string, withFixes?: stri
       }
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       available: true,
       totalScans,
       avgScore,
@@ -183,6 +185,9 @@ async function handleGlobal(model?: string, framework?: string, withFixes?: stri
       ...(fixesComparison ? { fixesComparison } : {}),
       attackCounts,
     });
+    // Cache for 5 minutes on CDN, serve stale up to 1 hour while revalidating
+    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
+    return response;
   } catch (error) {
     console.error('Global benchmark API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
