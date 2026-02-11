@@ -27,7 +27,7 @@ export default function TermsPage() {
         <h1 className="text-3xl font-bold text-white mb-8">Terms of Service</h1>
         
         <div className="prose prose-invert prose-neutral max-w-none space-y-6 text-neutral-300">
-          <p className="text-lg">Last updated: February 7, 2026</p>
+          <p className="text-lg">Last updated: February 11, 2026</p>
 
           <h2 className="text-xl font-semibold text-white mt-8">1. Acceptance of Terms</h2>
           <p>
@@ -74,7 +74,23 @@ export default function TermsPage() {
             <li><strong>No rollover</strong> — unused credits expire at month end</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">5. Data Handling</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">5. Billing & Payments</h2>
+          <p>
+            All payments are processed by <strong>Lemon Squeezy</strong>, which acts as our Merchant of Record. 
+            By purchasing a paid plan, you also agree to{" "}
+            <a href="https://www.lemonsqueezy.com/terms" className="text-green-500 hover:underline" target="_blank" rel="noopener noreferrer">
+              Lemon Squeezy&apos;s Terms of Service
+            </a>.
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Subscriptions</strong> renew automatically each month until cancelled</li>
+            <li><strong>Cancellation</strong> takes effect at the end of the current billing period — you retain access until then</li>
+            <li><strong>Refunds</strong> are handled on a case-by-case basis. Contact <span className="text-green-500">support[at]pwnclaw.com</span></li>
+            <li><strong>Price changes</strong> will be communicated at least 30 days in advance via email</li>
+            <li>We do not store your payment details — all billing data is held by Lemon Squeezy</li>
+          </ul>
+
+          <h2 className="text-xl font-semibold text-white mt-8">6. Data Handling</h2>
           <p>
             By using the Service, you acknowledge that:
           </p>
@@ -86,7 +102,7 @@ export default function TermsPage() {
             <li>Data is automatically deleted according to your plan&apos;s retention period</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">6. Intellectual Property</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">7. Intellectual Property</h2>
           <p>
             The attack prompts, testing methodology, and analysis algorithms are proprietary to PwnClaw. 
             You may not:
@@ -97,7 +113,7 @@ export default function TermsPage() {
             <li>Reverse engineer the security analysis</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">7. Disclaimer of Warranties</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">8. Disclaimer of Warranties</h2>
           <p>
             THE SERVICE IS PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY KIND.
           </p>
@@ -108,7 +124,7 @@ export default function TermsPage() {
             <li>You remain responsible for your agent&apos;s security</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">8. Limitation of Liability</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">9. Limitation of Liability</h2>
           <p>
             PwnClaw shall not be liable for:
           </p>
@@ -123,7 +139,7 @@ export default function TermsPage() {
             preceding the claim.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">9. Termination</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">10. Termination</h2>
           <p>
             We may terminate or suspend your account immediately, without prior notice, for:
           </p>
@@ -134,19 +150,19 @@ export default function TermsPage() {
             <li>Attempting to attack our infrastructure</li>
           </ul>
 
-          <h2 className="text-xl font-semibold text-white mt-8">10. Changes to Terms</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">11. Changes to Terms</h2>
           <p>
             We reserve the right to modify these terms at any time. We will notify you of significant 
             changes via email. Continued use after changes constitutes acceptance.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">11. Governing Law</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">12. Governing Law</h2>
           <p>
             These terms are governed by the laws of Germany. Any disputes shall be resolved in the 
             courts of Berlin, Germany.
           </p>
 
-          <h2 className="text-xl font-semibold text-white mt-8">12. Contact</h2>
+          <h2 className="text-xl font-semibold text-white mt-8">13. Contact</h2>
           <p>
             For questions about these Terms, contact us at{" "}
             <span className="text-green-500">legal[at]pwnclaw.com</span>

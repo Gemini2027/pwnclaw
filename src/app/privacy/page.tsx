@@ -25,7 +25,7 @@ export default function PrivacyPage() {
         <h1 className="text-3xl font-bold text-white mb-8">Privacy Policy</h1>
         
         <div className="prose prose-invert prose-neutral max-w-none space-y-6 text-neutral-300">
-          <p className="text-lg">Last updated: February 7, 2026</p>
+          <p className="text-lg">Last updated: February 11, 2026</p>
 
           <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 my-6">
             <h3 className="text-yellow-500 font-semibold mb-2">⚠️ Important: Sensitive Data Warning</h3>
@@ -101,6 +101,17 @@ export default function PrivacyPage() {
               <p className="text-sm text-neutral-400 mt-1">
                 Note: Google&apos;s API data usage policy states data is not used for model training 
                 when using paid API access.
+              </p>
+            </li>
+            <li><strong>Lemon Squeezy</strong> (Payment Processing) - Email address, billing information, payment method
+              <p className="text-sm text-neutral-400 mt-1">
+                Lemon Squeezy acts as our Merchant of Record. All payment data (credit card numbers, 
+                billing addresses) is processed and stored exclusively by Lemon Squeezy — we never 
+                see or store your full payment details. We only receive your email address and 
+                subscription status via webhooks. See{" "}
+                <a href="https://www.lemonsqueezy.com/privacy" className="text-green-500 hover:underline" target="_blank" rel="noopener noreferrer">
+                  Lemon Squeezy&apos;s Privacy Policy
+                </a>.
               </p>
             </li>
           </ul>
