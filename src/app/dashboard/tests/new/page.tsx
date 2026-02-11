@@ -70,7 +70,7 @@ export default function NewTestPage() {
   ];
   const FRAMEWORK_OPTIONS = [
     "OpenClaw", "LangChain", "CrewAI", "AutoGen", "LangGraph", "Semantic Kernel",
-    "Haystack", "Windsurf", "Cursor", "Claude Code", "Codex CLI", "Custom / None", "Other",
+    "Haystack", "Windsurf", "Cursor", "Claude Code", "Codex CLI", "Antigravity IDE", "Custom / None", "Other",
   ];
 
   const resolvedModel = modelName === "Other" ? customModel.trim() : modelName || undefined;
