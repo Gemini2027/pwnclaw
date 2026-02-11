@@ -467,6 +467,9 @@ export async function POST(
         passed,
         failed,
         category_scores: byCategory,
+        model_name: test.model_name || undefined,
+        framework: test.framework || undefined,
+        with_fixes: test.with_fixes || false,
       }).catch(err => console.error('Benchmark record failed:', err));
 
       return NextResponse.json({
