@@ -4,9 +4,10 @@ import { db } from '@/lib/db';
 import { PLAN_LIMITS } from '@/lib/supabase';
 
 // Lemon Squeezy Webhook Handler
-// Events: order_created, order_refunded, subscription_created, subscription_updated,
+// Handled events: order_created, order_refunded, subscription_created, subscription_updated,
 // subscription_cancelled, subscription_expired, subscription_paused, subscription_resumed,
-// subscription_payment_failed
+// subscription_unpaused, subscription_payment_failed, subscription_payment_recovered,
+// subscription_payment_refunded, dispute_created
 
 // Known PwnClaw Product IDs → plan mapping
 const PRODUCT_PLAN_MAP: Record<string, 'pro' | 'team'> = {
@@ -152,7 +153,9 @@ export async function POST(request: NextRequest) {
       
       // No product_id at all — only allow lifecycle events to proceed
       const isLifecycleEvent = ['order_refunded', 'subscription_paused', 'subscription_resumed',
-        'subscription_cancelled', 'subscription_expired', 'subscription_payment_failed'].includes(eventName);
+        'subscription_unpaused', 'subscription_cancelled', 'subscription_expired',
+        'subscription_payment_failed', 'subscription_payment_recovered',
+        'subscription_payment_refunded', 'dispute_created'].includes(eventName);
       
       if (!isLifecycleEvent) {
         console.log(`Ignoring event without product info: ${eventName}`);
@@ -268,7 +271,8 @@ export async function POST(request: NextRequest) {
         break;
       }
 
-      case 'subscription_resumed': {
+      case 'subscription_resumed':
+      case 'subscription_unpaused': {
         // Resumed — restore paid plan with fresh credits (new billing cycle)
         const found = await findUser(lookupOpts);
         if (found) {
@@ -283,6 +287,52 @@ export async function POST(request: NextRequest) {
           console.log(`Resumed — upgraded ${found.user.email} to ${plan} (via ${found.method})`);
         } else {
           console.error(`[WEBHOOK] subscription_resumed: User not found! customer=${customerId}, email=${userEmail}`);
+        }
+        break;
+      }
+
+      case 'subscription_payment_recovered': {
+        // Payment recovered after failure — restore paid plan
+        const found = await findUser(lookupOpts);
+        if (found) {
+          await db.from('users').update({
+            plan,
+            credits_remaining: PLAN_LIMITS[plan].credits,
+          }).eq('id', found.user.id);
+          console.log(`Payment recovered — restored ${found.user.email} to ${plan} (via ${found.method})`);
+        } else {
+          console.error(`[WEBHOOK] payment_recovered: User not found! customer=${customerId}, email=${userEmail}`);
+        }
+        break;
+      }
+
+      case 'subscription_payment_refunded': {
+        // Individual payment refunded — downgrade
+        const found = await findUser(lookupOpts);
+        if (found) {
+          await db.from('users').update({
+            plan: 'free',
+            credits_remaining: PLAN_LIMITS.free.credits
+          }).eq('id', found.user.id);
+          console.log(`Payment refunded — downgraded ${found.user.email} to Free (via ${found.method})`);
+        } else {
+          console.error(`[WEBHOOK] payment_refunded: User not found! customer=${customerId}, email=${userEmail}`);
+        }
+        break;
+      }
+
+      case 'dispute_created': {
+        // Chargeback — immediate downgrade
+        const found = await findUser(lookupOpts);
+        if (found) {
+          await db.from('users').update({
+            plan: 'free',
+            credits_remaining: PLAN_LIMITS.free.credits,
+            lemon_subscription_id: null,
+          }).eq('id', found.user.id);
+          console.error(`[DISPUTE] Chargeback! Downgraded ${found.user.email} to Free (via ${found.method}). Customer=${customerId}`);
+        } else {
+          console.error(`[DISPUTE] Chargeback but user not found! customer=${customerId}, email=${userEmail}`);
         }
         break;
       }
