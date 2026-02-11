@@ -98,7 +98,7 @@ export default function TermsPage() {
             To exercise your right of withdrawal, contact:
           </p>
           <ul className="list-disc pl-6 space-y-2">
-            <li><strong>Lemon Squeezy</strong> (Merchant of Record): <span className="text-green-500">help@lemonsqueezy.com</span></li>
+            <li><strong>Lemon Squeezy</strong> (Merchant of Record): <span className="text-green-500">help[at]lemonsqueezy.com</span></li>
             <li>Or alternatively: <span className="text-green-500">support[at]pwnclaw.com</span> (we will forward)</li>
           </ul>
           <p className="mt-4">
