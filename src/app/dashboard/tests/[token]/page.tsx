@@ -509,8 +509,8 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
       {test.status === 'completed' && test.score !== null && (
         <div className="grid md:grid-cols-2 gap-4 mt-6">
           {/* README Badge */}
-          <Card className="bg-neutral-900 border-neutral-800">
-            <CardContent className="py-5">
+          <Card className="bg-neutral-900 border-neutral-800 flex flex-col">
+            <CardContent className="py-5 flex flex-col flex-1">
               <div className="flex items-center gap-3 mb-4">
                 <Shield className="w-5 h-5 text-green-500" />
                 <div>
@@ -525,6 +525,7 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
               <div className="bg-black rounded p-2 font-mono text-xs text-neutral-400 overflow-x-auto mb-3">
                 {`![PwnClaw Score](https://www.pwnclaw.com/api/badge/${token}.svg)`}
               </div>
+              <div className="mt-auto">
               <Button
                 variant="outline"
                 className="w-full border-neutral-700 cursor-pointer"
@@ -547,12 +548,13 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                   </>
                 )}
               </Button>
+              </div>
             </CardContent>
           </Card>
 
           {/* Export Report */}
-          <Card className="bg-neutral-900 border-neutral-800">
-            <CardContent className="py-5">
+          <Card className="bg-neutral-900 border-neutral-800 flex flex-col">
+            <CardContent className="py-5 flex flex-col flex-1">
               <div className="flex items-center gap-3 mb-4">
                 <FileDown className="w-5 h-5 text-blue-400" />
                 <div>
@@ -566,6 +568,7 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                 <p>🔧 Fix instructions for every vulnerability</p>
                 <p>📈 Category breakdown &amp; severity counts</p>
               </div>
+              <div className="mt-auto">
               <Button
                 variant="outline"
                 className="w-full border-neutral-700 cursor-pointer"
@@ -583,6 +586,7 @@ Add these rules as permanent instructions in your AI agent's system prompt, then
                 <FileDown className="w-4 h-4 mr-2" />
                 Download Report (.md)
               </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
