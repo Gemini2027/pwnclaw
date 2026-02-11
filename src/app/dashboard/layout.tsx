@@ -34,10 +34,11 @@ export default async function DashboardLayout({
   const baseTeamCheckoutUrl = process.env.NEXT_PUBLIC_LEMONSQUEEZY_TEAM_CHECKOUT_URL || "https://noid-privacy.lemonsqueezy.com/checkout/buy/24932884-1785-4448-af51-cee3aa45b467?logo=0";
   
   function buildCheckoutUrl(baseUrl: string): string {
-    const sep = baseUrl.includes('?') ? '&' : '?';
+    // Ensure logo=0 is always present regardless of env var config
+    const urlWithLogo = baseUrl.includes('logo=0') ? baseUrl : (baseUrl.includes('?') ? `${baseUrl}&logo=0` : `${baseUrl}?logo=0`);
     return userEmail 
-      ? `${baseUrl}${sep}checkout[email]=${encodeURIComponent(userEmail)}&checkout[custom][user_id]=${user?.id || ''}&checkout[custom][source]=pwnclaw`
-      : `${baseUrl}${sep}checkout[custom][source]=pwnclaw`;
+      ? `${urlWithLogo}&checkout[email]=${encodeURIComponent(userEmail)}&checkout[custom][user_id]=${user?.id || ''}&checkout[custom][source]=pwnclaw`
+      : `${urlWithLogo}&checkout[custom][source]=pwnclaw`;
   }
   
   const checkoutUrl = buildCheckoutUrl(baseCheckoutUrl);
