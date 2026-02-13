@@ -117,6 +117,11 @@ Learn about AI agent security:
 - [PwnClaw vs Garak vs Promptfoo](https://pwnclaw.com/blog/pwnclaw-vs-garak-vs-promptfoo)
 - [How to Test AI Agent Security](https://pwnclaw.com/blog/how-to-test-ai-agent-security)
 
+## Contributors
+
+- [Clawde 🦝](https://github.com/ClawdeRaccoon) — Architecture, Development, Security Research
+- [Nexus](https://github.com/NexusOne23) — Product Vision, Strategy, Distribution
+
 ## License
 
 Proprietary. See [Terms of Service](https://pwnclaw.com/terms).
